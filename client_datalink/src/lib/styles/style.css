@@ -1,0 +1,116 @@
+@import './templateStyle.css';
+@import './groups.css';
+@import 'tailwindcss';
+@import 'tw-animate-css';
+@import 'shadcn-svelte/tailwind.css';
+@import '@fontsource-variable/sora/wght.css';
+@import '@fontsource/inter';
+@custom-variant dark (&:is(.dark *));
+@plugin '@tailwindcss/forms';
+@plugin '@tailwindcss/typography';
+
+@layer base {
+	* {
+		@apply border-border outline-ring/50;
+	}
+	body {
+		scroll-behavior: smooth;
+		-webkit-font-smoothing: antialiased;
+		-moz-osx-font-smoothing: grayscale;
+		@apply bg-background text-foreground;
+	}
+	html {
+		@apply font-inter;
+	}
+	.inputNormalize {
+		@apply rounded-none! border-transparent! border-b-primary! bg-transparent! py-5 outline-none focus:ring-0 focus:ring-transparent! focus:outline-0! focus:outline-transparent;
+	}
+	.inputNormalize2 {
+		@apply rounded-lg border border-muted-foreground/10! bg-secondary p-4! py-6! text-sm shadow-sm drop-shadow-sm transition-all duration-200 ease-out outline-none hover:border-foreground/20! focus:ring-0 focus:ring-transparent! focus:outline-0! focus:outline-transparent lg:text-xl!;
+	}
+	.formNormalize {
+		@apply flex flex-col gap-y-6 overflow-hidden rounded-2xl border-[1px] border-dashed border-primary/20! bg-gradient-to-b from-card/30 to-chart-4/30 p-2 shadow-2xl backdrop-blur-lg! lg:min-w-xl lg:p-6;
+	}
+	.listNormalize {
+		@apply overflow-auto rounded border bg-secondary p-2 shadow-sm drop-shadow-sm backdrop-blur-lg transition-all ease-linear backdrop:blur-lg hover:border-secondary lg:p-6 dark:shadow-secondary-foreground/10;
+	}
+	.cardNormalize {
+		@apply max-w-lg overflow-auto rounded-lg! border border-primary/20 bg-gradient-to-r from-primary/10 to-primary/5 p-8 shadow-2xl ring-primary/30 backdrop-blur-lg! duration-200 ease-in hover:ring-2;
+	}
+	.cardNormalize2 {
+		@apply max-w-lg overflow-auto rounded-lg! border border-primary/20 bg-gradient-to-r from-primary/10 to-primary/5 p-8 shadow-2xl ring-primary/30 backdrop-blur-lg! duration-200 ease-in hover:ring-2;
+	}
+	.smallKey {
+		@apply my-auto mr-1.5 rounded-xl bg-secondary px-2 py-0.5 text-xs text-muted-foreground;
+	}
+	.smallValue {
+		@apply my-auto text-sm font-semibold tracking-wide text-chart-2;
+	}
+}
+
+/* calendar icon  */
+input[type='date']::-webkit-calendar-picker-indicator {
+	filter: invert(100%) brightness(50%) sepia(100%) saturate(1000%) hue-rotate(100deg);
+	cursor: pointer;
+}
+input[type='datetime-local']::-webkit-calendar-picker-indicator {
+	filter: invert(100%) brightness(50%) sepia(100%) saturate(1000%) hue-rotate(100deg);
+	cursor: pointer;
+}
+input[type='number']::-webkit-inner-spin-button,
+input[type='number']::-webkit-outer-spin-button {
+	-webkit-appearance: none;
+	margin: 0;
+}
+
+@keyframes gentle-move {
+	0% {
+		transform: scale(1); /* Začíname rovno */
+	}
+	50% {
+		transform: scale(1.539); /* Otočíme sa mierne doprava */
+	}
+	100% {
+		transform: scale(1); /* Vrátime sa späť do stredu */
+	}
+}
+@keyframes spin {
+	from {
+		transform: rotate(0deg);
+	}
+	to {
+		transform: rotate(360deg);
+	}
+}
+@keyframes float {
+	0% {
+		transform: translateY(0px) scale(1);
+	}
+	50% {
+		transform: translateY(-5px) scale(1.02); /* Pohyb hore o 15px a mierne zväčšenie */
+	}
+	100% {
+		transform: translateY(0px) scale(1);
+	}
+}
+.animate-spin2 {
+	animation: spin 55s linear infinite;
+}
+.animate-gentlemove {
+	animation: gentle-move 25s linear infinite;
+}
+
+::-webkit-scrollbar {
+	width: 6px;
+	height: 8px;
+}
+
+::-webkit-scrollbar-track {
+	/* -webkit-box-shadow: inset 0 0 3px rgba(0, 0, 0, 0.3); */
+	border-radius: 5px;
+}
+::-webkit-scrollbar-thumb {
+	border-radius: 5px;
+	-webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.5);
+	background: var(--primary);
+}

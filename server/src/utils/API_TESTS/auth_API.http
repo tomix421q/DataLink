@@ -1,0 +1,10 @@
+
+### ...d
+POST http://localhost:3000/api/auth/domain-login
+Content-Type: application/json
+
+{
+  "username": "uzilt001",
+  "password": "Namestovo4"
+}
+

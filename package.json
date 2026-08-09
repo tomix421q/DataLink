@@ -1,0 +1,13 @@
+{
+  "name": "datalink-workspace",
+  "private": true,
+  "workspaces": [
+    "server",
+    "shared",
+    "client_datalink"
+  ],
+  "scripts": {
+    "dev:server": "bun run --cwd server dev",
+    "dev:client": "bun run --cwd client_datalink dev"
+  }
+}

@@ -1,0 +1,19 @@
+"filename", "language", "JSON with Comments", "JSON", "TypeScript", "Markdown", "Prisma", "comment", "blank", "total"
+"/Users/tomas/Desktop/DEV/__Work-projects/s7_collectorServer/README.md", "Markdown", 0, 0, 0, -10, 0, 0, -6, -16
+"/Users/tomas/Desktop/DEV/__Work-projects/s7_collectorServer/bun.lock", "JSON with Comments", -157, 0, 0, 0, 0, 0, -129, -286
+"/Users/tomas/Desktop/DEV/__Work-projects/s7_collectorServer/package.json", "JSON", 0, -31, 0, 0, 0, 0, -1, -32
+"/Users/tomas/Desktop/DEV/__Work-projects/s7_collectorServer/prisma.config.ts", "TypeScript", 0, 0, -10, 0, 0, -1, -2, -13
+"/Users/tomas/Desktop/DEV/__Work-projects/s7_collectorServer/prisma/generated/prisma/browser.ts", "TypeScript", 0, 0, -6, 0, 0, -21, -3, -30
+"/Users/tomas/Desktop/DEV/__Work-projects/s7_collectorServer/prisma/generated/prisma/client.ts", "TypeScript", 0, 0, -15, 0, 0, -33, -6, -54
+"/Users/tomas/Desktop/DEV/__Work-projects/s7_collectorServer/prisma/generated/prisma/commonInputTypes.ts", "TypeScript", 0, 0, -167, 0, 0, -9, -19, -195
+"/Users/tomas/Desktop/DEV/__Work-projects/s7_collectorServer/prisma/generated/prisma/enums.ts", "TypeScript", 0, 0, -1, 0, 0, -10, -5, -16
+"/Users/tomas/Desktop/DEV/__Work-projects/s7_collectorServer/prisma/generated/prisma/internal/class.ts", "TypeScript", 0, 0, -70, 0, 0, -114, -31, -215
+"/Users/tomas/Desktop/DEV/__Work-projects/s7_collectorServer/prisma/generated/prisma/internal/prismaNamespace.ts", "TypeScript", 0, 0, -510, 0, 0, -201, -123, -834
+"/Users/tomas/Desktop/DEV/__Work-projects/s7_collectorServer/prisma/generated/prisma/internal/prismaNamespaceBrowser.ts", "TypeScript", 0, 0, -46, 0, 0, -33, -25, -104
+"/Users/tomas/Desktop/DEV/__Work-projects/s7_collectorServer/prisma/generated/prisma/models.ts", "TypeScript", 0, 0, -3, 0, 0, -9, -1, -13
+"/Users/tomas/Desktop/DEV/__Work-projects/s7_collectorServer/prisma/generated/prisma/models/Machine.ts", "TypeScript", 0, 0, -719, 0, 0, -671, -111, -1501
+"/Users/tomas/Desktop/DEV/__Work-projects/s7_collectorServer/prisma/generated/prisma/models/Tag.ts", "TypeScript", 0, 0, -637, 0, 0, -643, -104, -1384
+"/Users/tomas/Desktop/DEV/__Work-projects/s7_collectorServer/prisma/schema.prisma", "Prisma", 0, 0, 0, 0, -28, 0, -7, -35
+"/Users/tomas/Desktop/DEV/__Work-projects/s7_collectorServer/prisma/seed.ts", "TypeScript", 0, 0, -41, 0, 0, 0, -6, -47
+"/Users/tomas/Desktop/DEV/__Work-projects/s7_collectorServer/tsconfig.json", "JSON with Comments", -23, 0, 0, 0, 0, -4, -4, -31
+"Total", "-", -180, -31, -2225, -10, -28, -1749, -583, -4806

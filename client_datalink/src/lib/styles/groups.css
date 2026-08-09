@@ -1,0 +1,34 @@
+/* FORM */
+@layer components {
+	.form-table {
+		@apply mt-2 overflow-hidden rounded-2xl border-1 border-card-foreground/5 bg-card bg-gradient-to-r from-primary/10! to-primary/5! shadow-2xl drop-shadow-lg dark:shadow-secondary-foreground/5;
+	}
+	.form-header {
+		@apply border-b border-secondary-foreground/20 p-6 text-center;
+	}
+	.form-header > div {
+		@apply flex items-center justify-center gap-2;
+	}
+	.form-header p {
+		@apply mt-2 text-sm text-muted-foreground;
+	}
+	.form-header h2 {
+		@apply text-xl font-bold md:text-2xl;
+	}
+	.form-header svg {
+		@apply size-6 stroke-2 text-chart-2;
+	}
+
+	.form-group {
+		@apply flex flex-col gap-y-6 overflow-hidden rounded-xl bg-gradient-to-b p-2 shadow-2xl backdrop-blur-lg! lg:min-w-xl lg:p-6;
+	}
+	.form-group > div {
+		@apply flex flex-col gap-1;
+	}
+	.form-group label {
+		@apply font-semibold tracking-tighter text-muted-foreground;
+	}
+	.form-group input {
+		@apply rounded border-transparent! border-b-primary! bg-transparent! py-5! font-semibold outline-none placeholder:font-extralight! placeholder:text-muted-foreground! focus:ring-0 focus:ring-transparent! focus:outline-0! focus:outline-transparent disabled:border-b-muted-foreground!;
+	}
+}

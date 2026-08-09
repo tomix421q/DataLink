@@ -1,0 +1,24 @@
+### add new machine
+POST http://localhost:3000/api/machine/create
+Content-Type: application/json
+Cookie: datalink_session_token=dd9e6e7c-7dcc-465e-829f-e2bfce2b4978
+
+{
+  "id":"MF5",
+  "name": "Middlefield machine 5",
+  "ip": "10.184.159.89",
+  "rack": 0,
+  "slot": 1,
+  "interval": 3000
+}
+
+### add new tag
+POST http://localhost:3000/api/machine/addtag
+Content-Type: application/json
+Cookie: datalink_session_token=4ab33da4-2d0c-48b1-8c25-c75867fb40f9
+
+{
+  "machineId": "MF3",
+  "keyName": "Product count",
+  "plcAddress": "DB189,DINT266"
+}

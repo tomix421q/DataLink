@@ -1,0 +1,54 @@
+Date : 2026-06-05 15:42:58
+Directory : /Users/tomas/Desktop/DEV/__Work-projects/s7_collectorServer/src
+Total : 17 files,  -2474 codes, -1749 comments, -583 blanks, all -4806 lines
+
+Languages
++--------------------+------------+------------+------------+------------+------------+
+| language           | files      | code       | comment    | blank      | total      |
++--------------------+------------+------------+------------+------------+------------+
+| Markdown           |          1 |        -10 |          0 |         -6 |        -16 |
+| Prisma             |          1 |        -28 |          0 |         -7 |        -35 |
+| JSON               |          1 |        -31 |          0 |         -1 |        -32 |
+| JSON with Comments |          2 |       -180 |         -4 |       -133 |       -317 |
+| TypeScript         |         12 |     -2,225 |     -1,745 |       -436 |     -4,406 |
++--------------------+------------+------------+------------+------------+------------+
+
+Directories
++------------------------------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| path                                                                                                                   | files      | code       | comment    | blank      | total      |
++------------------------------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| .                                                                                                                      |         17 |     -2,474 |     -1,749 |       -583 |     -4,806 |
+| ..                                                                                                                     |         17 |     -2,474 |     -1,749 |       -583 |     -4,806 |
+| .. (Files)                                                                                                             |          5 |       -231 |         -5 |       -142 |       -378 |
+| ../prisma                                                                                                              |         12 |     -2,243 |     -1,744 |       -441 |     -4,428 |
+| ../prisma (Files)                                                                                                      |          2 |        -69 |          0 |        -13 |        -82 |
+| ../prisma/generated                                                                                                    |         10 |     -2,174 |     -1,744 |       -428 |     -4,346 |
+| ../prisma/generated/prisma                                                                                             |         10 |     -2,174 |     -1,744 |       -428 |     -4,346 |
+| ../prisma/generated/prisma (Files)                                                                                     |          5 |       -192 |        -82 |        -34 |       -308 |
+| ../prisma/generated/prisma/internal                                                                                    |          3 |       -626 |       -348 |       -179 |     -1,153 |
+| ../prisma/generated/prisma/models                                                                                      |          2 |     -1,356 |     -1,314 |       -215 |     -2,885 |
++------------------------------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+
+Files
++------------------------------------------------------------------------------------------------------------------------+--------------------+------------+------------+------------+------------+
+| filename                                                                                                               | language           | code       | comment    | blank      | total      |
++------------------------------------------------------------------------------------------------------------------------+--------------------+------------+------------+------------+------------+
+| /Users/tomas/Desktop/DEV/__Work-projects/s7_collectorServer/README.md                                                  | Markdown           |        -10 |          0 |         -6 |        -16 |
+| /Users/tomas/Desktop/DEV/__Work-projects/s7_collectorServer/bun.lock                                                   | JSON with Comments |       -157 |          0 |       -129 |       -286 |
+| /Users/tomas/Desktop/DEV/__Work-projects/s7_collectorServer/package.json                                               | JSON               |        -31 |          0 |         -1 |        -32 |
+| /Users/tomas/Desktop/DEV/__Work-projects/s7_collectorServer/prisma.config.ts                                           | TypeScript         |        -10 |         -1 |         -2 |        -13 |
+| /Users/tomas/Desktop/DEV/__Work-projects/s7_collectorServer/prisma/generated/prisma/browser.ts                         | TypeScript         |         -6 |        -21 |         -3 |        -30 |
+| /Users/tomas/Desktop/DEV/__Work-projects/s7_collectorServer/prisma/generated/prisma/client.ts                          | TypeScript         |        -15 |        -33 |         -6 |        -54 |
+| /Users/tomas/Desktop/DEV/__Work-projects/s7_collectorServer/prisma/generated/prisma/commonInputTypes.ts                | TypeScript         |       -167 |         -9 |        -19 |       -195 |
+| /Users/tomas/Desktop/DEV/__Work-projects/s7_collectorServer/prisma/generated/prisma/enums.ts                           | TypeScript         |         -1 |        -10 |         -5 |        -16 |
+| /Users/tomas/Desktop/DEV/__Work-projects/s7_collectorServer/prisma/generated/prisma/internal/class.ts                  | TypeScript         |        -70 |       -114 |        -31 |       -215 |
+| /Users/tomas/Desktop/DEV/__Work-projects/s7_collectorServer/prisma/generated/prisma/internal/prismaNamespace.ts        | TypeScript         |       -510 |       -201 |       -123 |       -834 |
+| /Users/tomas/Desktop/DEV/__Work-projects/s7_collectorServer/prisma/generated/prisma/internal/prismaNamespaceBrowser.ts | TypeScript         |        -46 |        -33 |        -25 |       -104 |
+| /Users/tomas/Desktop/DEV/__Work-projects/s7_collectorServer/prisma/generated/prisma/models.ts                          | TypeScript         |         -3 |         -9 |         -1 |        -13 |
+| /Users/tomas/Desktop/DEV/__Work-projects/s7_collectorServer/prisma/generated/prisma/models/Machine.ts                  | TypeScript         |       -719 |       -671 |       -111 |     -1,501 |
+| /Users/tomas/Desktop/DEV/__Work-projects/s7_collectorServer/prisma/generated/prisma/models/Tag.ts                      | TypeScript         |       -637 |       -643 |       -104 |     -1,384 |
+| /Users/tomas/Desktop/DEV/__Work-projects/s7_collectorServer/prisma/schema.prisma                                       | Prisma             |        -28 |          0 |         -7 |        -35 |
+| /Users/tomas/Desktop/DEV/__Work-projects/s7_collectorServer/prisma/seed.ts                                             | TypeScript         |        -41 |          0 |         -6 |        -47 |
+| /Users/tomas/Desktop/DEV/__Work-projects/s7_collectorServer/tsconfig.json                                              | JSON with Comments |        -23 |         -4 |         -4 |        -31 |
+| Total                                                                                                                  |                    |     -2,474 |     -1,749 |       -583 |     -4,806 |
++------------------------------------------------------------------------------------------------------------------------+--------------------+------------+------------+------------+------------+

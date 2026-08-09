@@ -1,0 +1,145 @@
+generator client {
+  provider = "prisma-client"
+  output   = "./generated/prisma"
+}
+
+datasource db {
+  provider = "sqlite"
+}
+
+model User {
+  id            String          @id @default(cuid())
+  name          String
+  email         String          @unique
+  emailVerified Boolean
+  image         String?
+  createdAt     DateTime        @default(now())
+  updatedAt     DateTime        @updatedAt
+  folders FavoriteFolder[]
+  
+  role          String          @default("user")
+  
+  sessions      Session[]
+  machineAccess MachineAccess[]
+
+  @@map("user")
+}
+
+model MachineAccess {
+  id        String   @id @default(cuid())
+  userId    String
+  machineId String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  machine   Machine  @relation(fields: [machineId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, machineId]) // Užívateľ nemôže mať duplicitné právo na ten istý stroj
+  @@map("machine_access")
+}
+
+model Session {
+  id        String   @id @default(cuid())
+  expiresAt DateTime
+  token     String   @unique
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  ipAddress String?
+  userAgent String?
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("session")
+}
+
+model Machine {
+  id    String @id @default(cuid())
+  name  String @unique
+  ip    String @unique
+  rack  Int @default(0)
+  slot  Int @default(1)
+  interval  Int @default(5000)
+  tags  Tag[]
+  machineAccess MachineAccess[]
+  folders FavoriteFolder[]
+
+
+  logRules LogRule[]
+  downtimeLogs DowntimeLog[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("machine")
+}
+
+model Tag {
+  id    String @id @default(cuid())
+  keyName String
+  plcAddress String
+
+  machineId String
+  machine Machine @relation(fields: [machineId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  folders FavoriteFolder[]
+
+  @@unique([machineId,keyName])
+  @@unique([machineId,plcAddress])
+}
+
+model LogRule {
+  id String @id @default(cuid())
+  machineId String
+  machine Machine @relation(fields: [machineId],references: [id],onDelete: Cascade)
+
+  name String @unique
+  triggerType String
+  triggerTag String?
+  triggerValue String?
+  triggerOperator String? @default("==")
+  interval Int?
+  tagToSave String
+
+  entries LogEntry[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model LogEntry {
+  id Int @id @default(autoincrement())
+  machineId String
+  ruleId String
+  rule LogRule @relation(fields: [ruleId],references: [id] ,onDelete: Cascade)
+  snapshot String
+  timestamp DateTime @default(now())
+
+  @@index([machineId,timestamp])
+  @@index([ruleId,timestamp])
+}
+
+model DowntimeLog {
+  id String @id @default(cuid())
+  machineId String
+  form String?
+  reason String?
+  info String?
+  duration Int
+  createdAt DateTime @default(now()) 
+  machine Machine @relation(fields: [machineId],references: [id],onDelete: Cascade)
+
+  @@index([machineId])
+  @@index([createdAt])
+}
+
+model FavoriteFolder {
+  id String @id @default(cuid())
+  name String
+  userId String
+  user User @relation(fields: [userId],references: [id],onDelete: Cascade)
+  machineId String
+  machine Machine @relation(fields: [machineId],references: [id],onDelete: Cascade)
+  tags Tag[]
+  showOnMainDashboard Boolean @default(false)
+  createdAt DateTime @default(now())
+
+  @@unique([name,userId,machineId])
+}

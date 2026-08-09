@@ -1,0 +1,82 @@
+### Interval case - create rule 
+POST http://localhost:3000/api/logger
+Content-Type: application/json
+Cookie: datalink_session_token=dd9e6e7c-7dcc-465e-829f-e2bfce2b4978
+
+{
+  "name": "zber dat",
+  "machineId": "M",
+  "triggerType": "TIME",
+  "interval": 5000,
+  "tags": ["Step", "Cycle time", "Product count"]
+}
+
+### Edge case - create rule
+POST http://localhost:3000/api/logger
+Content-Type: application/json
+
+{
+  "name": "z",
+  "machineId": "MF1",
+  "triggerType": "EDGE",
+  "triggerTag": "Product count",
+  "triggerValue": 100,
+  "triggerOperator": ">",
+  "tags": ["Step", "Cycle time", "Product count"]
+}
+
+### Edit rule
+PUT http://localhost:3000/api/logger/cmqa1u7im0002fv8zrndovf5s
+Content-Type: application/json
+
+{
+  "name": "Zber mf 1",
+  "machineId": "MF1",
+  "triggerType": "EDGE",
+  "triggerTag": "Product count",
+  "triggerValue": 100,
+  "triggerOperator": ">",
+  "tags": ["Step", "Cycle time", "Product count"]
+}
+
+
+### Delete rule
+DELETE http://localhost:3000/api/logger/cmqa1wr8q0003fv8z98iwvdiq
+Content-Type: application/json
+
+### Delete rule data from&to || entryId
+@baseUrl = http://localhost:3000/api/logger
+@logId = cmricgvrc0001eb8z2oy98b9y
+@sessionToken = 4ab33da4-2d0c-48b1-8c25-c75867fb40f9
+### With from&to
+DELETE {{baseUrl}}/logsdelete/{{logId}}
+Content-Type: application/json
+Cookie: datalink_session_token={{sessionToken}}
+
+{
+  "from":"2026-07-14T21:57:11.053Z",
+  "to":"2026-07-14T22:20:19.326Z"
+}
+### with entryId
+DELETE {{baseUrl}}/logsdelete/{{logId}}
+Content-Type: application/json
+Cookie: datalink_session_token={{sessionToken}}
+
+{
+  "entryId":"5007"
+}
+
+### Get all rules
+GET http://localhost:3000/api/logger
+Content-Type: : application/json
+
+### Get data for specific rule
+GET http://localhost:3000/api/logger/machine/log/MF1/cmrcknuhm000l4z8ze5ue0acw
+Content-Type: : application/json
+
+
+
+
+### Get downtime by machine id
+GET http://localhost:3000/api/logger/downtime/MF1
+Content-Type: : application/json

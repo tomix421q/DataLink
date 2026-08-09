@@ -1,0 +1,10 @@
+"filename", "language", "TypeScript", "comment", "blank", "total"
+"/Users/tomas/Desktop/DEV/__Work-projects/s7_collectorServer/src/index.ts", "TypeScript", 18, 4, 6, 28
+"/Users/tomas/Desktop/DEV/__Work-projects/s7_collectorServer/src/services/plcCollector/db_machineBucket.ts", "TypeScript", 65, 0, 13, 78
+"/Users/tomas/Desktop/DEV/__Work-projects/s7_collectorServer/src/services/plcCollector/s7-service.ts", "TypeScript", 59, 3, 12, 74
+"/Users/tomas/Desktop/DEV/__Work-projects/s7_collectorServer/src/services/plcCollector/sse-streamer.ts", "TypeScript", 28, 1, 6, 35
+"/Users/tomas/Desktop/DEV/__Work-projects/s7_collectorServer/src/services/unused/tcp-service.ts", "TypeScript", 21, 2, 5, 28
+"/Users/tomas/Desktop/DEV/__Work-projects/s7_collectorServer/src/services/unused/wsServer.ts", "TypeScript", 29, 0, 4, 33
+"/Users/tomas/Desktop/DEV/__Work-projects/s7_collectorServer/src/utils/db.ts", "TypeScript", 10, 0, 5, 15
+"/Users/tomas/Desktop/DEV/__Work-projects/s7_collectorServer/src/utils/types/global.ts", "TypeScript", 15, 0, 3, 18
+"Total", "-", 245, 10, 54, 309
