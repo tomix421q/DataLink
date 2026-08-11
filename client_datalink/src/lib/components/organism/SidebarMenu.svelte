@@ -18,9 +18,9 @@
 	const deleteMachineMutation = useRemoveMachine();
 
 	const filteredMachines = $derived(
-		machines.data?.machines?.filter(
-			(machine) => machine.name.toLowerCase().includes(searchMachineQuery) ?? []
-		)
+		machines.data?.machines?.filter((machine) =>
+			machine.name.toLowerCase().includes(searchMachineQuery.toLowerCase())
+		) ?? []
 	);
 
 	function handleDeleteMachine(machineId: string) {
@@ -74,7 +74,7 @@
 						>
 					{:else if machines.isError}
 						<span class="text-xs text-destructive">{machines.error?.message}</span>
-					{:else if machines.data}
+					{:else if machines.data?.machines}
 						{#if isSearch}
 							<div class="relative">
 								<Input

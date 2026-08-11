@@ -4,20 +4,22 @@
 	import { useActiveUser, useLogoutMutation } from '$lib/api/queries/auth';
 	import { userStore } from '$lib/stores/UserStore.svelte';
 
-	const userActive = useActiveUser();
+	const userQuery = useActiveUser();
 	const logoutMutation = useLogoutMutation();
 
 	const items = $derived([
-		...(userActive.data
+		...(userQuery.data
 			? [{ title: 'Logout', url: '#', icon: LogOut, isLogout: true }]
 			: [{ title: 'Login', url: '/auth/login', icon: LogIn, isLogout: false }]),
 		{ title: 'Main dashboard', url: '/maindashboard', icon: LayoutDashboard }
 	]);
 
 	$effect(() => {
-		if (userActive.data) {
-			userStore.setUser(userActive.data);
-		}
+		 if (userQuery.data) {
+      userStore.setUser(userQuery.data);
+    } else if (userQuery.isError) {
+      userStore.clearUser();
+    }
 	});
 	// $inspect(userActive.data);
 </script>

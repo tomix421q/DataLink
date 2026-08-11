@@ -4,6 +4,7 @@
 @import 'tw-animate-css';
 @import 'shadcn-svelte/tailwind.css';
 @import '@fontsource-variable/sora/wght.css';
+@import '@fontsource-variable/ibm-plex-sans/wght.css';
 @import '@fontsource/inter';
 @custom-variant dark (&:is(.dark *));
 @plugin '@tailwindcss/forms';
