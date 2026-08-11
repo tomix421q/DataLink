@@ -9,7 +9,6 @@ import machines from './routes/machine_Route'
 import authRoute from './routes/auth_Route'
 import favorites from './routes/favorite_Route'
 import path from 'node:path'
-import { existsSync } from 'node:fs'
 
 export const app = new Hono()
 const port = process.env.PORT ? Number(process.env.PORT) : 3333
@@ -43,42 +42,10 @@ app.route('/api', apiRoutes)
 
 // Config load static client build, Export RPC, Export app
 // app.use('*', serveStatic({ root: '../client_datalink/build' }))
-// app.use('*', serveStatic({ root: clientBuildPath }))
-// app.get('*', async (c, next) => {
-//   c.header('Cache-Control', 'no-store, no-cache, must-revalidate, proxy-revalidate')
-//   return serveStatic({ path: path.join(clientBuildPath, 'index.html') })(c, next)
-// })
-
-app.use('*', async (c, next) => {
-  if (c.req.path.startsWith('/api')) {
-    return next()
-  }
-
-  const reqPath = c.req.path === '/' ? '/index.html' : c.req.path
-  const filePath = path.join(clientBuildPath, reqPath)
-
-  // Ak súbor fyzicky existuje na disku, vrátime ho priamo
-  if (existsSync(filePath) && (await Bun.file(filePath).exists())) {
-    return new Response(Bun.file(filePath))
-  }
-
-  return next()
-})
-
-// 3. SPA Fallback pre SvelteKit (ak cesta nie je súbor, vráti index.html)
-app.get('*', async (c) => {
-  const indexPath = path.join(clientBuildPath, 'index.html')
-
-  if (existsSync(indexPath)) {
-    return new Response(Bun.file(indexPath), {
-      headers: {
-        'Content-Type': 'text/html; charset=utf-8',
-        'Cache-Control': 'no-store, no-cache, must-revalidate',
-      },
-    })
-  }
-
-  return c.text('Frontend build not found on server!', 404)
+app.use('*', serveStatic({ root: clientBuildPath }))
+app.get('*', async (c, next) => {
+  c.header('Cache-Control', 'no-store, no-cache, must-revalidate, proxy-revalidate')
+  return serveStatic({ path: path.join(clientBuildPath, 'index.html') })(c, next)
 })
 
 export type AppType = typeof apiRoutes
