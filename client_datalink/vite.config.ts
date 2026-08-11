@@ -23,6 +23,9 @@ export default defineConfig({
 			alias: {
 				'@datalink/shared': '../shared/index.ts',
 				'@datalink/shared/*': '../shared/*'
+			},
+			version: {
+				name: '1.0.0'
 			}
 		})
 	],
