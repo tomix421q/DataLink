@@ -9,7 +9,6 @@ import machines from './routes/machine_Route'
 import authRoute from './routes/auth_Route'
 import favorites from './routes/favorite_Route'
 import path from 'node:path'
-import { existsSync } from 'node:fs'
 
 export const app = new Hono()
 const port = process.env.PORT ? Number(process.env.PORT) : 3333
@@ -44,23 +43,9 @@ app.route('/api', apiRoutes)
 // Config load static client build, Export RPC, Export app
 // app.use('*', serveStatic({ root: '../client_datalink/build' }))
 app.use('*', serveStatic({ root: clientBuildPath }))
-app.get('*', async (c) => {
-  let indexPath = path.join(clientBuildPath, '200.html')
-
-  if (!existsSync(indexPath)) {
-    indexPath = path.join(clientBuildPath, 'index.html')
-  }
-
-  if (existsSync(indexPath)) {
-    return new Response(Bun.file(indexPath), {
-      headers: {
-        'Content-Type': 'text/html; charset=utf-8',
-        'Cache-Control': 'no-store, no-cache, must-revalidate',
-      },
-    })
-  }
-
-  return c.text('Frontend build not found!', 404)
+app.get('*', async (c, next) => {
+  c.header('Cache-Control', 'no-store, no-cache, must-revalidate, proxy-revalidate')
+  return serveStatic({ path: path.join(clientBuildPath, 'index.html') })(c, next)
 })
 
 export type AppType = typeof apiRoutes
