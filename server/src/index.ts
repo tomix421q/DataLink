@@ -9,6 +9,7 @@ import machines from './routes/machine_Route'
 import authRoute from './routes/auth_Route'
 import favorites from './routes/favorite_Route'
 import path from 'node:path'
+import { existsSync } from 'node:fs'
 
 export const app = new Hono()
 const port = process.env.PORT ? Number(process.env.PORT) : 3333
@@ -42,10 +43,56 @@ app.route('/api', apiRoutes)
 
 // Config load static client build, Export RPC, Export app
 // app.use('*', serveStatic({ root: '../client_datalink/build' }))
-app.use('*', serveStatic({ root: clientBuildPath }))
-app.get('*', async (c, next) => {
-  c.header('Cache-Control', 'no-store, no-cache, must-revalidate, proxy-revalidate')
-  return serveStatic({ path: path.join(clientBuildPath, 'index.html') })(c, next)
+// app.use('*', serveStatic({ root: clientBuildPath }))
+// app.get('*', async (c, next) => {
+//   c.header('Cache-Control', 'no-store, no-cache, must-revalidate, proxy-revalidate')
+//   return serveStatic({ path: path.join(clientBuildPath, 'index.html') })(c, next)
+// })
+
+app.use('/_app/*', async (c, next) => {
+  const filePath = path.join(clientBuildPath, c.req.path)
+
+  if (existsSync(filePath) && (await Bun.file(filePath).exists())) {
+    // Statické JS/CSS súbory môžu byť kešované, lebo majú v názve unikátny hash
+    return new Response(Bun.file(filePath), {
+      headers: {
+        'Cache-Control': 'public, max-age=31536000, immutable',
+      },
+    })
+  }
+
+  // Ak JS súbor neexistuje, VRÁTIMI 404 a NIE index.html!
+  return c.text('Asset not found', 404)
+})
+
+// 2. Ostatné statické súbory (favicon, ikony)
+app.use('*', async (c, next) => {
+  if (c.req.path.startsWith('/api')) return next()
+
+  const filePath = path.join(clientBuildPath, c.req.path)
+  if (existsSync(filePath) && (await Bun.file(filePath).exists())) {
+    return new Response(Bun.file(filePath))
+  }
+  return next()
+})
+
+// 3. SPA Fallback IBA pre HTML navigáciu (nie pre chýbajúce JS súbory!)
+app.get('*', async (c) => {
+  let indexPath = path.join(clientBuildPath, '200.html')
+  if (!existsSync(indexPath)) {
+    indexPath = path.join(clientBuildPath, 'index.html')
+  }
+
+  if (existsSync(indexPath)) {
+    return new Response(Bun.file(indexPath), {
+      headers: {
+        'Content-Type': 'text/html; charset=utf-8',
+        'Cache-Control': 'no-store, no-cache, must-revalidate, max-age=0',
+      },
+    })
+  }
+
+  return c.text('Frontend build missing!', 404)
 })
 
 export type AppType = typeof apiRoutes
