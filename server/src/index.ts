@@ -42,7 +42,10 @@ app.route('/api', apiRoutes)
 // Config load static client build, Export RPC, Export app
 app.use('*', serveStatic({ root: '../client_datalink/build' }))
 app.use('*', serveStatic({ root: '../client_datalink/static' }))
-app.get('*', serveStatic({ path: '../client_datalink/build/index.html' }))
+app.get('*', async (c, next) => {
+  c.header('Cache-Control', 'no-store, no-cache, must-revalidate, proxy-revalidate')
+  return serveStatic({ path: '../client_datalink/build/index.html' })(c, next)
+})
 
 export type AppType = typeof apiRoutes
 export default { port, fetch: app.fetch }

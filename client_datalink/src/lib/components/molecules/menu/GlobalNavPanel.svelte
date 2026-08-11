@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { CirclePlusIcon, HouseIcon, PencilLineIcon } from '@lucide/svelte';
+	import { CirclePlusIcon, HouseIcon } from '@lucide/svelte';
 	import * as Sidebar from '../../ui/sidebar/index';
 
 	const items = $derived([
