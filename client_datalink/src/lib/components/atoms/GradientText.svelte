@@ -1,6 +1,5 @@
 <script lang="ts">
 	import type { Snippet } from 'svelte';
-	import { animate } from 'motion';
 
 	type Props = {
 		children: Snippet;
@@ -72,9 +71,6 @@
 		raf = requestAnimationFrame(tick);
 		return () => cancelAnimationFrame(raf);
 	});
-
-	// Reference `animate` so the dep import is not tree-shaken (kept available for users who extend)
-	void animate;
 
 	const gradientAngle = $derived(
 		direction === 'horizontal'
