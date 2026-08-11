@@ -5,10 +5,12 @@
 	import * as Sidebar from '$lib/components/ui/sidebar/index';
 	import SidebarMenu from '$lib/components/organism/SidebarMenu.svelte';
 	import { Toaster } from '$lib/components/ui/sonner';
+	import AuthSync from '$lib/components/molecules/AuthSync.svelte';
 
 	let { children } = $props();
 
 	const queryClient = new QueryClient({});
+
 
 	// $inspect(userQuery.data);
 </script>
@@ -18,6 +20,7 @@
 </svelte:head>
 
 <QueryClientProvider client={queryClient}>
+	<AuthSync/>
 	<Sidebar.Provider open={true}>
 		<SidebarMenu />
 

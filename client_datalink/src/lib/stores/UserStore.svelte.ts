@@ -39,18 +39,18 @@ class UserStore {
 		return this.user?.role === ROLES.ADMIN || this.user?.role === ROLES.ENGINEER;
 	}
 
-	private getUserFromLC() {
-		const getLC = localStorage.getItem('app-user');
+private getUserFromLC() {
+  const getLC = localStorage.getItem('app-user');
 
-		if (getLC != null) {
-			try {
-				let parsedUser = JSON.parse(getLC);
-				this.user = parsedUser;
-			} catch (error) {
-				console.error('Load from LC failed');
-				localStorage.removeItem('app-user');
-			}
-		}
+  if (getLC != null && getLC !== 'undefined' && getLC !== 'null') {
+    try {
+      let parsedUser = JSON.parse(getLC);
+      this.user = parsedUser;
+    } catch (error) {
+      console.error('Load from LC failed');
+      localStorage.removeItem('app-user');
+    }
+  }
 	}
 }
 

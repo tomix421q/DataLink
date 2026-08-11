@@ -5,14 +5,12 @@
 	import { page } from '$app/state';
 	import UserPanel from '../molecules/menu/UserPanel.svelte';
 	import GlobalNavPanel from '../molecules/menu/GlobalNavPanel.svelte';
-	import { useActiveUser } from '$lib/api/queries/auth';
 	import Input from '../ui/input/input.svelte';
 	import Button from '../ui/button/button.svelte';
 	import { Search, Trash, Trash2, X } from '@lucide/svelte';
 	import { userStore } from '$lib/stores/UserStore.svelte';
 
 	const machines = useMachinesList();
-	const user = useActiveUser();
 	let isSearch = $state(false);
 	let searchMachineQuery = $state('');
 	let isMachDelete = $state(false);
@@ -20,7 +18,7 @@
 	const deleteMachineMutation = useRemoveMachine();
 
 	const filteredMachines = $derived(
-		machines.data?.machines.filter(
+		machines.data?.machines?.filter(
 			(machine) => machine.name.toLowerCase().includes(searchMachineQuery) ?? []
 		)
 	);
@@ -97,7 +95,7 @@
 							</div>
 						{/if}
 
-						{#each filteredMachines as machine}
+						{#each filteredMachines as machine (machine.id)}
 							<Sidebar.MenuItem>
 								<Sidebar.MenuButton isActive={page.params.id === machine.id}>
 									{#snippet child({ props })}
@@ -134,7 +132,7 @@
 	<Sidebar.Footer>
 		<div class="text-muted-foreground text-xs flex justify-between uppercase">
 			<span>v·0.7 beta</span>
-			<span class="tracking-widest">{user.data ? user.data.role : 'guest'}</span>
+			<span class="tracking-widest">{userStore.user ? userStore.user.role : 'guest'}</span>
 		</div>
 	</Sidebar.Footer>
 </Sidebar.Root>

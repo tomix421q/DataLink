@@ -1,6 +1,5 @@
 <script lang="ts">
 	import { userStore } from '$lib/stores/UserStore.svelte';
-
 	import Button from '$lib/components/ui/button/button.svelte';
 	import {
 		ArrowRight,
