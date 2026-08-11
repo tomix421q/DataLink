@@ -24,9 +24,8 @@ await logEngine.init()
 startDatabaseCleaner()
 
 // Temp
-const machineInfo = machineBucket.getLatestData('MF4')
-console.log(machineInfo)
-
+// const machineInfo = machineBucket.getLatestData('MF4')
+// console.log(machineInfo)
 // temp_testSse(plcEmitter)
 
 // Routes
@@ -37,11 +36,13 @@ const apiRoutes = new Hono()
   .route('/machine', machines)
   .route('/auth', authRoute)
   .route('/favorite', favorites)
+  .all('*', (c) => c.json({ ok: false, error: 'API route not found' }, 404))
 app.route('/api', apiRoutes)
 
 // Config load static client build, Export RPC, Export app
 app.use('*', serveStatic({ root: '../client_datalink/build' }))
 app.use('*', serveStatic({ root: '../client_datalink/static' }))
 app.get('*', serveStatic({ path: '../client_datalink/build/index.html' }))
+
 export type AppType = typeof apiRoutes
 export default { port, fetch: app.fetch }
