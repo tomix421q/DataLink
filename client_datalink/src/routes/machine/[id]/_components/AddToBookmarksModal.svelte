@@ -21,7 +21,7 @@
 	import LoadingTemplate from '$lib/components/atoms/LoadingTemplate.svelte';
 	import NodataTemplate from '$lib/components/atoms/NodataTemplate.svelte';
 
-	let { tagName }: { tagName?: string } = $props();
+	let { tagName, isText }: { tagName?: string; isText?: boolean } = $props();
 
 	const machineId = $derived(page.params.id!);
 	const createNameMutate = useCreateNewUserFolder();
@@ -75,12 +75,13 @@
 	<!-- Trigger btn -->
 	<Dialog.Trigger>
 		<Button
-			size="icon-xs"
-			variant="ghost"
+			size={isText ? 'xs' : 'icon-xs'}
+			variant={isText ? 'outline' : 'ghost'}
 			title="Add/Remove from folder"
-			class="hidden group-hover:flex hover:text-red-500 size-5"
+			class="{isText ? '' : 'hover:text-red-500'} "
 		>
-			<FolderPen class="size-4" />
+			<FolderPen class="size-4 {isText ? 'hidden' : 'block'}" />
+			<span class={isText ? 'block' : 'hidden'}>Folders</span>
 		</Button>
 	</Dialog.Trigger>
 
@@ -146,17 +147,17 @@
 										<p class="text-muted-foreground mb-0.5">({folder.tags.length})</p>
 									</div>
 									{#if tagName}
-										<Button size="sm" variant="ghost" onclick={() => handleToggle(folder.id)}>
+										<Button size="xs" variant="ghost" onclick={() => handleToggle(folder.id)}>
 											{#if folder.tags.some((t) => t.keyName === tagName)}
 												<span class="font-light">Remove</span>
 												<PinOff class="text-chart-2 size-5" />
 											{:else}
-												<span class="font-light">Add</span>
+												<span class="font-light">Add-On</span>
 												<PinIcon class="text-green-400 size-5" />
 											{/if}
 										</Button>
 									{/if}
-									<div class="hover:scale-105"></div>
+						
 								</div>
 							{/each}
 						{/if}

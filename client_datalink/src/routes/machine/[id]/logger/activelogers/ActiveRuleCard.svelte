@@ -58,7 +58,13 @@
 					<span class="text-muted-foreground mr-2 text-xs my-auto">Trigger value</span
 					>{rule.triggerValue}
 				</p>
+			{:else if rule.triggerType === 'CHANGE'}
+				<p>
+					<span class="text-muted-foreground mr-2 text-xs my-auto">Trigger tag</span
+					>{rule.triggerTag}
+				</p>
 			{/if}
+
 			<div class="flex flex-wrap">
 				<span class="text-muted-foreground mr-2 text-xs my-auto">Values to write in db</span>
 				{#each JSON.parse(rule.tagToSave) as tag}

@@ -104,12 +104,14 @@
 			{/if}
 
 			<!-- Folders favorite -->
-			<section class="mb-8 animate-in fade-in slide-in-from-bottom-8 duration-500 group">
-				<div class="text-xl font-heading font-bold mb-4 flex">
+			<section class="mb-8 animate-in fade-in slide-in-from-bottom-8 duration-500">
+				<div class="text-xl font-heading font-bold mb-4 flex justify-between" tabindex="-1">
 					<h2>My live Folders</h2>
-					<div class="ml-1 size-7 flex items-center justify-center">
-						<AddToBookmarksModal />
-					</div>
+					{#if userStore.user}
+						
+							<AddToBookmarksModal isText={true}/>
+						
+					{/if}
 				</div>
 
 				{#if allFoldersBm.isError}
@@ -134,7 +136,7 @@
 						{#each allFoldersBm.data as folder}
 							{#if folder.tags.length > 0 || folder.showOnMainDashboard}
 								<article
-									class="border rounded-xl p-3 bg-card shadow-sm w-full sm:min-w-[250px] sm:max-w-full! cardNormalize"
+									class="border rounded-xl p-3 bg-card shadow-sm w-full sm:min-w-[250px]! sm:max-w-full! cardNormalize"
 								>
 									<div class="border-b pb-1 mb-2 flex place-items-end justify-between font-heading">
 										<h3 class="flex items-center gap-1">
@@ -167,23 +169,25 @@
 										</div>
 									</div>
 
-									<div class="flex flex-col gap-1 2xl:grid 2xl:grid-cols-2">
+									<div class="flex flex-col gap-1">
 										{#if folder.tags.length === 0}
 											<p class="text-muted-foreground italic text-sm">No tags added yet...</p>
 										{/if}
 										{#each folder.tags as savedTag}
 											{@const liveTag = stream.tagsList.find(([name]) => name === savedTag.keyName)}
-											{#if liveTag}
-												<div class="flex items-center group">
-													{@render tagValueDisplay(liveTag[0], liveTag[1])}
-													<!-- Add to bookmark -->
-													<div class="ml-1 size-5 flex items-center justify-center">
-														<AddToBookmarksModal tagName={liveTag[0]} />
+											<div class="group" tabindex="-1">
+												{#if liveTag}
+													<div class="flex items-center">
+														{@render tagValueDisplay(liveTag[0], liveTag[1])}
+														<!-- Add to bookmark -->
+														<div class="ml-1 size-4 items-center  group-focus:flex hidden sm:group-hover:flex">
+															<AddToBookmarksModal tagName={liveTag[0]} />
+														</div>
 													</div>
-												</div>
-											{:else}
-												<p class="text-muted-foreground text-sm">{savedTag.keyName}: Offline</p>
-											{/if}
+												{:else}
+													<p class="text-muted-foreground text-sm">{savedTag.keyName}: Offline</p>
+												{/if}
+											</div>
 										{/each}
 									</div>
 								</article>
@@ -238,6 +242,7 @@
 					{#each filteredTags as [tagName, tagValue]}
 						<div
 							class="flex items-center p-2 rounded-lg border transition-all group max-w-full cardNormalize2"
+							tabindex="-1"
 						>
 							<!-- IF toggle remove -->
 							{#if toggleRemove}
@@ -252,7 +257,9 @@
 							{@render tagValueDisplay(tagName, tagValue)}
 
 							<!-- Add to bookmark -->
-							<div class="ml-auto flex items-center justify-center">
+							<div
+								class="ml-auto size-5 items-center justify-center group-focus:flex hidden sm:group-hover:flex"
+							>
 								{#if userStore.user}
 									<AddToBookmarksModal {tagName} />
 								{/if}
