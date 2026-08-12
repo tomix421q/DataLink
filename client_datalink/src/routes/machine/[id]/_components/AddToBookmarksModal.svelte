@@ -88,9 +88,13 @@
 	<Dialog.Content class="flex flex-col h-[425px] cardNormalize">
 		<Dialog.Header>
 			<Dialog.Title class="font-heading font-bold text-lg flex gap-1"
-				><h3 class="flex gap-1"><FolderPenIcon /> Add / Remove</h3>
-				<span class="text-chart-2 underline underline-offset-3">{tagName}</span></Dialog.Title
-			>
+				><h3>Add / Remove</h3>
+				{#if tagName}
+					<span class="text-chart-2 underline underline-offset-3">{tagName}</span>
+				{:else}
+					folder
+				{/if}
+			</Dialog.Title>
 			<Dialog.Description
 				>Add / Remove tag to existing folder or create new folder</Dialog.Description
 			>
@@ -157,7 +161,6 @@
 											{/if}
 										</Button>
 									{/if}
-						
 								</div>
 							{/each}
 						{/if}
