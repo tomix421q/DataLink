@@ -82,7 +82,7 @@ export function useLoggerLogsEntries(
 		return {
 			queryKey: loggerKeys.logEntries(machineId, logId, params.page, params.limit),
 			queryFn: () => getLoggerDataEntries(machineId, logId, params.page, params.limit),
-			staleTime: 1000 * 60 * 5,
+			staleTime: 1000 * 60,
 			refetchInterval: 1000 * 60,
 			enabled: !!logId && !!machineId
 		};

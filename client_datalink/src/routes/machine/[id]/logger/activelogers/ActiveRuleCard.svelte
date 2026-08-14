@@ -10,10 +10,12 @@
 	let isConfirm = $state(false);
 
 	const deleteMutation = useDeleteLoggerRule();
+
+	// $inspect(rule);
 </script>
 
 <main>
-	<article class="cardNormalize min-w-sm max-w-xl">
+	<article class="cardNormalize w-full sm:min-w-sm max-w-xl">
 		<header class="border-b mb-3 pb-3">
 			<h3 class="text-primary text-xl font-semibold">
 				{rule.name}
@@ -25,6 +27,9 @@
 				)}
 			</p>
 			<p class="text-xs">
+				<span class="text-muted-foreground mr-2">By</span>{String(rule.user.name).split('(')[0]}
+			</p>
+			<p class="text-xs">
 				<span class="text-muted-foreground mr-2 text-xs">Last update</span>{dateTimmeUTCformatter(
 					rule.updatedAt
 				)}
@@ -32,43 +37,40 @@
 		</header>
 
 		<!-- Card -->
-		<section>
-			<p class="flex">
-				<span class="text-muted-foreground mr-2 text-xs my-auto">Machine Id</span>{rule.machineId}
-			</p>
+		<section class="text-xs">
 			<p>
-				<span class="text-muted-foreground mr-2 text-xs my-auto">Trigger type</span
+				<span class="text-muted-foreground mr-2 my-auto">Trigger type</span
 				>{rule.triggerType}
 			</p>
 			{#if rule.triggerType === 'TIME'}
 				<p>
-					<span class="text-muted-foreground mr-2 text-xs my-auto">Interval</span>{rule.interval}ms
+					<span class="text-muted-foreground mr-2 my-auto">Interval</span>{rule.interval}ms
 					[{(rule.interval! / 1000).toFixed(0)}s]
 				</p>
 			{:else if rule.triggerType === 'EDGE'}
 				<p>
-					<span class="text-muted-foreground mr-2 text-xs my-auto">Trigger tag</span
+					<span class="text-muted-foreground mr-2 my-auto">Trigger tag</span
 					>{rule.triggerTag}
 				</p>
 				<p>
-					<span class="text-muted-foreground mr-2 text-xs my-auto">Trigger operator</span
+					<span class="text-muted-foreground mr-2 my-auto">Trigger operator</span
 					>{rule.triggerOperator}
 				</p>
 				<p>
-					<span class="text-muted-foreground mr-2 text-xs my-auto">Trigger value</span
+					<span class="text-muted-foreground mr-2 my-auto">Trigger value</span
 					>{rule.triggerValue}
 				</p>
 			{:else if rule.triggerType === 'CHANGE'}
 				<p>
-					<span class="text-muted-foreground mr-2 text-xs my-auto">Trigger tag</span
+					<span class="text-muted-foreground mr-2 my-auto">Trigger tag</span
 					>{rule.triggerTag}
 				</p>
 			{/if}
 
 			<div class="flex flex-wrap">
-				<span class="text-muted-foreground mr-2 text-xs my-auto">Values to write in db</span>
+				<span class="text-muted-foreground mr-2 my-auto">Values to write in db</span>
 				{#each JSON.parse(rule.tagToSave) as tag}
-					<span class="text-green-400 font-semibold text-xs items-center mr-1">{tag},</span>
+					<span class="text-green-400 font-semibold items-center mr-1">{tag},</span>
 				{/each}
 			</div>
 		</section>

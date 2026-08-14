@@ -207,6 +207,7 @@ export type UserWhereInput = {
   updatedAt?: Prisma.DateTimeFilter<"User"> | Date | string
   role?: Prisma.StringFilter<"User"> | string
   folders?: Prisma.FavoriteFolderListRelationFilter
+  logRules?: Prisma.LogRuleListRelationFilter
   sessions?: Prisma.SessionListRelationFilter
   machineAccess?: Prisma.MachineAccessListRelationFilter
 }
@@ -221,6 +222,7 @@ export type UserOrderByWithRelationInput = {
   updatedAt?: Prisma.SortOrder
   role?: Prisma.SortOrder
   folders?: Prisma.FavoriteFolderOrderByRelationAggregateInput
+  logRules?: Prisma.LogRuleOrderByRelationAggregateInput
   sessions?: Prisma.SessionOrderByRelationAggregateInput
   machineAccess?: Prisma.MachineAccessOrderByRelationAggregateInput
 }
@@ -238,6 +240,7 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   updatedAt?: Prisma.DateTimeFilter<"User"> | Date | string
   role?: Prisma.StringFilter<"User"> | string
   folders?: Prisma.FavoriteFolderListRelationFilter
+  logRules?: Prisma.LogRuleListRelationFilter
   sessions?: Prisma.SessionListRelationFilter
   machineAccess?: Prisma.MachineAccessListRelationFilter
 }, "id" | "email">
@@ -280,6 +283,7 @@ export type UserCreateInput = {
   updatedAt?: Date | string
   role?: string
   folders?: Prisma.FavoriteFolderCreateNestedManyWithoutUserInput
+  logRules?: Prisma.LogRuleCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
   machineAccess?: Prisma.MachineAccessCreateNestedManyWithoutUserInput
 }
@@ -294,6 +298,7 @@ export type UserUncheckedCreateInput = {
   updatedAt?: Date | string
   role?: string
   folders?: Prisma.FavoriteFolderUncheckedCreateNestedManyWithoutUserInput
+  logRules?: Prisma.LogRuleUncheckedCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   machineAccess?: Prisma.MachineAccessUncheckedCreateNestedManyWithoutUserInput
 }
@@ -308,6 +313,7 @@ export type UserUpdateInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   role?: Prisma.StringFieldUpdateOperationsInput | string
   folders?: Prisma.FavoriteFolderUpdateManyWithoutUserNestedInput
+  logRules?: Prisma.LogRuleUpdateManyWithoutUserNestedInput
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
   machineAccess?: Prisma.MachineAccessUpdateManyWithoutUserNestedInput
 }
@@ -322,6 +328,7 @@ export type UserUncheckedUpdateInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   role?: Prisma.StringFieldUpdateOperationsInput | string
   folders?: Prisma.FavoriteFolderUncheckedUpdateManyWithoutUserNestedInput
+  logRules?: Prisma.LogRuleUncheckedUpdateManyWithoutUserNestedInput
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   machineAccess?: Prisma.MachineAccessUncheckedUpdateManyWithoutUserNestedInput
 }
@@ -397,6 +404,11 @@ export type UserScalarRelationFilter = {
   isNot?: Prisma.UserWhereInput
 }
 
+export type UserNullableScalarRelationFilter = {
+  is?: Prisma.UserWhereInput | null
+  isNot?: Prisma.UserWhereInput | null
+}
+
 export type StringFieldUpdateOperationsInput = {
   set?: string
 }
@@ -441,6 +453,22 @@ export type UserUpdateOneRequiredWithoutSessionsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutSessionsInput, Prisma.UserUpdateWithoutSessionsInput>, Prisma.UserUncheckedUpdateWithoutSessionsInput>
 }
 
+export type UserCreateNestedOneWithoutLogRulesInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutLogRulesInput, Prisma.UserUncheckedCreateWithoutLogRulesInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutLogRulesInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneWithoutLogRulesNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutLogRulesInput, Prisma.UserUncheckedCreateWithoutLogRulesInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutLogRulesInput
+  upsert?: Prisma.UserUpsertWithoutLogRulesInput
+  disconnect?: Prisma.UserWhereInput | boolean
+  delete?: Prisma.UserWhereInput | boolean
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutLogRulesInput, Prisma.UserUpdateWithoutLogRulesInput>, Prisma.UserUncheckedUpdateWithoutLogRulesInput>
+}
+
 export type UserCreateNestedOneWithoutFoldersInput = {
   create?: Prisma.XOR<Prisma.UserCreateWithoutFoldersInput, Prisma.UserUncheckedCreateWithoutFoldersInput>
   connectOrCreate?: Prisma.UserCreateOrConnectWithoutFoldersInput
@@ -465,6 +493,7 @@ export type UserCreateWithoutMachineAccessInput = {
   updatedAt?: Date | string
   role?: string
   folders?: Prisma.FavoriteFolderCreateNestedManyWithoutUserInput
+  logRules?: Prisma.LogRuleCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
 }
 
@@ -478,6 +507,7 @@ export type UserUncheckedCreateWithoutMachineAccessInput = {
   updatedAt?: Date | string
   role?: string
   folders?: Prisma.FavoriteFolderUncheckedCreateNestedManyWithoutUserInput
+  logRules?: Prisma.LogRuleUncheckedCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
 }
 
@@ -507,6 +537,7 @@ export type UserUpdateWithoutMachineAccessInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   role?: Prisma.StringFieldUpdateOperationsInput | string
   folders?: Prisma.FavoriteFolderUpdateManyWithoutUserNestedInput
+  logRules?: Prisma.LogRuleUpdateManyWithoutUserNestedInput
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
 }
 
@@ -520,6 +551,7 @@ export type UserUncheckedUpdateWithoutMachineAccessInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   role?: Prisma.StringFieldUpdateOperationsInput | string
   folders?: Prisma.FavoriteFolderUncheckedUpdateManyWithoutUserNestedInput
+  logRules?: Prisma.LogRuleUncheckedUpdateManyWithoutUserNestedInput
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
 }
 
@@ -533,6 +565,7 @@ export type UserCreateWithoutSessionsInput = {
   updatedAt?: Date | string
   role?: string
   folders?: Prisma.FavoriteFolderCreateNestedManyWithoutUserInput
+  logRules?: Prisma.LogRuleCreateNestedManyWithoutUserInput
   machineAccess?: Prisma.MachineAccessCreateNestedManyWithoutUserInput
 }
 
@@ -546,6 +579,7 @@ export type UserUncheckedCreateWithoutSessionsInput = {
   updatedAt?: Date | string
   role?: string
   folders?: Prisma.FavoriteFolderUncheckedCreateNestedManyWithoutUserInput
+  logRules?: Prisma.LogRuleUncheckedCreateNestedManyWithoutUserInput
   machineAccess?: Prisma.MachineAccessUncheckedCreateNestedManyWithoutUserInput
 }
 
@@ -575,6 +609,7 @@ export type UserUpdateWithoutSessionsInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   role?: Prisma.StringFieldUpdateOperationsInput | string
   folders?: Prisma.FavoriteFolderUpdateManyWithoutUserNestedInput
+  logRules?: Prisma.LogRuleUpdateManyWithoutUserNestedInput
   machineAccess?: Prisma.MachineAccessUpdateManyWithoutUserNestedInput
 }
 
@@ -588,6 +623,79 @@ export type UserUncheckedUpdateWithoutSessionsInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   role?: Prisma.StringFieldUpdateOperationsInput | string
   folders?: Prisma.FavoriteFolderUncheckedUpdateManyWithoutUserNestedInput
+  logRules?: Prisma.LogRuleUncheckedUpdateManyWithoutUserNestedInput
+  machineAccess?: Prisma.MachineAccessUncheckedUpdateManyWithoutUserNestedInput
+}
+
+export type UserCreateWithoutLogRulesInput = {
+  id?: string
+  name: string
+  email: string
+  emailVerified: boolean
+  image?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  role?: string
+  folders?: Prisma.FavoriteFolderCreateNestedManyWithoutUserInput
+  sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
+  machineAccess?: Prisma.MachineAccessCreateNestedManyWithoutUserInput
+}
+
+export type UserUncheckedCreateWithoutLogRulesInput = {
+  id?: string
+  name: string
+  email: string
+  emailVerified: boolean
+  image?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  role?: string
+  folders?: Prisma.FavoriteFolderUncheckedCreateNestedManyWithoutUserInput
+  sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
+  machineAccess?: Prisma.MachineAccessUncheckedCreateNestedManyWithoutUserInput
+}
+
+export type UserCreateOrConnectWithoutLogRulesInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutLogRulesInput, Prisma.UserUncheckedCreateWithoutLogRulesInput>
+}
+
+export type UserUpsertWithoutLogRulesInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutLogRulesInput, Prisma.UserUncheckedUpdateWithoutLogRulesInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutLogRulesInput, Prisma.UserUncheckedCreateWithoutLogRulesInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutLogRulesInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutLogRulesInput, Prisma.UserUncheckedUpdateWithoutLogRulesInput>
+}
+
+export type UserUpdateWithoutLogRulesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  role?: Prisma.StringFieldUpdateOperationsInput | string
+  folders?: Prisma.FavoriteFolderUpdateManyWithoutUserNestedInput
+  sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
+  machineAccess?: Prisma.MachineAccessUpdateManyWithoutUserNestedInput
+}
+
+export type UserUncheckedUpdateWithoutLogRulesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  emailVerified?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  image?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  role?: Prisma.StringFieldUpdateOperationsInput | string
+  folders?: Prisma.FavoriteFolderUncheckedUpdateManyWithoutUserNestedInput
+  sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   machineAccess?: Prisma.MachineAccessUncheckedUpdateManyWithoutUserNestedInput
 }
 
@@ -600,6 +708,7 @@ export type UserCreateWithoutFoldersInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   role?: string
+  logRules?: Prisma.LogRuleCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionCreateNestedManyWithoutUserInput
   machineAccess?: Prisma.MachineAccessCreateNestedManyWithoutUserInput
 }
@@ -613,6 +722,7 @@ export type UserUncheckedCreateWithoutFoldersInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   role?: string
+  logRules?: Prisma.LogRuleUncheckedCreateNestedManyWithoutUserInput
   sessions?: Prisma.SessionUncheckedCreateNestedManyWithoutUserInput
   machineAccess?: Prisma.MachineAccessUncheckedCreateNestedManyWithoutUserInput
 }
@@ -642,6 +752,7 @@ export type UserUpdateWithoutFoldersInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   role?: Prisma.StringFieldUpdateOperationsInput | string
+  logRules?: Prisma.LogRuleUpdateManyWithoutUserNestedInput
   sessions?: Prisma.SessionUpdateManyWithoutUserNestedInput
   machineAccess?: Prisma.MachineAccessUpdateManyWithoutUserNestedInput
 }
@@ -655,6 +766,7 @@ export type UserUncheckedUpdateWithoutFoldersInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   role?: Prisma.StringFieldUpdateOperationsInput | string
+  logRules?: Prisma.LogRuleUncheckedUpdateManyWithoutUserNestedInput
   sessions?: Prisma.SessionUncheckedUpdateManyWithoutUserNestedInput
   machineAccess?: Prisma.MachineAccessUncheckedUpdateManyWithoutUserNestedInput
 }
@@ -666,12 +778,14 @@ export type UserUncheckedUpdateWithoutFoldersInput = {
 
 export type UserCountOutputType = {
   folders: number
+  logRules: number
   sessions: number
   machineAccess: number
 }
 
 export type UserCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   folders?: boolean | UserCountOutputTypeCountFoldersArgs
+  logRules?: boolean | UserCountOutputTypeCountLogRulesArgs
   sessions?: boolean | UserCountOutputTypeCountSessionsArgs
   machineAccess?: boolean | UserCountOutputTypeCountMachineAccessArgs
 }
@@ -691,6 +805,13 @@ export type UserCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.Extensi
  */
 export type UserCountOutputTypeCountFoldersArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   where?: Prisma.FavoriteFolderWhereInput
+}
+
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountLogRulesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.LogRuleWhereInput
 }
 
 /**
@@ -718,6 +839,7 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   updatedAt?: boolean
   role?: boolean
   folders?: boolean | Prisma.User$foldersArgs<ExtArgs>
+  logRules?: boolean | Prisma.User$logRulesArgs<ExtArgs>
   sessions?: boolean | Prisma.User$sessionsArgs<ExtArgs>
   machineAccess?: boolean | Prisma.User$machineAccessArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
@@ -759,6 +881,7 @@ export type UserSelectScalar = {
 export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "email" | "emailVerified" | "image" | "createdAt" | "updatedAt" | "role", ExtArgs["result"]["user"]>
 export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   folders?: boolean | Prisma.User$foldersArgs<ExtArgs>
+  logRules?: boolean | Prisma.User$logRulesArgs<ExtArgs>
   sessions?: boolean | Prisma.User$sessionsArgs<ExtArgs>
   machineAccess?: boolean | Prisma.User$machineAccessArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
@@ -770,6 +893,7 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
   name: "User"
   objects: {
     folders: Prisma.$FavoriteFolderPayload<ExtArgs>[]
+    logRules: Prisma.$LogRulePayload<ExtArgs>[]
     sessions: Prisma.$SessionPayload<ExtArgs>[]
     machineAccess: Prisma.$MachineAccessPayload<ExtArgs>[]
   }
@@ -1177,6 +1301,7 @@ readonly fields: UserFieldRefs;
 export interface Prisma__UserClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
   folders<T extends Prisma.User$foldersArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$foldersArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$FavoriteFolderPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  logRules<T extends Prisma.User$logRulesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$logRulesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$LogRulePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   sessions<T extends Prisma.User$sessionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$sessionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$SessionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   machineAccess<T extends Prisma.User$machineAccessArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$machineAccessArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$MachineAccessPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
@@ -1628,6 +1753,30 @@ export type User$foldersArgs<ExtArgs extends runtime.Types.Extensions.InternalAr
   take?: number
   skip?: number
   distinct?: Prisma.FavoriteFolderScalarFieldEnum | Prisma.FavoriteFolderScalarFieldEnum[]
+}
+
+/**
+ * User.logRules
+ */
+export type User$logRulesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the LogRule
+   */
+  select?: Prisma.LogRuleSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the LogRule
+   */
+  omit?: Prisma.LogRuleOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.LogRuleInclude<ExtArgs> | null
+  where?: Prisma.LogRuleWhereInput
+  orderBy?: Prisma.LogRuleOrderByWithRelationInput | Prisma.LogRuleOrderByWithRelationInput[]
+  cursor?: Prisma.LogRuleWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.LogRuleScalarFieldEnum | Prisma.LogRuleScalarFieldEnum[]
 }
 
 /**

@@ -14,7 +14,6 @@ const logger = new Hono()
   // Create new logger Rule
   .post('/', requireAuth, requireRole(['admin', 'engineer']), zValidator('json', createRuleSchema, validationHook), async (c) => {
     const body = c.req.valid('json')
-    const user = c.get('user')
 
     // For future
     // if (!(await verifyMachineAccess(user, body.machineId))) {
@@ -38,6 +37,7 @@ const logger = new Hono()
 
       const savedRule = await prisma.logRule.create({
         data: {
+          userId: c.get('user').id,
           name: body.name,
           machineId: body.machineId,
           triggerType: body.triggerType,
@@ -69,7 +69,6 @@ const logger = new Hono()
     if (!rule) {
       return c.json<ApiErrorResponse>({ ok: false, error: 'Rule not found' }, StatusCodes.NOT_FOUND)
     }
-
     await prisma.logRule.delete({ where: { id } })
     logEngine.removeRuleFromRam(rule.machineId, rule.id)
 
@@ -175,8 +174,7 @@ const logger = new Hono()
 
   // Get all Rules
   .get('/', async (c) => {
-    const rules = await prisma.logRule.findMany({ orderBy: { name: 'desc' } })
-
+    const rules = await prisma.logRule.findMany({ orderBy: { name: 'desc' }, include: { user: { select: { name: true } } } })
     const formattedRules = rules.map((rule) => {
       let tags: string[] = []
       try {
@@ -186,17 +184,16 @@ const logger = new Hono()
       }
       return { ...rule, tags }
     })
-
     return c.json({ ok: true, rules: formattedRules })
   })
 
   // Get rule by machine id
   .get('/machine/:machineId', async (c) => {
     const machineId = c.req.param('machineId')
-
     const rules = await prisma.logRule.findMany({
       where: { machineId },
       orderBy: { name: 'desc' },
+      include: { user: { select: { name: true } } },
     })
 
     if (rules.length === 0) {

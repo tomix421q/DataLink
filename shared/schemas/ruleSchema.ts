@@ -1,10 +1,10 @@
 import { z } from 'zod'
 
 export const createRuleSchema = z.object({
-  name: z.string().min(3),
+  name: z.string().min(3).max(32),
   machineId: z.string().min(3),
   triggerType: z.enum(['CHANGE', 'TIME', 'EDGE']),
-  interval: z.number().positive().min(5000).max(3600000).optional(),
+  interval: z.number().positive().min(5000, { error: 'Min is 3s' }).max(3600000, { error: 'Max is 1hod' }).optional(),
   tags: z.array(z.string()).min(1),
   triggerTag: z.string().optional(),
   triggerValue: z.union([z.string(), z.number()]).optional(),

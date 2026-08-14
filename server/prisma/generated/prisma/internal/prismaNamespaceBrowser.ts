@@ -148,6 +148,7 @@ export const LogRuleScalarFieldEnum = {
   triggerOperator: 'triggerOperator',
   interval: 'interval',
   tagToSave: 'tagToSave',
+  userId: 'userId',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const

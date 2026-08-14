@@ -44,6 +44,7 @@ export type LogRuleMinAggregateOutputType = {
   triggerOperator: string | null
   interval: number | null
   tagToSave: string | null
+  userId: string | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -58,6 +59,7 @@ export type LogRuleMaxAggregateOutputType = {
   triggerOperator: string | null
   interval: number | null
   tagToSave: string | null
+  userId: string | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -72,6 +74,7 @@ export type LogRuleCountAggregateOutputType = {
   triggerOperator: number
   interval: number
   tagToSave: number
+  userId: number
   createdAt: number
   updatedAt: number
   _all: number
@@ -96,6 +99,7 @@ export type LogRuleMinAggregateInputType = {
   triggerOperator?: true
   interval?: true
   tagToSave?: true
+  userId?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -110,6 +114,7 @@ export type LogRuleMaxAggregateInputType = {
   triggerOperator?: true
   interval?: true
   tagToSave?: true
+  userId?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -124,6 +129,7 @@ export type LogRuleCountAggregateInputType = {
   triggerOperator?: true
   interval?: true
   tagToSave?: true
+  userId?: true
   createdAt?: true
   updatedAt?: true
   _all?: true
@@ -225,6 +231,7 @@ export type LogRuleGroupByOutputType = {
   triggerOperator: string | null
   interval: number | null
   tagToSave: string
+  userId: string | null
   createdAt: Date
   updatedAt: Date
   _count: LogRuleCountAggregateOutputType | null
@@ -262,10 +269,12 @@ export type LogRuleWhereInput = {
   triggerOperator?: Prisma.StringNullableFilter<"LogRule"> | string | null
   interval?: Prisma.IntNullableFilter<"LogRule"> | number | null
   tagToSave?: Prisma.StringFilter<"LogRule"> | string
+  userId?: Prisma.StringNullableFilter<"LogRule"> | string | null
   createdAt?: Prisma.DateTimeFilter<"LogRule"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"LogRule"> | Date | string
   machine?: Prisma.XOR<Prisma.MachineScalarRelationFilter, Prisma.MachineWhereInput>
   entries?: Prisma.LogEntryListRelationFilter
+  user?: Prisma.XOR<Prisma.UserNullableScalarRelationFilter, Prisma.UserWhereInput> | null
 }
 
 export type LogRuleOrderByWithRelationInput = {
@@ -278,10 +287,12 @@ export type LogRuleOrderByWithRelationInput = {
   triggerOperator?: Prisma.SortOrderInput | Prisma.SortOrder
   interval?: Prisma.SortOrderInput | Prisma.SortOrder
   tagToSave?: Prisma.SortOrder
+  userId?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   machine?: Prisma.MachineOrderByWithRelationInput
   entries?: Prisma.LogEntryOrderByRelationAggregateInput
+  user?: Prisma.UserOrderByWithRelationInput
 }
 
 export type LogRuleWhereUniqueInput = Prisma.AtLeast<{
@@ -297,10 +308,12 @@ export type LogRuleWhereUniqueInput = Prisma.AtLeast<{
   triggerOperator?: Prisma.StringNullableFilter<"LogRule"> | string | null
   interval?: Prisma.IntNullableFilter<"LogRule"> | number | null
   tagToSave?: Prisma.StringFilter<"LogRule"> | string
+  userId?: Prisma.StringNullableFilter<"LogRule"> | string | null
   createdAt?: Prisma.DateTimeFilter<"LogRule"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"LogRule"> | Date | string
   machine?: Prisma.XOR<Prisma.MachineScalarRelationFilter, Prisma.MachineWhereInput>
   entries?: Prisma.LogEntryListRelationFilter
+  user?: Prisma.XOR<Prisma.UserNullableScalarRelationFilter, Prisma.UserWhereInput> | null
 }, "id" | "name">
 
 export type LogRuleOrderByWithAggregationInput = {
@@ -313,6 +326,7 @@ export type LogRuleOrderByWithAggregationInput = {
   triggerOperator?: Prisma.SortOrderInput | Prisma.SortOrder
   interval?: Prisma.SortOrderInput | Prisma.SortOrder
   tagToSave?: Prisma.SortOrder
+  userId?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   _count?: Prisma.LogRuleCountOrderByAggregateInput
@@ -335,6 +349,7 @@ export type LogRuleScalarWhereWithAggregatesInput = {
   triggerOperator?: Prisma.StringNullableWithAggregatesFilter<"LogRule"> | string | null
   interval?: Prisma.IntNullableWithAggregatesFilter<"LogRule"> | number | null
   tagToSave?: Prisma.StringWithAggregatesFilter<"LogRule"> | string
+  userId?: Prisma.StringNullableWithAggregatesFilter<"LogRule"> | string | null
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"LogRule"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"LogRule"> | Date | string
 }
@@ -352,6 +367,7 @@ export type LogRuleCreateInput = {
   updatedAt?: Date | string
   machine: Prisma.MachineCreateNestedOneWithoutLogRulesInput
   entries?: Prisma.LogEntryCreateNestedManyWithoutRuleInput
+  user?: Prisma.UserCreateNestedOneWithoutLogRulesInput
 }
 
 export type LogRuleUncheckedCreateInput = {
@@ -364,6 +380,7 @@ export type LogRuleUncheckedCreateInput = {
   triggerOperator?: string | null
   interval?: number | null
   tagToSave: string
+  userId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   entries?: Prisma.LogEntryUncheckedCreateNestedManyWithoutRuleInput
@@ -382,6 +399,7 @@ export type LogRuleUpdateInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   machine?: Prisma.MachineUpdateOneRequiredWithoutLogRulesNestedInput
   entries?: Prisma.LogEntryUpdateManyWithoutRuleNestedInput
+  user?: Prisma.UserUpdateOneWithoutLogRulesNestedInput
 }
 
 export type LogRuleUncheckedUpdateInput = {
@@ -394,6 +412,7 @@ export type LogRuleUncheckedUpdateInput = {
   triggerOperator?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   interval?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   tagToSave?: Prisma.StringFieldUpdateOperationsInput | string
+  userId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   entries?: Prisma.LogEntryUncheckedUpdateManyWithoutRuleNestedInput
@@ -409,6 +428,7 @@ export type LogRuleCreateManyInput = {
   triggerOperator?: string | null
   interval?: number | null
   tagToSave: string
+  userId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -436,6 +456,7 @@ export type LogRuleUncheckedUpdateManyInput = {
   triggerOperator?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   interval?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   tagToSave?: Prisma.StringFieldUpdateOperationsInput | string
+  userId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -460,6 +481,7 @@ export type LogRuleCountOrderByAggregateInput = {
   triggerOperator?: Prisma.SortOrder
   interval?: Prisma.SortOrder
   tagToSave?: Prisma.SortOrder
+  userId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -478,6 +500,7 @@ export type LogRuleMaxOrderByAggregateInput = {
   triggerOperator?: Prisma.SortOrder
   interval?: Prisma.SortOrder
   tagToSave?: Prisma.SortOrder
+  userId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -492,6 +515,7 @@ export type LogRuleMinOrderByAggregateInput = {
   triggerOperator?: Prisma.SortOrder
   interval?: Prisma.SortOrder
   tagToSave?: Prisma.SortOrder
+  userId?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -503,6 +527,48 @@ export type LogRuleSumOrderByAggregateInput = {
 export type LogRuleScalarRelationFilter = {
   is?: Prisma.LogRuleWhereInput
   isNot?: Prisma.LogRuleWhereInput
+}
+
+export type LogRuleCreateNestedManyWithoutUserInput = {
+  create?: Prisma.XOR<Prisma.LogRuleCreateWithoutUserInput, Prisma.LogRuleUncheckedCreateWithoutUserInput> | Prisma.LogRuleCreateWithoutUserInput[] | Prisma.LogRuleUncheckedCreateWithoutUserInput[]
+  connectOrCreate?: Prisma.LogRuleCreateOrConnectWithoutUserInput | Prisma.LogRuleCreateOrConnectWithoutUserInput[]
+  createMany?: Prisma.LogRuleCreateManyUserInputEnvelope
+  connect?: Prisma.LogRuleWhereUniqueInput | Prisma.LogRuleWhereUniqueInput[]
+}
+
+export type LogRuleUncheckedCreateNestedManyWithoutUserInput = {
+  create?: Prisma.XOR<Prisma.LogRuleCreateWithoutUserInput, Prisma.LogRuleUncheckedCreateWithoutUserInput> | Prisma.LogRuleCreateWithoutUserInput[] | Prisma.LogRuleUncheckedCreateWithoutUserInput[]
+  connectOrCreate?: Prisma.LogRuleCreateOrConnectWithoutUserInput | Prisma.LogRuleCreateOrConnectWithoutUserInput[]
+  createMany?: Prisma.LogRuleCreateManyUserInputEnvelope
+  connect?: Prisma.LogRuleWhereUniqueInput | Prisma.LogRuleWhereUniqueInput[]
+}
+
+export type LogRuleUpdateManyWithoutUserNestedInput = {
+  create?: Prisma.XOR<Prisma.LogRuleCreateWithoutUserInput, Prisma.LogRuleUncheckedCreateWithoutUserInput> | Prisma.LogRuleCreateWithoutUserInput[] | Prisma.LogRuleUncheckedCreateWithoutUserInput[]
+  connectOrCreate?: Prisma.LogRuleCreateOrConnectWithoutUserInput | Prisma.LogRuleCreateOrConnectWithoutUserInput[]
+  upsert?: Prisma.LogRuleUpsertWithWhereUniqueWithoutUserInput | Prisma.LogRuleUpsertWithWhereUniqueWithoutUserInput[]
+  createMany?: Prisma.LogRuleCreateManyUserInputEnvelope
+  set?: Prisma.LogRuleWhereUniqueInput | Prisma.LogRuleWhereUniqueInput[]
+  disconnect?: Prisma.LogRuleWhereUniqueInput | Prisma.LogRuleWhereUniqueInput[]
+  delete?: Prisma.LogRuleWhereUniqueInput | Prisma.LogRuleWhereUniqueInput[]
+  connect?: Prisma.LogRuleWhereUniqueInput | Prisma.LogRuleWhereUniqueInput[]
+  update?: Prisma.LogRuleUpdateWithWhereUniqueWithoutUserInput | Prisma.LogRuleUpdateWithWhereUniqueWithoutUserInput[]
+  updateMany?: Prisma.LogRuleUpdateManyWithWhereWithoutUserInput | Prisma.LogRuleUpdateManyWithWhereWithoutUserInput[]
+  deleteMany?: Prisma.LogRuleScalarWhereInput | Prisma.LogRuleScalarWhereInput[]
+}
+
+export type LogRuleUncheckedUpdateManyWithoutUserNestedInput = {
+  create?: Prisma.XOR<Prisma.LogRuleCreateWithoutUserInput, Prisma.LogRuleUncheckedCreateWithoutUserInput> | Prisma.LogRuleCreateWithoutUserInput[] | Prisma.LogRuleUncheckedCreateWithoutUserInput[]
+  connectOrCreate?: Prisma.LogRuleCreateOrConnectWithoutUserInput | Prisma.LogRuleCreateOrConnectWithoutUserInput[]
+  upsert?: Prisma.LogRuleUpsertWithWhereUniqueWithoutUserInput | Prisma.LogRuleUpsertWithWhereUniqueWithoutUserInput[]
+  createMany?: Prisma.LogRuleCreateManyUserInputEnvelope
+  set?: Prisma.LogRuleWhereUniqueInput | Prisma.LogRuleWhereUniqueInput[]
+  disconnect?: Prisma.LogRuleWhereUniqueInput | Prisma.LogRuleWhereUniqueInput[]
+  delete?: Prisma.LogRuleWhereUniqueInput | Prisma.LogRuleWhereUniqueInput[]
+  connect?: Prisma.LogRuleWhereUniqueInput | Prisma.LogRuleWhereUniqueInput[]
+  update?: Prisma.LogRuleUpdateWithWhereUniqueWithoutUserInput | Prisma.LogRuleUpdateWithWhereUniqueWithoutUserInput[]
+  updateMany?: Prisma.LogRuleUpdateManyWithWhereWithoutUserInput | Prisma.LogRuleUpdateManyWithWhereWithoutUserInput[]
+  deleteMany?: Prisma.LogRuleScalarWhereInput | Prisma.LogRuleScalarWhereInput[]
 }
 
 export type LogRuleCreateNestedManyWithoutMachineInput = {
@@ -569,6 +635,79 @@ export type LogRuleUpdateOneRequiredWithoutEntriesNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.LogRuleUpdateToOneWithWhereWithoutEntriesInput, Prisma.LogRuleUpdateWithoutEntriesInput>, Prisma.LogRuleUncheckedUpdateWithoutEntriesInput>
 }
 
+export type LogRuleCreateWithoutUserInput = {
+  id?: string
+  name: string
+  triggerType: string
+  triggerTag?: string | null
+  triggerValue?: string | null
+  triggerOperator?: string | null
+  interval?: number | null
+  tagToSave: string
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  machine: Prisma.MachineCreateNestedOneWithoutLogRulesInput
+  entries?: Prisma.LogEntryCreateNestedManyWithoutRuleInput
+}
+
+export type LogRuleUncheckedCreateWithoutUserInput = {
+  id?: string
+  machineId: string
+  name: string
+  triggerType: string
+  triggerTag?: string | null
+  triggerValue?: string | null
+  triggerOperator?: string | null
+  interval?: number | null
+  tagToSave: string
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  entries?: Prisma.LogEntryUncheckedCreateNestedManyWithoutRuleInput
+}
+
+export type LogRuleCreateOrConnectWithoutUserInput = {
+  where: Prisma.LogRuleWhereUniqueInput
+  create: Prisma.XOR<Prisma.LogRuleCreateWithoutUserInput, Prisma.LogRuleUncheckedCreateWithoutUserInput>
+}
+
+export type LogRuleCreateManyUserInputEnvelope = {
+  data: Prisma.LogRuleCreateManyUserInput | Prisma.LogRuleCreateManyUserInput[]
+}
+
+export type LogRuleUpsertWithWhereUniqueWithoutUserInput = {
+  where: Prisma.LogRuleWhereUniqueInput
+  update: Prisma.XOR<Prisma.LogRuleUpdateWithoutUserInput, Prisma.LogRuleUncheckedUpdateWithoutUserInput>
+  create: Prisma.XOR<Prisma.LogRuleCreateWithoutUserInput, Prisma.LogRuleUncheckedCreateWithoutUserInput>
+}
+
+export type LogRuleUpdateWithWhereUniqueWithoutUserInput = {
+  where: Prisma.LogRuleWhereUniqueInput
+  data: Prisma.XOR<Prisma.LogRuleUpdateWithoutUserInput, Prisma.LogRuleUncheckedUpdateWithoutUserInput>
+}
+
+export type LogRuleUpdateManyWithWhereWithoutUserInput = {
+  where: Prisma.LogRuleScalarWhereInput
+  data: Prisma.XOR<Prisma.LogRuleUpdateManyMutationInput, Prisma.LogRuleUncheckedUpdateManyWithoutUserInput>
+}
+
+export type LogRuleScalarWhereInput = {
+  AND?: Prisma.LogRuleScalarWhereInput | Prisma.LogRuleScalarWhereInput[]
+  OR?: Prisma.LogRuleScalarWhereInput[]
+  NOT?: Prisma.LogRuleScalarWhereInput | Prisma.LogRuleScalarWhereInput[]
+  id?: Prisma.StringFilter<"LogRule"> | string
+  machineId?: Prisma.StringFilter<"LogRule"> | string
+  name?: Prisma.StringFilter<"LogRule"> | string
+  triggerType?: Prisma.StringFilter<"LogRule"> | string
+  triggerTag?: Prisma.StringNullableFilter<"LogRule"> | string | null
+  triggerValue?: Prisma.StringNullableFilter<"LogRule"> | string | null
+  triggerOperator?: Prisma.StringNullableFilter<"LogRule"> | string | null
+  interval?: Prisma.IntNullableFilter<"LogRule"> | number | null
+  tagToSave?: Prisma.StringFilter<"LogRule"> | string
+  userId?: Prisma.StringNullableFilter<"LogRule"> | string | null
+  createdAt?: Prisma.DateTimeFilter<"LogRule"> | Date | string
+  updatedAt?: Prisma.DateTimeFilter<"LogRule"> | Date | string
+}
+
 export type LogRuleCreateWithoutMachineInput = {
   id?: string
   name: string
@@ -581,6 +720,7 @@ export type LogRuleCreateWithoutMachineInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   entries?: Prisma.LogEntryCreateNestedManyWithoutRuleInput
+  user?: Prisma.UserCreateNestedOneWithoutLogRulesInput
 }
 
 export type LogRuleUncheckedCreateWithoutMachineInput = {
@@ -592,6 +732,7 @@ export type LogRuleUncheckedCreateWithoutMachineInput = {
   triggerOperator?: string | null
   interval?: number | null
   tagToSave: string
+  userId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
   entries?: Prisma.LogEntryUncheckedCreateNestedManyWithoutRuleInput
@@ -622,23 +763,6 @@ export type LogRuleUpdateManyWithWhereWithoutMachineInput = {
   data: Prisma.XOR<Prisma.LogRuleUpdateManyMutationInput, Prisma.LogRuleUncheckedUpdateManyWithoutMachineInput>
 }
 
-export type LogRuleScalarWhereInput = {
-  AND?: Prisma.LogRuleScalarWhereInput | Prisma.LogRuleScalarWhereInput[]
-  OR?: Prisma.LogRuleScalarWhereInput[]
-  NOT?: Prisma.LogRuleScalarWhereInput | Prisma.LogRuleScalarWhereInput[]
-  id?: Prisma.StringFilter<"LogRule"> | string
-  machineId?: Prisma.StringFilter<"LogRule"> | string
-  name?: Prisma.StringFilter<"LogRule"> | string
-  triggerType?: Prisma.StringFilter<"LogRule"> | string
-  triggerTag?: Prisma.StringNullableFilter<"LogRule"> | string | null
-  triggerValue?: Prisma.StringNullableFilter<"LogRule"> | string | null
-  triggerOperator?: Prisma.StringNullableFilter<"LogRule"> | string | null
-  interval?: Prisma.IntNullableFilter<"LogRule"> | number | null
-  tagToSave?: Prisma.StringFilter<"LogRule"> | string
-  createdAt?: Prisma.DateTimeFilter<"LogRule"> | Date | string
-  updatedAt?: Prisma.DateTimeFilter<"LogRule"> | Date | string
-}
-
 export type LogRuleCreateWithoutEntriesInput = {
   id?: string
   name: string
@@ -651,6 +775,7 @@ export type LogRuleCreateWithoutEntriesInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   machine: Prisma.MachineCreateNestedOneWithoutLogRulesInput
+  user?: Prisma.UserCreateNestedOneWithoutLogRulesInput
 }
 
 export type LogRuleUncheckedCreateWithoutEntriesInput = {
@@ -663,6 +788,7 @@ export type LogRuleUncheckedCreateWithoutEntriesInput = {
   triggerOperator?: string | null
   interval?: number | null
   tagToSave: string
+  userId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -695,9 +821,69 @@ export type LogRuleUpdateWithoutEntriesInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   machine?: Prisma.MachineUpdateOneRequiredWithoutLogRulesNestedInput
+  user?: Prisma.UserUpdateOneWithoutLogRulesNestedInput
 }
 
 export type LogRuleUncheckedUpdateWithoutEntriesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  machineId?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  triggerType?: Prisma.StringFieldUpdateOperationsInput | string
+  triggerTag?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  triggerValue?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  triggerOperator?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  interval?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  tagToSave?: Prisma.StringFieldUpdateOperationsInput | string
+  userId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
+export type LogRuleCreateManyUserInput = {
+  id?: string
+  machineId: string
+  name: string
+  triggerType: string
+  triggerTag?: string | null
+  triggerValue?: string | null
+  triggerOperator?: string | null
+  interval?: number | null
+  tagToSave: string
+  createdAt?: Date | string
+  updatedAt?: Date | string
+}
+
+export type LogRuleUpdateWithoutUserInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  triggerType?: Prisma.StringFieldUpdateOperationsInput | string
+  triggerTag?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  triggerValue?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  triggerOperator?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  interval?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  tagToSave?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  machine?: Prisma.MachineUpdateOneRequiredWithoutLogRulesNestedInput
+  entries?: Prisma.LogEntryUpdateManyWithoutRuleNestedInput
+}
+
+export type LogRuleUncheckedUpdateWithoutUserInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  machineId?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  triggerType?: Prisma.StringFieldUpdateOperationsInput | string
+  triggerTag?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  triggerValue?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  triggerOperator?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  interval?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  tagToSave?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  entries?: Prisma.LogEntryUncheckedUpdateManyWithoutRuleNestedInput
+}
+
+export type LogRuleUncheckedUpdateManyWithoutUserInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   machineId?: Prisma.StringFieldUpdateOperationsInput | string
   name?: Prisma.StringFieldUpdateOperationsInput | string
@@ -720,6 +906,7 @@ export type LogRuleCreateManyMachineInput = {
   triggerOperator?: string | null
   interval?: number | null
   tagToSave: string
+  userId?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -736,6 +923,7 @@ export type LogRuleUpdateWithoutMachineInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   entries?: Prisma.LogEntryUpdateManyWithoutRuleNestedInput
+  user?: Prisma.UserUpdateOneWithoutLogRulesNestedInput
 }
 
 export type LogRuleUncheckedUpdateWithoutMachineInput = {
@@ -747,6 +935,7 @@ export type LogRuleUncheckedUpdateWithoutMachineInput = {
   triggerOperator?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   interval?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   tagToSave?: Prisma.StringFieldUpdateOperationsInput | string
+  userId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   entries?: Prisma.LogEntryUncheckedUpdateManyWithoutRuleNestedInput
@@ -761,6 +950,7 @@ export type LogRuleUncheckedUpdateManyWithoutMachineInput = {
   triggerOperator?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   interval?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   tagToSave?: Prisma.StringFieldUpdateOperationsInput | string
+  userId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -806,10 +996,12 @@ export type LogRuleSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs 
   triggerOperator?: boolean
   interval?: boolean
   tagToSave?: boolean
+  userId?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   machine?: boolean | Prisma.MachineDefaultArgs<ExtArgs>
   entries?: boolean | Prisma.LogRule$entriesArgs<ExtArgs>
+  user?: boolean | Prisma.LogRule$userArgs<ExtArgs>
   _count?: boolean | Prisma.LogRuleCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["logRule"]>
 
@@ -823,9 +1015,11 @@ export type LogRuleSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Exten
   triggerOperator?: boolean
   interval?: boolean
   tagToSave?: boolean
+  userId?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   machine?: boolean | Prisma.MachineDefaultArgs<ExtArgs>
+  user?: boolean | Prisma.LogRule$userArgs<ExtArgs>
 }, ExtArgs["result"]["logRule"]>
 
 export type LogRuleSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -838,9 +1032,11 @@ export type LogRuleSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Exten
   triggerOperator?: boolean
   interval?: boolean
   tagToSave?: boolean
+  userId?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   machine?: boolean | Prisma.MachineDefaultArgs<ExtArgs>
+  user?: boolean | Prisma.LogRule$userArgs<ExtArgs>
 }, ExtArgs["result"]["logRule"]>
 
 export type LogRuleSelectScalar = {
@@ -853,21 +1049,25 @@ export type LogRuleSelectScalar = {
   triggerOperator?: boolean
   interval?: boolean
   tagToSave?: boolean
+  userId?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }
 
-export type LogRuleOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "machineId" | "name" | "triggerType" | "triggerTag" | "triggerValue" | "triggerOperator" | "interval" | "tagToSave" | "createdAt" | "updatedAt", ExtArgs["result"]["logRule"]>
+export type LogRuleOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "machineId" | "name" | "triggerType" | "triggerTag" | "triggerValue" | "triggerOperator" | "interval" | "tagToSave" | "userId" | "createdAt" | "updatedAt", ExtArgs["result"]["logRule"]>
 export type LogRuleInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   machine?: boolean | Prisma.MachineDefaultArgs<ExtArgs>
   entries?: boolean | Prisma.LogRule$entriesArgs<ExtArgs>
+  user?: boolean | Prisma.LogRule$userArgs<ExtArgs>
   _count?: boolean | Prisma.LogRuleCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type LogRuleIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   machine?: boolean | Prisma.MachineDefaultArgs<ExtArgs>
+  user?: boolean | Prisma.LogRule$userArgs<ExtArgs>
 }
 export type LogRuleIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   machine?: boolean | Prisma.MachineDefaultArgs<ExtArgs>
+  user?: boolean | Prisma.LogRule$userArgs<ExtArgs>
 }
 
 export type $LogRulePayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -875,6 +1075,7 @@ export type $LogRulePayload<ExtArgs extends runtime.Types.Extensions.InternalArg
   objects: {
     machine: Prisma.$MachinePayload<ExtArgs>
     entries: Prisma.$LogEntryPayload<ExtArgs>[]
+    user: Prisma.$UserPayload<ExtArgs> | null
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -886,6 +1087,7 @@ export type $LogRulePayload<ExtArgs extends runtime.Types.Extensions.InternalArg
     triggerOperator: string | null
     interval: number | null
     tagToSave: string
+    userId: string | null
     createdAt: Date
     updatedAt: Date
   }, ExtArgs["result"]["logRule"]>
@@ -1284,6 +1486,7 @@ export interface Prisma__LogRuleClient<T, Null = never, ExtArgs extends runtime.
   readonly [Symbol.toStringTag]: "PrismaPromise"
   machine<T extends Prisma.MachineDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.MachineDefaultArgs<ExtArgs>>): Prisma.Prisma__MachineClient<runtime.Types.Result.GetResult<Prisma.$MachinePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   entries<T extends Prisma.LogRule$entriesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.LogRule$entriesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$LogEntryPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  user<T extends Prisma.LogRule$userArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.LogRule$userArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1322,6 +1525,7 @@ export interface LogRuleFieldRefs {
   readonly triggerOperator: Prisma.FieldRef<"LogRule", 'String'>
   readonly interval: Prisma.FieldRef<"LogRule", 'Int'>
   readonly tagToSave: Prisma.FieldRef<"LogRule", 'String'>
+  readonly userId: Prisma.FieldRef<"LogRule", 'String'>
   readonly createdAt: Prisma.FieldRef<"LogRule", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"LogRule", 'DateTime'>
 }
@@ -1744,6 +1948,25 @@ export type LogRule$entriesArgs<ExtArgs extends runtime.Types.Extensions.Interna
   take?: number
   skip?: number
   distinct?: Prisma.LogEntryScalarFieldEnum | Prisma.LogEntryScalarFieldEnum[]
+}
+
+/**
+ * LogRule.user
+ */
+export type LogRule$userArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the User
+   */
+  select?: Prisma.UserSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the User
+   */
+  omit?: Prisma.UserOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.UserInclude<ExtArgs> | null
+  where?: Prisma.UserWhereInput
 }
 
 /**

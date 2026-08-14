@@ -16,6 +16,7 @@ model User {
   createdAt     DateTime        @default(now())
   updatedAt     DateTime        @updatedAt
   folders FavoriteFolder[]
+  logRules LogRule[]
   
   role          String          @default("user")
   
@@ -100,6 +101,8 @@ model LogRule {
   tagToSave String
 
   entries LogEntry[]
+  userId String?
+  user User? @relation(fields: [userId],references: [id],onDelete: Cascade)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }

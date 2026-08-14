@@ -104,7 +104,7 @@ export class LogEngine {
               break
             default:
               if (typeof currentValue === 'boolean') {
-                const targetBool = targetValue === 'true' || targetValue === '1'
+                const targetBool = targetValue === 'true' || targetValue === 'True' || targetValue === '1'
                 isConditionMet = currentValue === targetBool
               } else {
                 isConditionMet = String(currentValue) === String(targetValue)
