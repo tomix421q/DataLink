@@ -29,30 +29,51 @@
 		currentPage
 	}: Props = $props();
 
-	async function copyVisibleTable() {
-		const data = logEntriesQuery.data?.data;
-		if (!data || data.length === 0) return;
-		const snapshotKeys = Object.keys(data[0].snapshot);
-		const headers = ['ID', 'Snapshot', ...snapshotKeys].join('\t');
+async function copyVisibleTable() {
+    const data = logEntriesQuery.data?.data;
+    if (!data || data.length === 0) return;
+    
+    const snapshotKeys = Object.keys(data[0].snapshot);
+    const headers = ['ID', 'Snapshot', ...snapshotKeys].join('\t');
 
-		const rows = data.map((record: any) => {
-			const time = dateTimmeUTCformatter(record.timestamp);
-			const snapshotValues = snapshotKeys.map(
-				(key) => (record.snapshot as Record<string, any>)[key] ?? ''
-			);
-			return [record.id, time, ...snapshotValues].join('\t');
-		});
+    const rows = data.map((record: any) => {
+      const time = dateTimmeUTCformatter(record.timestamp);
+      const snapshotValues = snapshotKeys.map(
+        (key) => (record.snapshot as Record<string, any>)[key] ?? ''
+      );
+      return [record.id, time, ...snapshotValues].join('\t');
+    });
 
-		const tsvContent = [headers, ...rows].join('\n');
+    const tsvContent = [headers, ...rows].join('\n');
 
-		try {
-			await navigator.clipboard.writeText(tsvContent);
-			isCopied = true;
-			setTimeout(() => (isCopied = false), 2000);
-		} catch (err) {
-			console.error('Nepodarilo sa skopírovať dáta: ', err);
-		}
-	}
+    try {
+      if (navigator.clipboard && window.isSecureContext) {
+        await navigator.clipboard.writeText(tsvContent);
+      } else {
+        const textArea = document.createElement("textarea");
+        textArea.value = tsvContent;
+        textArea.style.position = "absolute";
+        textArea.style.left = "-999999px";
+        document.body.prepend(textArea);
+        
+        textArea.select();
+        try {
+          document.execCommand('copy');
+        } catch (fallbackErr) {
+          console.error('Fallback copy zlyhal', fallbackErr);
+          throw new Error('Kopírovanie zlyhalo');
+        } finally {
+          textArea.remove(); 
+        }
+      }
+      isCopied = true;
+      toast.success('Dáta boli skopírované do schránky');
+      setTimeout(() => (isCopied = false), 2000);
+    } catch (err) {
+      console.error('Nepodarilo sa skopírovať dáta: ', err);
+      toast.error('Kopírovanie zlyhalo (Prehliadač to zablokoval)');
+    }
+  }
 
 	async function handleLimitChange(e: Event) {
 		let input = e.target as HTMLInputElement;
