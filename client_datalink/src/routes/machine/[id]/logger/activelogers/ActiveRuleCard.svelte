@@ -27,7 +27,8 @@
 				)}
 			</p>
 			<p class="text-xs">
-				<span class="text-muted-foreground mr-2">By</span>{String(rule.user.name).split('(')[0]}
+				<span class="text-muted-foreground mr-2">By</span>{String(rule.user?.name).split('(')[0] ??
+					''}
 			</p>
 			<p class="text-xs">
 				<span class="text-muted-foreground mr-2 text-xs">Last update</span>{dateTimmeUTCformatter(
@@ -39,31 +40,28 @@
 		<!-- Card -->
 		<section class="text-xs">
 			<p>
-				<span class="text-muted-foreground mr-2 my-auto">Trigger type</span
-				>{rule.triggerType}
+				<span class="text-muted-foreground mr-2 my-auto">Trigger type</span>{rule.triggerType}
 			</p>
 			{#if rule.triggerType === 'TIME'}
 				<p>
-					<span class="text-muted-foreground mr-2 my-auto">Interval</span>{rule.interval}ms
-					[{(rule.interval! / 1000).toFixed(0)}s]
+					<span class="text-muted-foreground mr-2 my-auto">Interval</span>{rule.interval}ms [{(
+						rule.interval! / 1000
+					).toFixed(0)}s]
 				</p>
 			{:else if rule.triggerType === 'EDGE'}
 				<p>
-					<span class="text-muted-foreground mr-2 my-auto">Trigger tag</span
-					>{rule.triggerTag}
+					<span class="text-muted-foreground mr-2 my-auto">Trigger tag</span>{rule.triggerTag}
 				</p>
 				<p>
 					<span class="text-muted-foreground mr-2 my-auto">Trigger operator</span
 					>{rule.triggerOperator}
 				</p>
 				<p>
-					<span class="text-muted-foreground mr-2 my-auto">Trigger value</span
-					>{rule.triggerValue}
+					<span class="text-muted-foreground mr-2 my-auto">Trigger value</span>{rule.triggerValue}
 				</p>
 			{:else if rule.triggerType === 'CHANGE'}
 				<p>
-					<span class="text-muted-foreground mr-2 my-auto">Trigger tag</span
-					>{rule.triggerTag}
+					<span class="text-muted-foreground mr-2 my-auto">Trigger tag</span>{rule.triggerTag}
 				</p>
 			{/if}
 
