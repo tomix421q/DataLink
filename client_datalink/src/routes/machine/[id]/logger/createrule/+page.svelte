@@ -13,12 +13,19 @@
 	import { getContext } from 'svelte';
 	import ErrorTemplate from '$lib/components/atoms/ErrorTemplate.svelte';
 	import SuccessTemplate from '$lib/components/atoms/SuccessTemplate.svelte';
-	import { Ruler } from '@lucide/svelte';
+	import { LoaderCircle, Ruler } from '@lucide/svelte';
 	import InputGroup from '$lib/components/atoms/InputGroup.svelte';
+	import Input from '$lib/components/ui/input/input.svelte';
 
 	const createRuleMutate = useCreateLoggerRule();
 	const stream = getContext<SseMachineStream>('machine-stream');
 	const machineId = $derived(page.params.id);
+	let searchQuery = $state('');
+	let filteredTags = $derived(
+		stream?.tagsList?.filter(([tagName]) =>
+			tagName.toLowerCase().includes(searchQuery.toLowerCase())
+		) ?? []
+	);
 
 	const triggerLabels: Record<CreateRuleInput['triggerType'], string> = {
 		CHANGE: 'When value change',
@@ -62,7 +69,7 @@
 		if (machineId) form.machineId = machineId;
 	});
 
-	// $inspect(stream.tagsList);
+	$inspect(searchQuery);
 </script>
 
 <main
@@ -248,21 +255,38 @@
 		>
 
 		<Select.Content class="max-h-[700px] overflow-auto" align="start">
-			<Select.Group class="">
-				<Select.GroupHeading>
-					<div class="flex justify-between">
-						<span>Tag name</span>
-						<span>Live value now</span>
-					</div>
-				</Select.GroupHeading>
-				{#each stream.tagsList as liveTag}
-					<Select.Item value={liveTag[0]}
-						><p class="flex gap-2 justify-between! w-full scroll-auto">
-							<span>{liveTag[0]}</span><span class="text-emerald-500">{liveTag[1]}</span>
-						</p></Select.Item
-					>
-				{/each}
-			</Select.Group>
+			<Input
+				bind:value={searchQuery}
+				placeholder="Search..."
+				class="inputNormalize placeholder:text-center text-center"
+			/>
+			{#if stream.loading}
+				<p class="flex text-xs mx-auto items-center p-1 py-2 justify-center">
+					<LoaderCircle class="animate-spin size-4" />
+					Loading
+				</p>
+			{:else if stream.error}
+				<p class="flex text-xs mx-auto items-center p-1 py-2 justify-center">
+					Problem with tags data try again later
+				</p>
+			{:else}
+				<Select.Group class="">
+					<Select.GroupHeading>
+						<div class="flex justify-between">
+							<span>Tag name</span>
+							<span>Live value now</span>
+						</div>
+					</Select.GroupHeading>
+
+					{#each filteredTags as liveTag}
+						<Select.Item value={liveTag[0]}
+							><p class="flex gap-2 justify-between! w-full scroll-auto">
+								<span>{liveTag[0]}</span><span class="text-emerald-500">{liveTag[1]}</span>
+							</p></Select.Item
+						>
+					{/each}
+				</Select.Group>
+			{/if}
 		</Select.Content>
 	</Select.Root>
 {/snippet}

@@ -84,7 +84,7 @@
 		};
 	});
 
-	// $inspect(allFoldersBm.data);
+	// $inspect(stream);
 </script>
 
 <main>
@@ -108,9 +108,7 @@
 				<div class="text-xl font-heading font-bold mb-4 flex justify-between" tabindex="-1">
 					<h2>My live Folders</h2>
 					{#if userStore.user}
-						
-							<AddToBookmarksModal isText={true}/>
-						
+						<AddToBookmarksModal isText={true} />
 					{/if}
 				</div>
 
@@ -180,7 +178,9 @@
 													<div class="flex items-center">
 														{@render tagValueDisplay(liveTag[0], liveTag[1])}
 														<!-- Add to bookmark -->
-														<div class="ml-1 size-4 items-center  group-focus:flex hidden sm:group-hover:flex">
+														<div
+															class="ml-1 size-4 items-center group-focus:flex hidden sm:group-hover:flex"
+														>
 															<AddToBookmarksModal tagName={liveTag[0]} />
 														</div>
 													</div>
@@ -236,8 +236,13 @@
 				<article
 					class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-2"
 				>
-					{#if stream.totalTrackingTags === 0}
+					{#if stream.totalTrackingTags === 0 && !stream.data.connection.error}
 						<p class="text-muted-foreground italic text-sm">No tags added yet...</p>
+					{/if}
+					{#if stream.data.connection.error}
+						<p class="text-muted-foreground italic text-sm">
+							Problem with connect to machine check network or machine
+						</p>
 					{/if}
 					{#each filteredTags as [tagName, tagValue]}
 						<div

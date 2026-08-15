@@ -81,7 +81,7 @@ const machines = new Hono()
     zValidator(
       'json',
       z.object({
-        keyName: z.string().min(2).max(16),
+        keyName: z.string().min(2).max(22),
         plcAddress: z.string().min(4).max(32),
         machineId: z.string().min(2).max(32),
       }),

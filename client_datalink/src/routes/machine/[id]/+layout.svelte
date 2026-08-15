@@ -36,18 +36,18 @@
 		>
 			<div class="flex items-center gap-x-8 flex-wrap">
 				<div class="flex gap-x-2 items-center">
-					<p class="text-muted-foreground text-sm">Id:</p>
+					<p class="text-muted-foreground">ID:</p>
 					<p class="text-primary font-bold">{machineId}</p>
 				</div>
 				{#if stream?.data?.info.plc}
 					<div transition:fade={{ delay: 200 }} class="flex gap-2 items-center">
-						<p class="text-muted-foreground text-sm">Name:</p>
+						<p class="text-muted-foreground">Name:</p>
 						<p class="text-primary font-bold">
 							{stream?.data?.info.plc ? stream.data.info.plc.name : '...'}
 						</p>
 					</div>
 					<div transition:fade={{ delay: 500 }} class="flex gap-2 items-center">
-						<p class="text-muted-foreground text-sm">Ip:</p>
+						<p class="text-muted-foreground">Ip:</p>
 						<p class="text-primary font-bold">
 							{stream?.data?.info.plc ? stream.data.info.plc.ip : '...'}
 						</p>

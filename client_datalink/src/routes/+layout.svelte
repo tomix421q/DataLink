@@ -1,6 +1,6 @@
 <script lang="ts">
 	import '$lib/styles/style.css';
-	import favicon from '$lib/assets/favicon.svg';
+	import favicon from '$lib/assets/favicon.png';
 	import { QueryClient, QueryClientProvider } from '@tanstack/svelte-query';
 	import * as Sidebar from '$lib/components/ui/sidebar/index';
 	import SidebarMenu from '$lib/components/organism/SidebarMenu.svelte';
@@ -9,7 +9,6 @@
 	let { children } = $props();
 
 	const queryClient = new QueryClient({});
-
 
 	// $inspect(userQuery.data);
 </script>
