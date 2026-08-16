@@ -1,6 +1,6 @@
 # dependencies (bun install)
 node_modules
-/uploads
+server/uploads/
 
 # output
 out
