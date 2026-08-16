@@ -9,10 +9,13 @@ import machines from './routes/machine_Route'
 import authRoute from './routes/auth_Route'
 import favorites from './routes/favorite_Route'
 import path from 'node:path'
+import odsRoute from './_OdsApp-backend/ods_Route'
+import { odsApp } from './_OdsApp-backend/index'
 
 export const app = new Hono()
 const port = process.env.PORT ? Number(process.env.PORT) : 3333
 const clientBuildPath = path.resolve(import.meta.dir, '../../client_datalink/build')
+const odsBuildPath = path.resolve(import.meta.dir, '../../client_ods/dist')
 // Middleware
 app.use('*', cors({ origin: (origin) => origin, credentials: true }))
 
@@ -37,11 +40,14 @@ const apiRoutes = new Hono()
   .route('/machine', machines)
   .route('/auth', authRoute)
   .route('/favorite', favorites)
+  .route('/ods', odsRoute)
   .all('*', (c) => c.json({ ok: false, error: 'API route not found' }, 404))
+
 app.route('/api', apiRoutes)
+app.route('/', odsApp)
 
 // Config load static client build, Export RPC, Export app
-// app.use('*', serveStatic({ root: '../client_datalink/build' }))
+// Datalink front
 app.use('*', serveStatic({ root: clientBuildPath }))
 app.get('*', async (c, next) => {
   c.header('Cache-Control', 'no-store, no-cache, must-revalidate, proxy-revalidate')

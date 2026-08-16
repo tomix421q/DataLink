@@ -4,7 +4,8 @@
   "workspaces": [
     "server",
     "shared",
-    "client_datalink"
+    "client_datalink",
+    "client_ods"
   ],
   "scripts": {
     "dev:server": "bun run --cwd server dev",
