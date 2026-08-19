@@ -405,7 +405,8 @@ export const ModelName = {
   LogRule: 'LogRule',
   LogEntry: 'LogEntry',
   DowntimeLog: 'DowntimeLog',
-  FavoriteFolder: 'FavoriteFolder'
+  FavoriteFolder: 'FavoriteFolder',
+  FolderSubscription: 'FolderSubscription'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -421,7 +422,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "user" | "machineAccess" | "session" | "machine" | "tag" | "logRule" | "logEntry" | "downtimeLog" | "favoriteFolder"
+    modelProps: "user" | "machineAccess" | "session" | "machine" | "tag" | "logRule" | "logEntry" | "downtimeLog" | "favoriteFolder" | "folderSubscription"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -1091,6 +1092,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    FolderSubscription: {
+      payload: Prisma.$FolderSubscriptionPayload<ExtArgs>
+      fields: Prisma.FolderSubscriptionFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.FolderSubscriptionFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FolderSubscriptionPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.FolderSubscriptionFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FolderSubscriptionPayload>
+        }
+        findFirst: {
+          args: Prisma.FolderSubscriptionFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FolderSubscriptionPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.FolderSubscriptionFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FolderSubscriptionPayload>
+        }
+        findMany: {
+          args: Prisma.FolderSubscriptionFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FolderSubscriptionPayload>[]
+        }
+        create: {
+          args: Prisma.FolderSubscriptionCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FolderSubscriptionPayload>
+        }
+        createMany: {
+          args: Prisma.FolderSubscriptionCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.FolderSubscriptionCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FolderSubscriptionPayload>[]
+        }
+        delete: {
+          args: Prisma.FolderSubscriptionDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FolderSubscriptionPayload>
+        }
+        update: {
+          args: Prisma.FolderSubscriptionUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FolderSubscriptionPayload>
+        }
+        deleteMany: {
+          args: Prisma.FolderSubscriptionDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.FolderSubscriptionUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.FolderSubscriptionUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FolderSubscriptionPayload>[]
+        }
+        upsert: {
+          args: Prisma.FolderSubscriptionUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$FolderSubscriptionPayload>
+        }
+        aggregate: {
+          args: Prisma.FolderSubscriptionAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateFolderSubscription>
+        }
+        groupBy: {
+          args: Prisma.FolderSubscriptionGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.FolderSubscriptionGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.FolderSubscriptionCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.FolderSubscriptionCountAggregateOutputType> | number
+        }
+      }
+    }
   }
 } & {
   other: {
@@ -1242,6 +1317,17 @@ export const FavoriteFolderScalarFieldEnum = {
 } as const
 
 export type FavoriteFolderScalarFieldEnum = (typeof FavoriteFolderScalarFieldEnum)[keyof typeof FavoriteFolderScalarFieldEnum]
+
+
+export const FolderSubscriptionScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  folderId: 'folderId',
+  machineId: 'machineId',
+  createdAt: 'createdAt'
+} as const
+
+export type FolderSubscriptionScalarFieldEnum = (typeof FolderSubscriptionScalarFieldEnum)[keyof typeof FolderSubscriptionScalarFieldEnum]
 
 
 export const SortOrder = {
@@ -1460,6 +1546,7 @@ export type GlobalOmitConfig = {
   logEntry?: Prisma.LogEntryOmit
   downtimeLog?: Prisma.DowntimeLogOmit
   favoriteFolder?: Prisma.FavoriteFolderOmit
+  folderSubscription?: Prisma.FolderSubscriptionOmit
 }
 
 /* Types for Logging */

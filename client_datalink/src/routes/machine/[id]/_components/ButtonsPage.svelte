@@ -4,7 +4,7 @@
 	import Button from '$lib/components/ui/button/button.svelte';
 	import { userStore } from '$lib/stores/UserStore.svelte';
 	import { cn } from '$lib/utils';
-	import { Check, X } from '@lucide/svelte';
+	import { Check, DownloadIcon, X } from '@lucide/svelte';
 	import { toast } from 'svelte-sonner';
 
 	let {
@@ -24,42 +24,28 @@
 	} = $props();
 
 	const machineId = $derived(page.params.id);
+	let isDownloaded = $state(false);
 
 	// $inspect(isMachineOnline, hasTrackingTags);
 </script>
 
 <article class="flex gap-1">
-	<!-- Remove Tags btn -->
-	{#if userStore.isAdmin && isMachineOnline}
+	{#if userStore.isAdmin}
+		<!-- Download tags configs -->
 		<Button
-			variant="destructive"
+			href={`/api/export/tags/${machineId}`}
+			variant="outline"
 			size="xs"
-			class={hasTrackingTags ? 'flex' : 'hidden'}
+			data-sveltekit-reload
 			onclick={() => {
-				toggleRemove = !toggleRemove;
-				if (!toggleRemove) {
-					selectedTags = [];
-				}
+				isDownloaded = true;
+				setTimeout(() => (isDownloaded = false), 5000);
 			}}
+			class={isDownloaded ? 'bg-green-500/10! text-green-600' : ''}
+			><DownloadIcon />Tags config</Button
 		>
-			{#if !toggleRemove}
-				<p class="flex gap-1 items-center">Remove tags</p>
-			{:else}
-				<X /> Cancel
-			{/if}
-		</Button>
-
-		{#if toggleRemove && selectedTags.length > 0}
-			<Button
-				variant="destructive"
-				size="sm"
-				onclick={handleDeleteSelected}
-				disabled={deleteTagsMutation.isPending}
-			>
-				<Check /> Confirm delete ({selectedTags.length})
-			</Button>
-		{/if}
-
+	{/if}
+	{#if userStore.isAdmin && isMachineOnline}
 		<!-- Add new tag btn -->
 		<Button
 			variant="outline"
@@ -84,6 +70,36 @@
 			})}
 			><span class="">Add plc tags</span>
 		</Button>
+
+		<!-- Remove Tags btn -->
+		<Button
+			variant="destructive"
+			size="xs"
+			class={hasTrackingTags ? 'flex' : 'hidden'}
+			onclick={() => {
+				toggleRemove = !toggleRemove;
+				if (!toggleRemove) {
+					selectedTags = [];
+				}
+			}}
+		>
+			{#if !toggleRemove}
+				<p class="flex gap-1 items-center">Remove tags</p>
+			{:else}
+				<X /> Cancel
+			{/if}
+		</Button>
+		{#if toggleRemove && selectedTags.length > 0}
+			<Button
+				variant="destructive"
+				size="sm"
+				onclick={handleDeleteSelected}
+				disabled={deleteTagsMutation.isPending}
+			>
+				<Check /> Confirm delete ({selectedTags.length})
+			</Button>
+		{/if}
 	{/if}
+
 	<!-- Create new bookmark btn -->
 </article>

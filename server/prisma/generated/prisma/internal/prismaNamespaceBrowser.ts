@@ -59,7 +59,8 @@ export const ModelName = {
   LogRule: 'LogRule',
   LogEntry: 'LogEntry',
   DowntimeLog: 'DowntimeLog',
-  FavoriteFolder: 'FavoriteFolder'
+  FavoriteFolder: 'FavoriteFolder',
+  FolderSubscription: 'FolderSubscription'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -190,6 +191,17 @@ export const FavoriteFolderScalarFieldEnum = {
 } as const
 
 export type FavoriteFolderScalarFieldEnum = (typeof FavoriteFolderScalarFieldEnum)[keyof typeof FavoriteFolderScalarFieldEnum]
+
+
+export const FolderSubscriptionScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  folderId: 'folderId',
+  machineId: 'machineId',
+  createdAt: 'createdAt'
+} as const
+
+export type FolderSubscriptionScalarFieldEnum = (typeof FolderSubscriptionScalarFieldEnum)[keyof typeof FolderSubscriptionScalarFieldEnum]
 
 
 export const SortOrder = {

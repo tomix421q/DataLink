@@ -16,6 +16,7 @@ model User {
   createdAt     DateTime        @default(now())
   updatedAt     DateTime        @updatedAt
   folders FavoriteFolder[]
+  subscriptions FolderSubscription[]
   logRules LogRule[]
   
   role          String          @default("user")
@@ -61,6 +62,7 @@ model Machine {
   tags  Tag[]
   machineAccess MachineAccess[]
   folders FavoriteFolder[]
+  subscriptions FolderSubscription[]
 
 
   logRules LogRule[]
@@ -140,9 +142,52 @@ model FavoriteFolder {
   user User @relation(fields: [userId],references: [id],onDelete: Cascade)
   machineId String
   machine Machine @relation(fields: [machineId],references: [id],onDelete: Cascade)
+  subscriptions FolderSubscription[]
   tags Tag[]
   showOnMainDashboard Boolean @default(false)
   createdAt DateTime @default(now())
 
   @@unique([name,userId,machineId])
 }
+
+model FolderSubscription {
+  id        String   @id @default(cuid())
+  userId    String   
+  folderId  String  
+  machineId String
+  machine Machine       @relation(fields: [machineId],references: [id],onDelete: Cascade)
+  user User             @relation(fields: [userId], references: [id], onDelete: Cascade)
+  folder FavoriteFolder @relation(fields: [folderId], references: [id], onDelete: Cascade)
+  
+  createdAt DateTime @default(now())
+  @@unique([userId, folderId]) 
+  @@map("folder_subscription")
+}
+
+//TODO
+// model PublicDashboard {
+//   id          String                     @id @default(cuid())
+//   name        String                     @unique // napr. "Hala 1 - Kiosk", "Údržba"
+//   slug        String                     @unique // napr. "hala-1", "udrzba" (pre URL na TV)
+//   description String?
+//   folders     PublicFolderSubscription[]
+
+//   createdAt   DateTime                   @default(now())
+//   updatedAt   DateTime                   @updatedAt
+
+//   @@map("public_dashboard")
+// }
+
+// model PublicFolderSubscription {
+//   id          String          @id @default(cuid())
+//   dashboardId String
+//   folderId    String
+//   order       Int             @default(0) // Poradie na TV paneli
+
+//   dashboard   PublicDashboard @relation(fields: [dashboardId], references: [id], onDelete: Cascade)
+//   folder      FavoriteFolder  @relation(fields: [folderId], references: [id], onDelete: Cascade)
+
+//   createdAt   DateTime        @default(now())
+//   @@unique([dashboardId, folderId])
+//   @@map("public_folder_subscription")
+// }

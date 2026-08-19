@@ -10,7 +10,7 @@
 </script>
 
 <p
-	class="flex gap-2 w-fit bg-black px-20 py-3 rounded z-50 tracking-widest min-w-xs justify-center text-secondary dark:text-secondary-foreground
+	class="flex gap-2 w-fit bg-black px-20 py-3 rounded z-50 tracking-widest min-w-xs justify-center text-black dark:text-secondary-foreground
 	{isAbsolute ? 'absolute left-1/2 -translate-x-1/2 mt-48' : 'relative mx-auto'}
 	{transparant ? 'bg-transparent min-w-[90px]! px-0! py-0!' : ''}
 	"

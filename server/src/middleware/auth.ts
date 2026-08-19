@@ -4,6 +4,7 @@ import type { User } from '../../prisma/generated/prisma/client'
 import { createMiddleware } from 'hono/factory'
 import { StatusCodes } from 'http-status-codes'
 import { type ApiErrorResponse, type UserRole } from '@datalink/shared'
+import type { MiddlewareHandler } from 'hono'
 
 type Env = {
   Variables: {
@@ -38,6 +39,21 @@ export const requireAuth = createMiddleware<Env>(async (c, next) => {
   c.set('user', session.user)
   await next()
 })
+
+export const optionalAuth: MiddlewareHandler = async (c, next) => {
+  const token = getCookie(c, 'datalink_session_token') || c.req.header('Authorization')?.replace('Bearer ', '')
+  if (token) {
+    const session = await prisma.session.findFirst({
+      where: { token, expiresAt: { gte: new Date() } },
+      include: { user: true },
+    })
+    if (session && session.expiresAt > new Date()) {
+      c.set('user', session.user)
+    }
+  }
+
+  await next()
+}
 
 // Role check
 export const requireRole = (allowedRole: UserRole[]) => {

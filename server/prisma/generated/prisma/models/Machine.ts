@@ -251,6 +251,7 @@ export type MachineWhereInput = {
   tags?: Prisma.TagListRelationFilter
   machineAccess?: Prisma.MachineAccessListRelationFilter
   folders?: Prisma.FavoriteFolderListRelationFilter
+  subscriptions?: Prisma.FolderSubscriptionListRelationFilter
   logRules?: Prisma.LogRuleListRelationFilter
   downtimeLogs?: Prisma.DowntimeLogListRelationFilter
 }
@@ -267,6 +268,7 @@ export type MachineOrderByWithRelationInput = {
   tags?: Prisma.TagOrderByRelationAggregateInput
   machineAccess?: Prisma.MachineAccessOrderByRelationAggregateInput
   folders?: Prisma.FavoriteFolderOrderByRelationAggregateInput
+  subscriptions?: Prisma.FolderSubscriptionOrderByRelationAggregateInput
   logRules?: Prisma.LogRuleOrderByRelationAggregateInput
   downtimeLogs?: Prisma.DowntimeLogOrderByRelationAggregateInput
 }
@@ -286,6 +288,7 @@ export type MachineWhereUniqueInput = Prisma.AtLeast<{
   tags?: Prisma.TagListRelationFilter
   machineAccess?: Prisma.MachineAccessListRelationFilter
   folders?: Prisma.FavoriteFolderListRelationFilter
+  subscriptions?: Prisma.FolderSubscriptionListRelationFilter
   logRules?: Prisma.LogRuleListRelationFilter
   downtimeLogs?: Prisma.DowntimeLogListRelationFilter
 }, "id" | "name" | "ip">
@@ -332,6 +335,7 @@ export type MachineCreateInput = {
   tags?: Prisma.TagCreateNestedManyWithoutMachineInput
   machineAccess?: Prisma.MachineAccessCreateNestedManyWithoutMachineInput
   folders?: Prisma.FavoriteFolderCreateNestedManyWithoutMachineInput
+  subscriptions?: Prisma.FolderSubscriptionCreateNestedManyWithoutMachineInput
   logRules?: Prisma.LogRuleCreateNestedManyWithoutMachineInput
   downtimeLogs?: Prisma.DowntimeLogCreateNestedManyWithoutMachineInput
 }
@@ -348,6 +352,7 @@ export type MachineUncheckedCreateInput = {
   tags?: Prisma.TagUncheckedCreateNestedManyWithoutMachineInput
   machineAccess?: Prisma.MachineAccessUncheckedCreateNestedManyWithoutMachineInput
   folders?: Prisma.FavoriteFolderUncheckedCreateNestedManyWithoutMachineInput
+  subscriptions?: Prisma.FolderSubscriptionUncheckedCreateNestedManyWithoutMachineInput
   logRules?: Prisma.LogRuleUncheckedCreateNestedManyWithoutMachineInput
   downtimeLogs?: Prisma.DowntimeLogUncheckedCreateNestedManyWithoutMachineInput
 }
@@ -364,6 +369,7 @@ export type MachineUpdateInput = {
   tags?: Prisma.TagUpdateManyWithoutMachineNestedInput
   machineAccess?: Prisma.MachineAccessUpdateManyWithoutMachineNestedInput
   folders?: Prisma.FavoriteFolderUpdateManyWithoutMachineNestedInput
+  subscriptions?: Prisma.FolderSubscriptionUpdateManyWithoutMachineNestedInput
   logRules?: Prisma.LogRuleUpdateManyWithoutMachineNestedInput
   downtimeLogs?: Prisma.DowntimeLogUpdateManyWithoutMachineNestedInput
 }
@@ -380,6 +386,7 @@ export type MachineUncheckedUpdateInput = {
   tags?: Prisma.TagUncheckedUpdateManyWithoutMachineNestedInput
   machineAccess?: Prisma.MachineAccessUncheckedUpdateManyWithoutMachineNestedInput
   folders?: Prisma.FavoriteFolderUncheckedUpdateManyWithoutMachineNestedInput
+  subscriptions?: Prisma.FolderSubscriptionUncheckedUpdateManyWithoutMachineNestedInput
   logRules?: Prisma.LogRuleUncheckedUpdateManyWithoutMachineNestedInput
   downtimeLogs?: Prisma.DowntimeLogUncheckedUpdateManyWithoutMachineNestedInput
 }
@@ -545,6 +552,20 @@ export type MachineUpdateOneRequiredWithoutFoldersNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.MachineUpdateToOneWithWhereWithoutFoldersInput, Prisma.MachineUpdateWithoutFoldersInput>, Prisma.MachineUncheckedUpdateWithoutFoldersInput>
 }
 
+export type MachineCreateNestedOneWithoutSubscriptionsInput = {
+  create?: Prisma.XOR<Prisma.MachineCreateWithoutSubscriptionsInput, Prisma.MachineUncheckedCreateWithoutSubscriptionsInput>
+  connectOrCreate?: Prisma.MachineCreateOrConnectWithoutSubscriptionsInput
+  connect?: Prisma.MachineWhereUniqueInput
+}
+
+export type MachineUpdateOneRequiredWithoutSubscriptionsNestedInput = {
+  create?: Prisma.XOR<Prisma.MachineCreateWithoutSubscriptionsInput, Prisma.MachineUncheckedCreateWithoutSubscriptionsInput>
+  connectOrCreate?: Prisma.MachineCreateOrConnectWithoutSubscriptionsInput
+  upsert?: Prisma.MachineUpsertWithoutSubscriptionsInput
+  connect?: Prisma.MachineWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.MachineUpdateToOneWithWhereWithoutSubscriptionsInput, Prisma.MachineUpdateWithoutSubscriptionsInput>, Prisma.MachineUncheckedUpdateWithoutSubscriptionsInput>
+}
+
 export type MachineCreateWithoutMachineAccessInput = {
   id?: string
   name: string
@@ -556,6 +577,7 @@ export type MachineCreateWithoutMachineAccessInput = {
   updatedAt?: Date | string
   tags?: Prisma.TagCreateNestedManyWithoutMachineInput
   folders?: Prisma.FavoriteFolderCreateNestedManyWithoutMachineInput
+  subscriptions?: Prisma.FolderSubscriptionCreateNestedManyWithoutMachineInput
   logRules?: Prisma.LogRuleCreateNestedManyWithoutMachineInput
   downtimeLogs?: Prisma.DowntimeLogCreateNestedManyWithoutMachineInput
 }
@@ -571,6 +593,7 @@ export type MachineUncheckedCreateWithoutMachineAccessInput = {
   updatedAt?: Date | string
   tags?: Prisma.TagUncheckedCreateNestedManyWithoutMachineInput
   folders?: Prisma.FavoriteFolderUncheckedCreateNestedManyWithoutMachineInput
+  subscriptions?: Prisma.FolderSubscriptionUncheckedCreateNestedManyWithoutMachineInput
   logRules?: Prisma.LogRuleUncheckedCreateNestedManyWithoutMachineInput
   downtimeLogs?: Prisma.DowntimeLogUncheckedCreateNestedManyWithoutMachineInput
 }
@@ -602,6 +625,7 @@ export type MachineUpdateWithoutMachineAccessInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   tags?: Prisma.TagUpdateManyWithoutMachineNestedInput
   folders?: Prisma.FavoriteFolderUpdateManyWithoutMachineNestedInput
+  subscriptions?: Prisma.FolderSubscriptionUpdateManyWithoutMachineNestedInput
   logRules?: Prisma.LogRuleUpdateManyWithoutMachineNestedInput
   downtimeLogs?: Prisma.DowntimeLogUpdateManyWithoutMachineNestedInput
 }
@@ -617,6 +641,7 @@ export type MachineUncheckedUpdateWithoutMachineAccessInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   tags?: Prisma.TagUncheckedUpdateManyWithoutMachineNestedInput
   folders?: Prisma.FavoriteFolderUncheckedUpdateManyWithoutMachineNestedInput
+  subscriptions?: Prisma.FolderSubscriptionUncheckedUpdateManyWithoutMachineNestedInput
   logRules?: Prisma.LogRuleUncheckedUpdateManyWithoutMachineNestedInput
   downtimeLogs?: Prisma.DowntimeLogUncheckedUpdateManyWithoutMachineNestedInput
 }
@@ -632,6 +657,7 @@ export type MachineCreateWithoutTagsInput = {
   updatedAt?: Date | string
   machineAccess?: Prisma.MachineAccessCreateNestedManyWithoutMachineInput
   folders?: Prisma.FavoriteFolderCreateNestedManyWithoutMachineInput
+  subscriptions?: Prisma.FolderSubscriptionCreateNestedManyWithoutMachineInput
   logRules?: Prisma.LogRuleCreateNestedManyWithoutMachineInput
   downtimeLogs?: Prisma.DowntimeLogCreateNestedManyWithoutMachineInput
 }
@@ -647,6 +673,7 @@ export type MachineUncheckedCreateWithoutTagsInput = {
   updatedAt?: Date | string
   machineAccess?: Prisma.MachineAccessUncheckedCreateNestedManyWithoutMachineInput
   folders?: Prisma.FavoriteFolderUncheckedCreateNestedManyWithoutMachineInput
+  subscriptions?: Prisma.FolderSubscriptionUncheckedCreateNestedManyWithoutMachineInput
   logRules?: Prisma.LogRuleUncheckedCreateNestedManyWithoutMachineInput
   downtimeLogs?: Prisma.DowntimeLogUncheckedCreateNestedManyWithoutMachineInput
 }
@@ -678,6 +705,7 @@ export type MachineUpdateWithoutTagsInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   machineAccess?: Prisma.MachineAccessUpdateManyWithoutMachineNestedInput
   folders?: Prisma.FavoriteFolderUpdateManyWithoutMachineNestedInput
+  subscriptions?: Prisma.FolderSubscriptionUpdateManyWithoutMachineNestedInput
   logRules?: Prisma.LogRuleUpdateManyWithoutMachineNestedInput
   downtimeLogs?: Prisma.DowntimeLogUpdateManyWithoutMachineNestedInput
 }
@@ -693,6 +721,7 @@ export type MachineUncheckedUpdateWithoutTagsInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   machineAccess?: Prisma.MachineAccessUncheckedUpdateManyWithoutMachineNestedInput
   folders?: Prisma.FavoriteFolderUncheckedUpdateManyWithoutMachineNestedInput
+  subscriptions?: Prisma.FolderSubscriptionUncheckedUpdateManyWithoutMachineNestedInput
   logRules?: Prisma.LogRuleUncheckedUpdateManyWithoutMachineNestedInput
   downtimeLogs?: Prisma.DowntimeLogUncheckedUpdateManyWithoutMachineNestedInput
 }
@@ -709,6 +738,7 @@ export type MachineCreateWithoutLogRulesInput = {
   tags?: Prisma.TagCreateNestedManyWithoutMachineInput
   machineAccess?: Prisma.MachineAccessCreateNestedManyWithoutMachineInput
   folders?: Prisma.FavoriteFolderCreateNestedManyWithoutMachineInput
+  subscriptions?: Prisma.FolderSubscriptionCreateNestedManyWithoutMachineInput
   downtimeLogs?: Prisma.DowntimeLogCreateNestedManyWithoutMachineInput
 }
 
@@ -724,6 +754,7 @@ export type MachineUncheckedCreateWithoutLogRulesInput = {
   tags?: Prisma.TagUncheckedCreateNestedManyWithoutMachineInput
   machineAccess?: Prisma.MachineAccessUncheckedCreateNestedManyWithoutMachineInput
   folders?: Prisma.FavoriteFolderUncheckedCreateNestedManyWithoutMachineInput
+  subscriptions?: Prisma.FolderSubscriptionUncheckedCreateNestedManyWithoutMachineInput
   downtimeLogs?: Prisma.DowntimeLogUncheckedCreateNestedManyWithoutMachineInput
 }
 
@@ -755,6 +786,7 @@ export type MachineUpdateWithoutLogRulesInput = {
   tags?: Prisma.TagUpdateManyWithoutMachineNestedInput
   machineAccess?: Prisma.MachineAccessUpdateManyWithoutMachineNestedInput
   folders?: Prisma.FavoriteFolderUpdateManyWithoutMachineNestedInput
+  subscriptions?: Prisma.FolderSubscriptionUpdateManyWithoutMachineNestedInput
   downtimeLogs?: Prisma.DowntimeLogUpdateManyWithoutMachineNestedInput
 }
 
@@ -770,6 +802,7 @@ export type MachineUncheckedUpdateWithoutLogRulesInput = {
   tags?: Prisma.TagUncheckedUpdateManyWithoutMachineNestedInput
   machineAccess?: Prisma.MachineAccessUncheckedUpdateManyWithoutMachineNestedInput
   folders?: Prisma.FavoriteFolderUncheckedUpdateManyWithoutMachineNestedInput
+  subscriptions?: Prisma.FolderSubscriptionUncheckedUpdateManyWithoutMachineNestedInput
   downtimeLogs?: Prisma.DowntimeLogUncheckedUpdateManyWithoutMachineNestedInput
 }
 
@@ -785,6 +818,7 @@ export type MachineCreateWithoutDowntimeLogsInput = {
   tags?: Prisma.TagCreateNestedManyWithoutMachineInput
   machineAccess?: Prisma.MachineAccessCreateNestedManyWithoutMachineInput
   folders?: Prisma.FavoriteFolderCreateNestedManyWithoutMachineInput
+  subscriptions?: Prisma.FolderSubscriptionCreateNestedManyWithoutMachineInput
   logRules?: Prisma.LogRuleCreateNestedManyWithoutMachineInput
 }
 
@@ -800,6 +834,7 @@ export type MachineUncheckedCreateWithoutDowntimeLogsInput = {
   tags?: Prisma.TagUncheckedCreateNestedManyWithoutMachineInput
   machineAccess?: Prisma.MachineAccessUncheckedCreateNestedManyWithoutMachineInput
   folders?: Prisma.FavoriteFolderUncheckedCreateNestedManyWithoutMachineInput
+  subscriptions?: Prisma.FolderSubscriptionUncheckedCreateNestedManyWithoutMachineInput
   logRules?: Prisma.LogRuleUncheckedCreateNestedManyWithoutMachineInput
 }
 
@@ -831,6 +866,7 @@ export type MachineUpdateWithoutDowntimeLogsInput = {
   tags?: Prisma.TagUpdateManyWithoutMachineNestedInput
   machineAccess?: Prisma.MachineAccessUpdateManyWithoutMachineNestedInput
   folders?: Prisma.FavoriteFolderUpdateManyWithoutMachineNestedInput
+  subscriptions?: Prisma.FolderSubscriptionUpdateManyWithoutMachineNestedInput
   logRules?: Prisma.LogRuleUpdateManyWithoutMachineNestedInput
 }
 
@@ -846,6 +882,7 @@ export type MachineUncheckedUpdateWithoutDowntimeLogsInput = {
   tags?: Prisma.TagUncheckedUpdateManyWithoutMachineNestedInput
   machineAccess?: Prisma.MachineAccessUncheckedUpdateManyWithoutMachineNestedInput
   folders?: Prisma.FavoriteFolderUncheckedUpdateManyWithoutMachineNestedInput
+  subscriptions?: Prisma.FolderSubscriptionUncheckedUpdateManyWithoutMachineNestedInput
   logRules?: Prisma.LogRuleUncheckedUpdateManyWithoutMachineNestedInput
 }
 
@@ -860,6 +897,7 @@ export type MachineCreateWithoutFoldersInput = {
   updatedAt?: Date | string
   tags?: Prisma.TagCreateNestedManyWithoutMachineInput
   machineAccess?: Prisma.MachineAccessCreateNestedManyWithoutMachineInput
+  subscriptions?: Prisma.FolderSubscriptionCreateNestedManyWithoutMachineInput
   logRules?: Prisma.LogRuleCreateNestedManyWithoutMachineInput
   downtimeLogs?: Prisma.DowntimeLogCreateNestedManyWithoutMachineInput
 }
@@ -875,6 +913,7 @@ export type MachineUncheckedCreateWithoutFoldersInput = {
   updatedAt?: Date | string
   tags?: Prisma.TagUncheckedCreateNestedManyWithoutMachineInput
   machineAccess?: Prisma.MachineAccessUncheckedCreateNestedManyWithoutMachineInput
+  subscriptions?: Prisma.FolderSubscriptionUncheckedCreateNestedManyWithoutMachineInput
   logRules?: Prisma.LogRuleUncheckedCreateNestedManyWithoutMachineInput
   downtimeLogs?: Prisma.DowntimeLogUncheckedCreateNestedManyWithoutMachineInput
 }
@@ -906,6 +945,7 @@ export type MachineUpdateWithoutFoldersInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   tags?: Prisma.TagUpdateManyWithoutMachineNestedInput
   machineAccess?: Prisma.MachineAccessUpdateManyWithoutMachineNestedInput
+  subscriptions?: Prisma.FolderSubscriptionUpdateManyWithoutMachineNestedInput
   logRules?: Prisma.LogRuleUpdateManyWithoutMachineNestedInput
   downtimeLogs?: Prisma.DowntimeLogUpdateManyWithoutMachineNestedInput
 }
@@ -921,6 +961,87 @@ export type MachineUncheckedUpdateWithoutFoldersInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   tags?: Prisma.TagUncheckedUpdateManyWithoutMachineNestedInput
   machineAccess?: Prisma.MachineAccessUncheckedUpdateManyWithoutMachineNestedInput
+  subscriptions?: Prisma.FolderSubscriptionUncheckedUpdateManyWithoutMachineNestedInput
+  logRules?: Prisma.LogRuleUncheckedUpdateManyWithoutMachineNestedInput
+  downtimeLogs?: Prisma.DowntimeLogUncheckedUpdateManyWithoutMachineNestedInput
+}
+
+export type MachineCreateWithoutSubscriptionsInput = {
+  id?: string
+  name: string
+  ip: string
+  rack?: number
+  slot?: number
+  interval?: number
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  tags?: Prisma.TagCreateNestedManyWithoutMachineInput
+  machineAccess?: Prisma.MachineAccessCreateNestedManyWithoutMachineInput
+  folders?: Prisma.FavoriteFolderCreateNestedManyWithoutMachineInput
+  logRules?: Prisma.LogRuleCreateNestedManyWithoutMachineInput
+  downtimeLogs?: Prisma.DowntimeLogCreateNestedManyWithoutMachineInput
+}
+
+export type MachineUncheckedCreateWithoutSubscriptionsInput = {
+  id?: string
+  name: string
+  ip: string
+  rack?: number
+  slot?: number
+  interval?: number
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  tags?: Prisma.TagUncheckedCreateNestedManyWithoutMachineInput
+  machineAccess?: Prisma.MachineAccessUncheckedCreateNestedManyWithoutMachineInput
+  folders?: Prisma.FavoriteFolderUncheckedCreateNestedManyWithoutMachineInput
+  logRules?: Prisma.LogRuleUncheckedCreateNestedManyWithoutMachineInput
+  downtimeLogs?: Prisma.DowntimeLogUncheckedCreateNestedManyWithoutMachineInput
+}
+
+export type MachineCreateOrConnectWithoutSubscriptionsInput = {
+  where: Prisma.MachineWhereUniqueInput
+  create: Prisma.XOR<Prisma.MachineCreateWithoutSubscriptionsInput, Prisma.MachineUncheckedCreateWithoutSubscriptionsInput>
+}
+
+export type MachineUpsertWithoutSubscriptionsInput = {
+  update: Prisma.XOR<Prisma.MachineUpdateWithoutSubscriptionsInput, Prisma.MachineUncheckedUpdateWithoutSubscriptionsInput>
+  create: Prisma.XOR<Prisma.MachineCreateWithoutSubscriptionsInput, Prisma.MachineUncheckedCreateWithoutSubscriptionsInput>
+  where?: Prisma.MachineWhereInput
+}
+
+export type MachineUpdateToOneWithWhereWithoutSubscriptionsInput = {
+  where?: Prisma.MachineWhereInput
+  data: Prisma.XOR<Prisma.MachineUpdateWithoutSubscriptionsInput, Prisma.MachineUncheckedUpdateWithoutSubscriptionsInput>
+}
+
+export type MachineUpdateWithoutSubscriptionsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  ip?: Prisma.StringFieldUpdateOperationsInput | string
+  rack?: Prisma.IntFieldUpdateOperationsInput | number
+  slot?: Prisma.IntFieldUpdateOperationsInput | number
+  interval?: Prisma.IntFieldUpdateOperationsInput | number
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  tags?: Prisma.TagUpdateManyWithoutMachineNestedInput
+  machineAccess?: Prisma.MachineAccessUpdateManyWithoutMachineNestedInput
+  folders?: Prisma.FavoriteFolderUpdateManyWithoutMachineNestedInput
+  logRules?: Prisma.LogRuleUpdateManyWithoutMachineNestedInput
+  downtimeLogs?: Prisma.DowntimeLogUpdateManyWithoutMachineNestedInput
+}
+
+export type MachineUncheckedUpdateWithoutSubscriptionsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  ip?: Prisma.StringFieldUpdateOperationsInput | string
+  rack?: Prisma.IntFieldUpdateOperationsInput | number
+  slot?: Prisma.IntFieldUpdateOperationsInput | number
+  interval?: Prisma.IntFieldUpdateOperationsInput | number
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  tags?: Prisma.TagUncheckedUpdateManyWithoutMachineNestedInput
+  machineAccess?: Prisma.MachineAccessUncheckedUpdateManyWithoutMachineNestedInput
+  folders?: Prisma.FavoriteFolderUncheckedUpdateManyWithoutMachineNestedInput
   logRules?: Prisma.LogRuleUncheckedUpdateManyWithoutMachineNestedInput
   downtimeLogs?: Prisma.DowntimeLogUncheckedUpdateManyWithoutMachineNestedInput
 }
@@ -934,6 +1055,7 @@ export type MachineCountOutputType = {
   tags: number
   machineAccess: number
   folders: number
+  subscriptions: number
   logRules: number
   downtimeLogs: number
 }
@@ -942,6 +1064,7 @@ export type MachineCountOutputTypeSelect<ExtArgs extends runtime.Types.Extension
   tags?: boolean | MachineCountOutputTypeCountTagsArgs
   machineAccess?: boolean | MachineCountOutputTypeCountMachineAccessArgs
   folders?: boolean | MachineCountOutputTypeCountFoldersArgs
+  subscriptions?: boolean | MachineCountOutputTypeCountSubscriptionsArgs
   logRules?: boolean | MachineCountOutputTypeCountLogRulesArgs
   downtimeLogs?: boolean | MachineCountOutputTypeCountDowntimeLogsArgs
 }
@@ -980,6 +1103,13 @@ export type MachineCountOutputTypeCountFoldersArgs<ExtArgs extends runtime.Types
 /**
  * MachineCountOutputType without action
  */
+export type MachineCountOutputTypeCountSubscriptionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.FolderSubscriptionWhereInput
+}
+
+/**
+ * MachineCountOutputType without action
+ */
 export type MachineCountOutputTypeCountLogRulesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   where?: Prisma.LogRuleWhereInput
 }
@@ -1004,6 +1134,7 @@ export type MachineSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs 
   tags?: boolean | Prisma.Machine$tagsArgs<ExtArgs>
   machineAccess?: boolean | Prisma.Machine$machineAccessArgs<ExtArgs>
   folders?: boolean | Prisma.Machine$foldersArgs<ExtArgs>
+  subscriptions?: boolean | Prisma.Machine$subscriptionsArgs<ExtArgs>
   logRules?: boolean | Prisma.Machine$logRulesArgs<ExtArgs>
   downtimeLogs?: boolean | Prisma.Machine$downtimeLogsArgs<ExtArgs>
   _count?: boolean | Prisma.MachineCountOutputTypeDefaultArgs<ExtArgs>
@@ -1047,6 +1178,7 @@ export type MachineInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs
   tags?: boolean | Prisma.Machine$tagsArgs<ExtArgs>
   machineAccess?: boolean | Prisma.Machine$machineAccessArgs<ExtArgs>
   folders?: boolean | Prisma.Machine$foldersArgs<ExtArgs>
+  subscriptions?: boolean | Prisma.Machine$subscriptionsArgs<ExtArgs>
   logRules?: boolean | Prisma.Machine$logRulesArgs<ExtArgs>
   downtimeLogs?: boolean | Prisma.Machine$downtimeLogsArgs<ExtArgs>
   _count?: boolean | Prisma.MachineCountOutputTypeDefaultArgs<ExtArgs>
@@ -1060,6 +1192,7 @@ export type $MachinePayload<ExtArgs extends runtime.Types.Extensions.InternalArg
     tags: Prisma.$TagPayload<ExtArgs>[]
     machineAccess: Prisma.$MachineAccessPayload<ExtArgs>[]
     folders: Prisma.$FavoriteFolderPayload<ExtArgs>[]
+    subscriptions: Prisma.$FolderSubscriptionPayload<ExtArgs>[]
     logRules: Prisma.$LogRulePayload<ExtArgs>[]
     downtimeLogs: Prisma.$DowntimeLogPayload<ExtArgs>[]
   }
@@ -1469,6 +1602,7 @@ export interface Prisma__MachineClient<T, Null = never, ExtArgs extends runtime.
   tags<T extends Prisma.Machine$tagsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Machine$tagsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$TagPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   machineAccess<T extends Prisma.Machine$machineAccessArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Machine$machineAccessArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$MachineAccessPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   folders<T extends Prisma.Machine$foldersArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Machine$foldersArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$FavoriteFolderPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  subscriptions<T extends Prisma.Machine$subscriptionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Machine$subscriptionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$FolderSubscriptionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   logRules<T extends Prisma.Machine$logRulesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Machine$logRulesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$LogRulePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   downtimeLogs<T extends Prisma.Machine$downtimeLogsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Machine$downtimeLogsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$DowntimeLogPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
@@ -1968,6 +2102,30 @@ export type Machine$foldersArgs<ExtArgs extends runtime.Types.Extensions.Interna
   take?: number
   skip?: number
   distinct?: Prisma.FavoriteFolderScalarFieldEnum | Prisma.FavoriteFolderScalarFieldEnum[]
+}
+
+/**
+ * Machine.subscriptions
+ */
+export type Machine$subscriptionsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the FolderSubscription
+   */
+  select?: Prisma.FolderSubscriptionSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the FolderSubscription
+   */
+  omit?: Prisma.FolderSubscriptionOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.FolderSubscriptionInclude<ExtArgs> | null
+  where?: Prisma.FolderSubscriptionWhereInput
+  orderBy?: Prisma.FolderSubscriptionOrderByWithRelationInput | Prisma.FolderSubscriptionOrderByWithRelationInput[]
+  cursor?: Prisma.FolderSubscriptionWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.FolderSubscriptionScalarFieldEnum | Prisma.FolderSubscriptionScalarFieldEnum[]
 }
 
 /**

@@ -23,5 +23,6 @@ export const authKeys = {
 
 export const favoriteKeys = {
 	all: ['user-bm'] as const,
-	machineFolders: (machineId: string) => [...favoriteKeys.all, machineId] as const
+	userFolders: (machineId: string) => [...favoriteKeys.all, 'user', machineId] as const,
+	publicFolders: (machineId: string) => [...favoriteKeys.all, 'public', machineId] as const
 };

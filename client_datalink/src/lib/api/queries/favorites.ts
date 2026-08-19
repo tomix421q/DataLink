@@ -2,13 +2,16 @@ import { createMutation, createQuery, useQueryClient } from '@tanstack/svelte-qu
 import {
 	createNewUserFolder,
 	deleteFolder,
+	getAllTagPublicFolders,
 	getAllTagUserFolders,
 	getMainDashboardLivePooling,
 	toggleFolderMainDashboard,
+	toggleFolderSubscribe,
 	toggleTagInFolder
 } from '../apiCalls/favorites';
 import { favoriteKeys } from './_keys';
 import { toast } from 'svelte-sonner';
+import { string } from 'zod';
 
 export function useCreateNewUserFolder() {
 	const queryClient = useQueryClient();
@@ -30,8 +33,20 @@ export function useGetAllUserFolders(machineIdFn: () => string) {
 	return createQuery(() => {
 		const machineId = machineIdFn();
 		return {
-			queryKey: favoriteKeys.machineFolders(machineId),
+			queryKey: favoriteKeys.userFolders(machineId),
 			queryFn: () => getAllTagUserFolders(machineId),
+			staleTime: 1000 * 60 * 50,
+			enabled: !!machineId
+		};
+	});
+}
+
+export function useGetAllPublicFolders(machineIdFn: () => string) {
+	return createQuery(() => {
+		const machineId = machineIdFn();
+		return {
+			queryKey: favoriteKeys.publicFolders(machineId),
+			queryFn: () => getAllTagPublicFolders(machineId),
 			staleTime: 1000 * 60 * 50,
 			enabled: !!machineId
 		};
@@ -45,7 +60,7 @@ export function useDeleteFolder() {
 		mutationFn: ({ machineId, folderId }: { machineId: string; folderId: string }) =>
 			deleteFolder(machineId, folderId),
 		onSuccess: (data, variables) => {
-			queryClient.invalidateQueries({ queryKey: favoriteKeys.machineFolders(variables.machineId) });
+			queryClient.invalidateQueries({ queryKey: favoriteKeys.userFolders(variables.machineId) });
 			toast.success(`✅ ${data}`);
 		},
 		onError: (error) => {
@@ -69,7 +84,7 @@ export function useToggleTagInFolder() {
 		}) => toggleTagInFolder(folderId, tagName),
 		onSuccess: (data, variables) => {
 			queryClient.invalidateQueries({
-				queryKey: favoriteKeys.machineFolders(variables.machineId)
+				queryKey: favoriteKeys.userFolders(variables.machineId)
 			});
 			toast.success(`✅ ${data?.message}`);
 		},
@@ -93,7 +108,29 @@ export function useToggleFolderDashboard() {
 			show: boolean;
 		}) => toggleFolderMainDashboard(machineId, folderId, show),
 		onSuccess: (data, variables) => {
-			queryClient.invalidateQueries({ queryKey: favoriteKeys.machineFolders(variables.machineId) });
+			queryClient.invalidateQueries({ queryKey: favoriteKeys.userFolders(variables.machineId) });
+			queryClient.invalidateQueries({ queryKey: favoriteKeys.publicFolders(variables.machineId) });
+			queryClient.invalidateQueries({
+				queryKey: ['main-dashboard-live']
+			});
+			toast.success(`✅ ${data?.message}`);
+		},
+		onError: (error) => {
+			toast.error(`❌ ${error.message}`);
+		}
+	}));
+}
+
+export function useToggleFolderSubscribe() {
+	const queryClient = useQueryClient();
+	
+	return createMutation(() => ({
+		mutationFn: ({ machineId, folderId }: { machineId: string; folderId: string }) =>
+			toggleFolderSubscribe(machineId, folderId),
+		onSuccess: (data, variables) => {
+			queryClient.invalidateQueries({ queryKey: favoriteKeys.userFolders(variables.machineId) });
+			queryClient.invalidateQueries({ queryKey: favoriteKeys.publicFolders(variables.machineId) });
+			queryClient.invalidateQueries({ queryKey: ['main-dashboard-live'] });
 			toast.success(`✅ ${data?.message}`);
 		},
 		onError: (error) => {

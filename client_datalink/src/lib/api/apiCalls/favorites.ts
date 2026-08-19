@@ -13,8 +13,17 @@ export async function createNewUserFolder(machineId: string, name: string) {
 }
 
 export async function getAllTagUserFolders(machineId: string) {
-	// if (!machineId) return [];
 	const response = await apiClient.favorite[':machineId'].folders.$get({ param: { machineId } });
+	const data = await response.json();
+	handleApiError(response, data);
+	if (data.ok) return data.data;
+	return [];
+}
+
+export async function getAllTagPublicFolders(machineId: string) {
+	const response = await apiClient.favorite[':machineId'].folders.public.$get({
+		param: { machineId }
+	});
 	const data = await response.json();
 	handleApiError(response, data);
 	if (data.ok) return data.data;
@@ -55,11 +64,20 @@ export async function toggleFolderMainDashboard(
 	if (data.ok) return data;
 	return null;
 }
+export async function toggleFolderSubscribe(machineId: string, folderId: string) {
+	const response = await apiClient.favorite[':machineId'].folders[':folderId'].subscribe.$post({
+		param: { folderId, machineId }
+	});
+	const data = await response.json();
+	handleApiError(response, data);
+	if (data.ok) return data;
+	return null;
+}
 
 export async function getMainDashboardLivePooling() {
 	const response = await apiClient.favorite.maindashboard.folder.live.$get();
 	const data = await response.json();
 	handleApiError(response, data);
-	if (data.ok) return data.data;
+	if (data.ok) return data;
 	return null;
 }

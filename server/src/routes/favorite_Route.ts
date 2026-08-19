@@ -1,5 +1,5 @@
 import { Hono } from 'hono'
-import { requireAuth } from '../middleware/auth'
+import { optionalAuth, requireAuth } from '../middleware/auth'
 import { prisma } from '../utils/db'
 import { zValidator } from '@hono/zod-validator'
 import z from 'zod'
@@ -7,31 +7,58 @@ import { validationHook } from '../utils/validator'
 import { StatusCodes } from 'http-status-codes'
 import { type ApiErrorResponse } from '@datalink/shared'
 import { machineBucket } from '../globals'
+import type { User } from '../../prisma/generated/prisma/client'
 
-const favorites = new Hono()
+type Env = {
+  Variables: {
+    user?: User | null
+  }
+}
+
+const favorites = new Hono<Env>()
   // Main dashboard pooling
   .get('/maindashboard/folder/live', requireAuth, async (c) => {
     try {
       const userId = c.get('user').id
 
-      const folders = await prisma.favoriteFolder.findMany({
-        where: {
-          userId: userId,
-          showOnMainDashboard: true,
-        },
-        include: { tags: { select: { keyName: true } } },
-      })
+      const [folders, rawSubs] = await Promise.all([
+        await prisma.favoriteFolder.findMany({
+          where: {
+            userId: userId,
+            showOnMainDashboard: true,
+          },
+          select: { id: true, name: true, machineId: true, tags: { select: { keyName: true } } },
+        }),
+        await prisma.folderSubscription.findMany({
+          where: { userId },
+          select: {
+            id: true,
+            machineId: true,
+            folder: {
+              select: {
+                id: true,
+                name: true,
+                tags: { select: { keyName: true } },
+                user: { select: { name: true } },
+              },
+            },
+          },
+        }),
+      ])
 
-      const machineIds = [...new Set(folders.map((f) => f.machineId))]
+      // get all machines ids
+      const uniqueMachineIds = new Set<string>()
+      for (const f of folders) uniqueMachineIds.add(f.machineId)
+      for (const s of rawSubs) uniqueMachineIds.add(s.machineId)
+      // get live data from plcs
       const liveData: Record<string, any> = {}
-
-      for (const machineId of machineIds) {
+      for (const machineId of uniqueMachineIds) {
         const data = machineBucket.getLatestData(machineId)
         if (data) {
           liveData[machineId] = data
         }
       }
-      return c.json({ ok: true, data: { folders, liveData } }, StatusCodes.OK)
+      return c.json({ ok: true, data: { folders, subsFolders: rawSubs, liveData } }, StatusCodes.OK)
     } catch (error) {
       console.error('[Dashboard Error]', error)
       return c.json<ApiErrorResponse>(
@@ -40,7 +67,8 @@ const favorites = new Hono()
       )
     }
   })
-  // Get all folders
+
+  // Get all folders user
   .get('/:machineId/folders', requireAuth, async (c) => {
     const userId = c.get('user').id
     const machineId = c.req.param('machineId')
@@ -52,9 +80,39 @@ const favorites = new Hono()
           createdAt: 'desc',
         },
       })
-      return c.json({ ok: true, data: folders }, 200)
+      return c.json({ ok: true, data: folders }, StatusCodes.OK)
     } catch (error) {
-      return c.json<ApiErrorResponse>({ ok: false, error: 'Problem with server, try again later.' }, 500)
+      return c.json<ApiErrorResponse>(
+        { ok: false, error: 'Problem with server, try again later.' },
+        StatusCodes.INTERNAL_SERVER_ERROR,
+      )
+    }
+  })
+
+  // Get all folders public
+  .get('/:machineId/folders/public', optionalAuth, async (c) => {
+    const user = c.get('user')
+    const machineId = c.req.param('machineId')
+    try {
+      const whereCondition: any = {
+        machineId,
+      }
+      if (user?.id) {
+        whereCondition.userId = { not: user.id }
+      }
+      const folders = await prisma.favoriteFolder.findMany({
+        where: whereCondition,
+        include: { tags: { select: { keyName: true } }, user: { select: { name: true } }, subscriptions: true },
+        orderBy: {
+          createdAt: 'desc',
+        },
+      })
+      return c.json({ ok: true, data: folders }, StatusCodes.OK)
+    } catch (error) {
+      return c.json<ApiErrorResponse>(
+        { ok: false, error: 'Problem with server, try again later.' },
+        StatusCodes.INTERNAL_SERVER_ERROR,
+      )
     }
   })
 
@@ -190,5 +248,35 @@ const favorites = new Hono()
       }
     },
   )
+
+  // subscribe folder (created other users)
+  .post('/:machineId/folders/:folderId/subscribe', requireAuth, async (c) => {
+    try {
+      const userId = c.get('user').id
+      const folderId = c.req.param('folderId')
+      const machineId = c.req.param('machineId')
+
+      const existingSub = await prisma.folderSubscription.findUnique({
+        where: { userId_folderId: { userId, folderId } },
+      })
+
+      if (existingSub) {
+        await prisma.folderSubscription.delete({
+          where: { id: existingSub.id },
+        })
+        return c.json({ ok: true, message: 'Folder subscribe deleted', subscribed: false }, StatusCodes.OK)
+      } else {
+        await prisma.folderSubscription.create({
+          data: { userId, folderId, machineId },
+        })
+        return c.json({ ok: true, message: 'Folder subscribed, check main dashboard', subscribed: true }, StatusCodes.CREATED)
+      }
+    } catch (error) {
+      return c.json<ApiErrorResponse>(
+        { ok: false, error: 'Problem with server,try again later' },
+        StatusCodes.INTERNAL_SERVER_ERROR,
+      )
+    }
+  })
 
 export default favorites

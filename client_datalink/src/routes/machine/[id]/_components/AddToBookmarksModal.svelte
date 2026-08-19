@@ -2,15 +2,7 @@
 	import Button from '$lib/components/ui/button/button.svelte';
 	import * as Dialog from '$lib/components/ui/dialog/index';
 	import InputGroup from '$lib/components/atoms/InputGroup.svelte';
-	import {
-		BookmarkPlusIcon,
-		FolderPen,
-		FolderPenIcon,
-		FoldersIcon,
-		PinIcon,
-		PinOff,
-		Trash
-	} from '@lucide/svelte';
+	import { BookmarkPlusIcon, FolderPen, FoldersIcon, PinIcon, PinOff, Trash } from '@lucide/svelte';
 	import {
 		useCreateNewUserFolder,
 		useDeleteFolder,
@@ -81,7 +73,7 @@
 			class="{isText ? '' : 'hover:text-red-500'} "
 		>
 			<FolderPen class="size-4 {isText ? 'hidden' : 'block'}" />
-			<span class={isText ? 'block' : 'hidden'}>Folders</span>
+			<span class={isText ? 'block' : 'hidden'}>My folders</span>
 		</Button>
 	</Dialog.Trigger>
 

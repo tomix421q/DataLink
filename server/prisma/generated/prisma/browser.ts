@@ -62,3 +62,8 @@ export type DowntimeLog = Prisma.DowntimeLogModel
  * 
  */
 export type FavoriteFolder = Prisma.FavoriteFolderModel
+/**
+ * Model FolderSubscription
+ * 
+ */
+export type FolderSubscription = Prisma.FolderSubscriptionModel

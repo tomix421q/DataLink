@@ -6,10 +6,15 @@
 	import { getContext } from 'svelte';
 	import ButtonsPage from './_components/ButtonsPage.svelte';
 	import AddToBookmarksModal from './_components/AddToBookmarksModal.svelte';
-	import { useGetAllUserFolders, useToggleFolderDashboard } from '$lib/api/queries/favorites';
+	import {
+		useGetAllPublicFolders,
+		useGetAllUserFolders,
+		useToggleFolderDashboard,
+		useToggleFolderSubscribe
+	} from '$lib/api/queries/favorites';
 	import LoadingTemplate from '$lib/components/atoms/LoadingTemplate.svelte';
 	import ErrorTemplate from '$lib/components/atoms/ErrorTemplate.svelte';
-	import { FolderSearch, LayoutDashboard, LogIn, Minimize2, Trash, Tv, X } from '@lucide/svelte';
+	import { LayoutDashboard, LogIn, Minimize2, PencilRuler, Tv, X } from '@lucide/svelte';
 	import Button from '$lib/components/ui/button/button.svelte';
 	import Input from '$lib/components/ui/input/input.svelte';
 	import { userStore } from '$lib/stores/UserStore.svelte';
@@ -29,11 +34,14 @@
 	);
 
 	const allFoldersBm = useGetAllUserFolders(() => machineId);
+	const allFoldersBmPublic = useGetAllPublicFolders(() => machineId);
 	const deleteTagsMutation = useRemoveTagsFromTracking();
 	const toggleDashboardMutate = useToggleFolderDashboard();
+	const toggleDashboardSubscribeMutate = useToggleFolderSubscribe();
 
 	let tvModeFolderId = $state<string | null>(null);
 	let tvFolder = $derived(allFoldersBm.data?.find((f) => f.id === tvModeFolderId));
+	let tvFolderPublic = $derived(allFoldersBmPublic.data?.find((f) => f.id === tvModeFolderId));
 
 	function handleToggleMainDashboard(folderId: string, currentState: boolean) {
 		toggleDashboardMutate.mutate({
@@ -41,6 +49,10 @@
 			folderId,
 			show: !currentState // Pošleme opačnú hodnotu
 		});
+	}
+
+	function handleToggleSubscribeFolder(folderId: string) {
+		toggleDashboardSubscribeMutate.mutate({ folderId, machineId });
 	}
 
 	function toggleTvMode(folderId: string | null) {
@@ -84,7 +96,7 @@
 		};
 	});
 
-	// $inspect(stream);
+	// $inspect(toggleDashboardSubscribeMutate.data?.message);
 </script>
 
 <main>
@@ -103,8 +115,8 @@
 				</div>
 			{/if}
 
-			<!-- Folders favorite -->
-			<section class="mb-8 animate-in fade-in slide-in-from-bottom-8 duration-500">
+			<!-- Folders favorite user -->
+			<section class="mb-10 animate-in fade-in slide-in-from-bottom-8 duration-500 min-h-20">
 				<div class="text-xl font-heading font-bold mb-4 flex justify-between" tabindex="-1">
 					<h2>My live Folders</h2>
 					{#if userStore.user}
@@ -113,7 +125,7 @@
 				</div>
 
 				{#if allFoldersBm.isError}
-					{#if allFoldersBm.error.message.includes('Unauthorized')}
+					{#if !userStore.user}
 						<div class="flex justify-center">
 							<Button href="/auth/login" size="lg" variant="outline"
 								><LogIn /> Please login to access folders</Button
@@ -123,7 +135,7 @@
 						<ErrorTemplate error={allFoldersBm.error} />
 					{/if}
 				{:else if allFoldersBm.isPending}
-					<LoadingTemplate />
+					<LoadingTemplate transparant={true} />
 				{:else if allFoldersBm.isSuccess}
 					<div
 						class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 2xl:grid-cols-4 gap-2 sm:gap-4 justify-start"
@@ -197,14 +209,105 @@
 				{/if}
 			</section>
 
+			<!-- Folders favorite public -->
+			<section class="mb-10 animate-in fade-in slide-in-from-bottom-8 duration-500">
+				<div class="text-xl font-heading font-bold mb-4 flex justify-between" tabindex="-1">
+					<h2>Public live Folders</h2>
+				</div>
+
+				{#if allFoldersBmPublic.isError}
+					<div class="flex justify-center">
+						<ErrorTemplate error={allFoldersBmPublic.error} />
+					</div>
+				{:else if allFoldersBmPublic.isPending}
+					<LoadingTemplate />
+				{:else if allFoldersBmPublic.isSuccess}
+					<div
+						class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 2xl:grid-cols-4 gap-2 sm:gap-4 justify-start"
+					>
+						{#if allFoldersBmPublic.data.length === 0}
+							<p class="text-muted-foreground italic text-sm">No folders created yet...</p>
+						{/if}
+						{#each allFoldersBmPublic.data as folder}
+							{#if folder.tags.length > 0 || folder.showOnMainDashboard}
+								<article
+									class="border rounded-xl p-3 bg-card shadow-sm w-full sm:min-w-[250px]! sm:max-w-full! cardNormalize"
+								>
+									<div class="border-b pb-1 mb-2 flex place-items-end justify-between font-heading">
+										<h3
+											class="flex items-center gap-1 cursor-text"
+											title={String('Created:' + folder.user.name).split('(')[0]}
+										>
+											<span class="font-bold">{folder.name}</span>
+											<span class="text-xs text-muted-foreground">[{folder.tags.length}] </span>
+										</h3>
+										<div class="flex items-center gap-1">
+											<Button
+												variant="ghost"
+												size="icon-xs"
+												title={folder.subscriptions.find((v) => v.folderId === folder.id)
+													? 'Remove from Main Dashboard'
+													: 'Pin to Main Dashboard'}
+												class="{folder.subscriptions.find((v) => v.folderId === folder.id)
+													? 'text-green-500'
+													: 'text-muted-foreground hover:text-primary'} mt-0.5"
+												onclick={() => {
+													if (userStore.user) {
+														handleToggleSubscribeFolder(folder.id);
+													}
+												}}
+												disabled={toggleDashboardMutate.isPending}
+											>
+												<LayoutDashboard class="size-5" />
+											</Button>
+											<Button
+												variant="ghost"
+												size="icon-xs"
+												title="TV Mode"
+												class="text-muted-foreground"
+												onclick={() => toggleTvMode(folder.id)}><Tv class="size-5" /></Button
+											>
+										</div>
+									</div>
+
+									<div class="flex flex-col gap-1">
+										{#if folder.tags.length === 0}
+											<p class="text-muted-foreground italic text-sm">No tags added yet...</p>
+										{/if}
+										{#each folder.tags as savedTag}
+											{@const liveTag = stream.tagsList.find(([name]) => name === savedTag.keyName)}
+											<div class="group" tabindex="-1">
+												{#if liveTag}
+													<div class="flex items-center">
+														{@render tagValueDisplay(liveTag[0], liveTag[1])}
+														<!-- Add to bookmark -->
+														<div
+															class="ml-1 size-4 items-center group-focus:flex hidden sm:group-hover:flex"
+														>
+															<AddToBookmarksModal tagName={liveTag[0]} />
+														</div>
+													</div>
+												{:else}
+													<p class="text-muted-foreground text-sm">{savedTag.keyName}: Offline</p>
+												{/if}
+											</div>
+										{/each}
+									</div>
+								</article>
+							{/if}
+						{/each}
+					</div>
+				{/if}
+			</section>
+
 			<!-- All tags  -->
-			<section class="border-t animate-in fade-in slide-in-from-bottom-8 duration-1000">
+			<section class="mb-10 border-t animate-in fade-in slide-in-from-bottom-8 duration-1000">
 				<article class="sm:flex items-center justify-between my-5">
 					<div class="flex items-end gap-4">
 						<p class="text-xl font-heading font-bold">All Live tags</p>
 					</div>
 
-					<div class="flex items-center gap-2">
+					<div class="flex sm:items-center gap-2 max-sm:flex-col">
 						<div class="relative">
 							<Input
 								type="text"
@@ -320,13 +423,13 @@
 	</div>
 {/snippet}
 
-{#if tvFolder}
+{#if tvFolder || tvFolderPublic}
 	<div class="fixed inset-0 z-50 bg-background flex flex-col p-8 overflow-y-auto">
 		<header class="flex justify-between items-center mb-8 border-b pb-6">
 			<div>
-				<h1 class="text-5xl font-heading font-black text-primary">{tvFolder.name}</h1>
+				<h1 class="text-5xl font-heading font-black text-primary">{tvFolder?.name}</h1>
 				<p class="text-xl text-muted-foreground mt-2">
-					Live Data [{tvFolder.tags.length}]
+					Live Data [{tvFolder?.tags.length}]
 				</p>
 			</div>
 
@@ -341,7 +444,7 @@
 		</header>
 
 		<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
-			{#each tvFolder.tags as savedTag}
+			{#each tvFolder?.tags as savedTag}
 				{@const liveTag = stream?.tagsList.find(([name]) => name === savedTag.keyName)}
 
 				{#if liveTag}

@@ -27,7 +27,7 @@
 	// $inspect(isEngineer);
 </script>
 
-<main class="mt-2.5 mb-3 gap-2 flex flex-col justify-between w-full tracking-wide font-heading!">
+<main class="mt-2.5 mb-5 gap-2 flex flex-col justify-between w-full tracking-wide font-heading!">
 	<!-- Left side -->
 	<article class="text-sm lg:text-xl font-heading space-y-2 flex flex-col w-full">
 		<!-- First line info -->
