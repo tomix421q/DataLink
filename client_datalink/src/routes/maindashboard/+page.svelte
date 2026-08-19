@@ -47,7 +47,7 @@
 		};
 	});
 
-	$inspect(dashboardQuery.data);
+	// $inspect(dashboardQuery.data);
 </script>
 
 <main class="p-4 md:p-8 max-w-screen-2xl mx-auto">
@@ -351,14 +351,16 @@
 						<div
 							class="border-b-2 border-muted pb-2 mb-3 flex justify-between items-center font-heading"
 						>
-							<h3 class="flex items-center gap-2 truncate">
+							<h3
+								class="flex items-center gap-2 truncate"
+								title="📌 Created by: {String(sub.folder.user.name).split('(')[0]}"
+							>
 								<span class="font-black text-xl md:text-2xl truncate">{sub.folder.name}</span>
 								<span
 									class="text-xs font-bold text-muted-foreground bg-secondary px-2 py-1 rounded-lg"
 								>
 									{sub.machineId}
 								</span>
-								<span class="text-xs text-muted-foreground">({sub.folder.user?.name})</span>
 							</h3>
 						</div>
 

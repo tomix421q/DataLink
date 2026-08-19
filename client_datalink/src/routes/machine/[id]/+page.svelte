@@ -423,7 +423,7 @@
 	</div>
 {/snippet}
 
-{#if tvFolder || tvFolderPublic}
+{#if tvFolder}
 	<div class="fixed inset-0 z-50 bg-background flex flex-col p-8 overflow-y-auto">
 		<header class="flex justify-between items-center mb-8 border-b pb-6">
 			<div>
@@ -445,6 +445,47 @@
 
 		<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
 			{#each tvFolder?.tags as savedTag}
+				{@const liveTag = stream?.tagsList.find(([name]) => name === savedTag.keyName)}
+
+				{#if liveTag}
+					{@render tvTagValueDisplay(liveTag[0], liveTag[1])}
+				{:else}
+					<div
+						class="flex flex-col items-center justify-center p-8 bg-card border-2 border-dashed border-muted rounded-2xl opacity-50"
+					>
+						<p class="text-3xl text-muted-foreground font-heading mb-4 text-center">
+							{savedTag.keyName}
+						</p>
+						<span class="text-5xl font-black text-muted-foreground">Offline</span>
+					</div>
+				{/if}
+			{/each}
+		</div>
+	</div>
+{/if}
+
+{#if tvFolderPublic}
+	<div class="fixed inset-0 z-50 bg-background flex flex-col p-8 overflow-y-auto">
+		<header class="flex justify-between items-center mb-8 border-b pb-6">
+			<div>
+				<h1 class="text-5xl font-heading font-black text-primary">{tvFolderPublic?.name}</h1>
+				<p class="text-xl text-muted-foreground mt-2">
+					Live Data [{tvFolderPublic?.tags.length}]
+				</p>
+			</div>
+
+			<Button
+				variant="destructive"
+				size="lg"
+				class="text-xl px-6 py-6 rounded-xl flex items-center gap-2 shadow-lg"
+				onclick={() => toggleTvMode(null)}
+			>
+				<Minimize2 class="size-6" />
+			</Button>
+		</header>
+
+		<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+			{#each tvFolderPublic?.tags as savedTag}
 				{@const liveTag = stream?.tagsList.find(([name]) => name === savedTag.keyName)}
 
 				{#if liveTag}
