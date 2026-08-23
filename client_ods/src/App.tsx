@@ -15,7 +15,6 @@ import Sidebar from './components/Sidebar'
 import Content from './components/Content'
 import SideGrid from './components/SideGrid'
 import CommonItemsGrid from './components/CommonItemsGrid'
-import twemoji from '@twemoji/api'
 
 const API_BASE = '/api/ods'
 
