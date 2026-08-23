@@ -11,7 +11,6 @@ import {
 } from '../apiCalls/favorites';
 import { favoriteKeys } from './_keys';
 import { toast } from 'svelte-sonner';
-import { string } from 'zod';
 
 export function useCreateNewUserFolder() {
 	const queryClient = useQueryClient();
@@ -19,8 +18,8 @@ export function useCreateNewUserFolder() {
 	return createMutation(() => ({
 		mutationFn: ({ machineId, name }: { machineId: string; name: string }) =>
 			createNewUserFolder(machineId, name),
-		onSuccess: (data, variables) => {
-			queryClient.invalidateQueries({ queryKey: [...favoriteKeys.all, variables.machineId] });
+		onSuccess: (_, variables) => {
+			queryClient.invalidateQueries({ queryKey: favoriteKeys.userFolders(variables.machineId) });
 			toast.success(`✅ Folder created successfully`);
 		},
 		onError: (error) => {
@@ -61,6 +60,9 @@ export function useDeleteFolder() {
 			deleteFolder(machineId, folderId),
 		onSuccess: (data, variables) => {
 			queryClient.invalidateQueries({ queryKey: favoriteKeys.userFolders(variables.machineId) });
+			queryClient.invalidateQueries({
+				queryKey: favoriteKeys.publicFolders(variables.machineId)
+			});
 			toast.success(`✅ ${data}`);
 		},
 		onError: (error) => {
@@ -83,9 +85,8 @@ export function useToggleTagInFolder() {
 			tagName: string;
 		}) => toggleTagInFolder(folderId, tagName),
 		onSuccess: (data, variables) => {
-			queryClient.invalidateQueries({
-				queryKey: favoriteKeys.userFolders(variables.machineId)
-			});
+			queryClient.invalidateQueries({ queryKey: favoriteKeys.userFolders(variables.machineId) });
+			queryClient.invalidateQueries({ queryKey: favoriteKeys.publicFolders(variables.machineId) });
 			toast.success(`✅ ${data?.message}`);
 		},
 		onError: (error) => {
@@ -123,7 +124,7 @@ export function useToggleFolderDashboard() {
 
 export function useToggleFolderSubscribe() {
 	const queryClient = useQueryClient();
-	
+
 	return createMutation(() => ({
 		mutationFn: ({ machineId, folderId }: { machineId: string; folderId: string }) =>
 			toggleFolderSubscribe(machineId, folderId),

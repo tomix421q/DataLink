@@ -7,8 +7,8 @@
 	import { setContext } from 'svelte';
 	import { LoaderCircle } from '@lucide/svelte';
 	import { useMachineDowntimes } from '$lib/api/queries/logger';
-	import SubInfoMachineHeader from './_components/SubInfoMachineHeader.svelte';
-	import ButtonsMachineHeader from './_components/ButtonsMachineHeader.svelte';
+	import MachineInfoLayout from './_components/MachineInfoLayout.svelte';
+	import ButtonsLayout from './_components/ButtonsLayout.svelte';
 
 	let { children }: LayoutProps = $props();
 
@@ -75,13 +75,13 @@
 			</div>
 
 			{#if machineDowntimes.data && stream.data}
-				<SubInfoMachineHeader {stream} machineDowntime={machineDowntimes.data} />
+				<MachineInfoLayout {stream} machineDowntime={machineDowntimes.data} />
 			{/if}
 		</section>
 
 		<!-- Thirt line info -->
 		<article class="flex flex-col justify-between">
-			<ButtonsMachineHeader {machineId} {stream} />
+			<ButtonsLayout {machineId} {stream} />
 		</article>
 	</article>
 </main>

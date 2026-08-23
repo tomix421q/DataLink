@@ -5,9 +5,9 @@ import { zValidator } from '@hono/zod-validator'
 import z from 'zod'
 import { validationHook } from '../utils/validator'
 import { StatusCodes } from 'http-status-codes'
-import { type ApiErrorResponse } from '@datalink/shared'
+import { type ApiErrorResponse, ROLES } from '@datalink/shared'
 import { machineBucket } from '../globals'
-import type { User } from '../../prisma/generated/prisma/client'
+import type { Prisma, User } from '../../prisma/generated/prisma/client'
 
 type Env = {
   Variables: {
@@ -70,16 +70,22 @@ const favorites = new Hono<Env>()
 
   // Get all folders user
   .get('/:machineId/folders', requireAuth, async (c) => {
-    const userId = c.get('user').id
+    const user = c.get('user')
     const machineId = c.req.param('machineId')
+    const isAdmin = user.role === ROLES.ADMIN
     try {
+      const where: Prisma.FavoriteFolderWhereInput = {
+        machineId,
+        ...(isAdmin ? {} : { userId: user.id }),
+      }
       const folders = await prisma.favoriteFolder.findMany({
-        where: { userId, machineId },
-        include: { tags: { select: { keyName: true } } },
+        where,
+        include: { tags: { select: { keyName: true } }, user: { select: { name: true } } },
         orderBy: {
           createdAt: 'desc',
         },
       })
+
       return c.json({ ok: true, data: folders }, StatusCodes.OK)
     } catch (error) {
       return c.json<ApiErrorResponse>(
@@ -150,16 +156,18 @@ const favorites = new Hono<Env>()
   // Delete folder
   .delete('/:machineId/folders/:folderId', requireAuth, async (c) => {
     try {
-      const userId = c.get('user').id
+      const user = c.get('user')
       const machineId = c.req.param('machineId')
       const folderId = c.req.param('folderId')
+      const isAdmin = user.role === ROLES.ADMIN
 
+      const whereCondition: Prisma.FavoriteFolderWhereInput = {
+        id: folderId,
+        machineId: machineId,
+        ...(isAdmin ? {} : { userId: user.id }),
+      }
       const result = await prisma.favoriteFolder.deleteMany({
-        where: {
-          id: folderId,
-          userId: userId,
-          machineId: machineId,
-        },
+        where: whereCondition,
       })
       if (result.count === 0) {
         return c.json({ ok: false, error: `Folder id ${folderId} does not exist in db` }, StatusCodes.NOT_FOUND)
@@ -173,12 +181,17 @@ const favorites = new Hono<Env>()
   // Add/Remove tag to folder
   .put('/:folderId/tags/:tagName', requireAuth, async (c) => {
     try {
-      const userId = c.get('user').id
+      const user = c.get('user')
       const folderId = c.req.param('folderId')
       const tagName = c.req.param('tagName')
+      const isAdmin = user.role === ROLES.ADMIN
 
+      const whereCondition: Prisma.FavoriteFolderWhereInput = {
+        id: folderId,
+        ...(isAdmin ? {} : { userId: user.id }),
+      }
       const folder = await prisma.favoriteFolder.findFirst({
-        where: { id: folderId, userId },
+        where: whereCondition,
         include: { tags: { select: { id: true, keyName: true } } },
       })
 

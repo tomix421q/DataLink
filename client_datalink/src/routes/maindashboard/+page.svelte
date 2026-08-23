@@ -3,6 +3,8 @@
 	import { useMainDashboardLive } from '$lib/api/queries/favorites';
 	import ErrorTemplate from '$lib/components/atoms/ErrorTemplate.svelte';
 	import LoadingTemplate from '$lib/components/atoms/LoadingTemplate.svelte';
+	import TagsValueDisplay from '$lib/components/molecules/TagsValueDisplay.svelte';
+	import TvTagsValueDisplay from '$lib/components/molecules/TvTagsValueDisplay.svelte';
 	import Button from '$lib/components/ui/button/button.svelte';
 	import { userStore } from '$lib/stores/UserStore.svelte';
 	import {
@@ -198,8 +200,9 @@
 				{@const machineData = info.dataMap[info.machineId] || {}}
 				{@const tagLiveValue = machineData[savedTag.keyName]}
 
+				<!-- Dipslay tagname-tagvalue -->
 				{#if tagLiveValue !== undefined}
-					{@render tagValueDisplay(savedTag.keyName, tagLiveValue)}
+					<TagsValueDisplay tagName={savedTag.keyName} tagValue={tagLiveValue} />
 				{:else}
 					<p class="text-muted-foreground text-sm flex justify-between px-1 py-0.5">
 						<span class="truncate">{savedTag.keyName}:</span>
@@ -209,60 +212,6 @@
 			{/each}
 		</div>
 	</article>
-{/snippet}
-
-{#snippet tagValueDisplay(tagName: string, tagValue: any)}
-	{@const tagValueSliceText =
-		String(tagValue).length > 16 ? String(tagValue).slice(0, 15) + '...' : String(tagValue)}
-
-	<section
-		class="flex gap-1 text-sm items-center justify-between pr-1 hover:bg-muted/50 rounded transition-colors px-1 py-0.5"
-	>
-		<p class="text-muted-foreground truncate" title={tagName}>{tagName}:</p>
-		<p class="shrink-0">
-			{#if typeof tagValue === 'boolean'}
-				<span class={tagValue ? 'text-green-500 font-bold' : 'text-destructive font-bold'}>
-					{tagValue ? 'true' : 'false'}
-				</span>
-			{:else}
-				<span
-					class="font-bold {String(tagValue).length > 16 ? 'cursor-help' : ''}"
-					title={String(tagValue).length > 16 ? String(tagValue) : null}
-				>
-					{tagValueSliceText}
-				</span>
-			{/if}
-		</p>
-	</section>
-{/snippet}
-
-{#snippet tvTagValueDisplay(tagName: string, tagValue: any)}
-	<div
-		class="flex flex-col items-center justify-center p-4 bg-card border-2 border-secondary rounded-xl shadow-sm"
-	>
-		<p
-			class="text-xl md:text-2xl text-muted-foreground font-heading mb-1 truncate w-full text-center"
-		>
-			{tagName}
-		</p>
-
-		{#if typeof tagValue === 'boolean'}
-			<span
-				class="text-4xl md:text-5xl font-black {tagValue
-					? 'text-green-500'
-					: 'text-destructive'} uppercase"
-			>
-				{tagValue ? 'true' : 'false'}
-			</span>
-		{:else}
-			<span
-				class="text-5xl md:text-6xl font-black text-primary truncate max-w-full"
-				title={String(tagValue)}
-			>
-				{tagValue ?? '--'}
-			</span>
-		{/if}
-	</div>
 {/snippet}
 
 <!-- TV Mode -->
@@ -327,7 +276,7 @@
 								{@const tagLiveValue = machineData[savedTag.keyName]}
 
 								{#if tagLiveValue !== undefined}
-									{@render tvTagValueDisplay(savedTag.keyName, tagLiveValue)}
+									<TvTagsValueDisplay tagName={savedTag.keyName} tagValue={tagLiveValue} />
 								{:else}
 									<div
 										class="flex flex-col items-center justify-center p-4 bg-card border-2 border-secondary border-dashed rounded-xl"
@@ -370,7 +319,7 @@
 								{@const tagLiveValue = machineData[savedTag.keyName]}
 
 								{#if tagLiveValue !== undefined}
-									{@render tvTagValueDisplay(savedTag.keyName, tagLiveValue)}
+									<TvTagsValueDisplay tagName={savedTag.keyName} tagValue={tagLiveValue} />
 								{:else}
 									<div
 										class="flex flex-col items-center justify-center p-4 bg-card border-2 border-secondary border-dashed rounded-xl"
