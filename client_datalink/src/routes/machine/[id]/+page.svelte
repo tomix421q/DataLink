@@ -117,9 +117,7 @@
 					</div>
 				</article>
 
-				<article
-					class="grid grid-cols-[repeat(auto-fill,minmax(300px,1fr))] gap-2"
-				>
+				<article class="grid grid-cols-[repeat(auto-fill,minmax(300px,1fr))] gap-2">
 					{#if allTagsList.length === 0 && !stream.data.connection.error}
 						<p class="text-muted-foreground italic text-sm">No tags added yet...</p>
 					{/if}
@@ -160,32 +158,31 @@
 
 							<!-- Add to bookmark -->
 							<div class="ml-auto items-center justify-center">
-								<!-- {#if userStore.user} -->
 								<DropdownMenu.Root>
 									<DropdownMenu.Trigger
 										class="cursor-pointer flex items-center text-muted-foreground hover:text-secondary-foreground"
 										><EllipsisVertical /></DropdownMenu.Trigger
 									>
 									<DropdownMenu.Content>
-										<DropdownMenu.Group class='**:cursor-pointer'>
+										<DropdownMenu.Group class="**:cursor-pointer">
 											<!-- <DropdownMenu.Label>Menu</DropdownMenu.Label> -->
-											<DropdownMenu.Separator />
-											<DropdownMenu.Item onSelect={(e) => e.preventDefault()}>
-												<FoldersModal
-													{tagName}
-													isOtherFolder={false}
-													isText={true}
-													textDesign={true}
-												/></DropdownMenu.Item
-											>
+											<!-- <DropdownMenu.Separator /> -->
+											{#if userStore.user}
+												<DropdownMenu.Item onSelect={(e) => e.preventDefault()}>
+													<FoldersModal
+														{tagName}
+														isOtherFolder={false}
+														isText={true}
+														textDesign={true}
+													/></DropdownMenu.Item
+												>
+											{/if}
 											<DropdownMenu.Item>Billing</DropdownMenu.Item>
 											<DropdownMenu.Item>Team</DropdownMenu.Item>
 											<DropdownMenu.Item>Subscription</DropdownMenu.Item>
 										</DropdownMenu.Group>
 									</DropdownMenu.Content>
 								</DropdownMenu.Root>
-
-								<!-- {/if} -->
 							</div>
 						</div>
 					{/each}

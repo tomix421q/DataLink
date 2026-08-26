@@ -17,10 +17,10 @@ const adapter = new PrismaLibSql({
 export const prisma = globalForPrisma.prisma ?? new PrismaClient({ adapter })
 
 // 2. Nastavenie SQLite PRAGMA pri štarte (Top-Level await v Bune)
-if (url.startsWith('file:')) {
-  await prisma.$queryRawUnsafe('PRAGMA journal_mode = WAL;')
-  await prisma.$queryRawUnsafe('PRAGMA busy_timeout = 5000;')
-}
+// if (url.startsWith('file:')) {
+//   await prisma.$queryRawUnsafe('PRAGMA journal_mode = WAL;')
+//   await prisma.$queryRawUnsafe('PRAGMA busy_timeout = 5000;')
+// }
 if (process.env.NODE_ENV !== 'production') {
   globalForPrisma.prisma = prisma
 }
