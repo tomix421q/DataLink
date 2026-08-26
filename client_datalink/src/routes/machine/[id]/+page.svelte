@@ -60,7 +60,7 @@
 		}
 	}
 
-	$inspect(window.innerWidth);
+	// $inspect(window.innerWidth);
 </script>
 
 <main>
@@ -117,7 +117,7 @@
 					</div>
 				</article>
 
-				<article class="grid grid-cols-[repeat(auto-fill,minmax(300px,1fr))] gap-2">
+				<article class="grid grid-cols-[repeat(auto-fill,minmax(350px,1fr))] gap-2">
 					{#if allTagsList.length === 0 && !stream.data.connection.error}
 						<p class="text-muted-foreground italic text-sm">No tags added yet...</p>
 					{/if}
@@ -177,9 +177,9 @@
 													/></DropdownMenu.Item
 												>
 											{/if}
-											<DropdownMenu.Item>Billing</DropdownMenu.Item>
+											<!-- <DropdownMenu.Item>Billing</DropdownMenu.Item>
 											<DropdownMenu.Item>Team</DropdownMenu.Item>
-											<DropdownMenu.Item>Subscription</DropdownMenu.Item>
+											<DropdownMenu.Item>Subscription</DropdownMenu.Item> -->
 										</DropdownMenu.Group>
 									</DropdownMenu.Content>
 								</DropdownMenu.Root>

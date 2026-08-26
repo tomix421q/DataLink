@@ -34,3 +34,6 @@ report.[0-9]_.[0-9]_.[0-9]_.[0-9]_.json
 .DS_Store
 /dev.db
 /dev.db-journal
+*.db
+*.db-wal
+*.db-shm
