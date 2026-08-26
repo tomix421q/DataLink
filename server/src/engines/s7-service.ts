@@ -11,6 +11,7 @@ export class S7Service {
   private config: { plc: PlcConnectType; tags: Record<string, string> }
   private _latestData: Record<string, any> = {}
   private _lastError: string | null = null
+  private _tagErrors: Record<string, string> = {}
 
   constructor({ config }: { config: { plc: PlcConnectType; tags: Record<string, string> } }) {
     this.conn = new nodes7({ silent: true })
@@ -55,35 +56,65 @@ export class S7Service {
     })
   }
 
-  startPooling(onUpdate: (data: any | null, online: boolean, error: string | null) => void) {
+  startPooling(onUpdate: (data: any | null, online: boolean, error: string | null, tagErrors?: Record<string, string>) => void) {
     if (this.timer) {
       clearInterval(this.timer)
     }
 
     this.timer = setInterval(() => {
       if (!this.isReady) {
-        onUpdate(null, false, this._lastError || 'NOT_READY')
+        onUpdate(null, false, this._lastError || 'NOT_READY', this._tagErrors)
         return
       }
-
-      if (Object.keys(this.config.tags).length === 0) {
-        onUpdate({}, true, null)
+      const registeredTags = Object.keys(this.config.tags)
+      if (registeredTags.length === 0) {
+        onUpdate({}, true, null, {})
         return
       }
 
       this.conn.readAllItems((err: any, values: any) => {
         if (this.isDestroyed) return
-        if (err || !values) {
-          this._lastError = err?.code || 'READ_ERROR'
-          this.isReady = false
-          this.conn.dropConnection()
-          this.connect()
-          onUpdate(null, false, this._lastError)
-          return
+        if (err && (!values || Object.keys(values).length === 0)) {
+          const isNetworkError =
+            err.code === 'EPIPE' || err.code === 'ECONNRESET' || err.code === 'ETIMEDOUT' || err.toString().includes('timeout')
+
+          if (isNetworkError) {
+            this._lastError = err?.code || 'NETWORK_ERROR'
+            this.isReady = false
+            this.conn.dropConnection(() => {})
+            this.connect()
+            onUpdate(null, false, this._lastError, this._tagErrors)
+            return
+          }
         }
         this._lastError = null
-        this._latestData = values
-        onUpdate(values, true, null)
+        const currentData: Record<string, any> = {}
+        const currentTagErrors: Record<string, string> = {}
+        for (const tag of registeredTags) {
+          const val = values ? values[tag] : undefined
+          const isBadValue = val === undefined || val === null || (typeof val === 'string' && val.startsWith('BAD'))
+
+          if (isBadValue) {
+            currentTagErrors[tag] = typeof val === 'string' ? val : 'BAD_ADDRESS_OR_MISSING'
+          } else {
+            currentData[tag] = val
+          }
+        }
+        this._latestData = currentData
+        this._tagErrors = currentTagErrors
+
+        const hasRegisteredTags = registeredTags.length > 0
+        const hasZeroValidData = Object.keys(currentData).length === 0
+        if (hasRegisteredTags && hasZeroValidData) {
+          this._lastError = 'COMMUNICATION_LOST_OR_OFFLINE'
+          this.isReady = false
+          this.conn.dropConnection(() => {})
+          this.connect()
+          onUpdate(null, false, this._lastError, currentTagErrors)
+          return
+        }
+
+        onUpdate(currentData, true, null, currentTagErrors)
       })
     }, this.config.plc.interval)
   }
@@ -101,14 +132,15 @@ export class S7Service {
     this.isReady = false
   }
 
+  get tagErrors(): Record<string, string> {
+    return this._tagErrors
+  }
   get lastError(): string | null {
     return this._lastError
   }
-
   get latestData(): Record<string, any> {
     return this._latestData
   }
-
   get online(): boolean {
     return this.isReady
   }

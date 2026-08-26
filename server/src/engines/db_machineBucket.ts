@@ -34,9 +34,9 @@ export class MachineBucket {
     const plc = new S7Service({ config: machine.config })
     plc.connect()
 
-    plc.startPooling((plcData, isOnline, error) => {
+    plc.startPooling((plcData, isOnline, error, tagErrors) => {
       this.plcEmitter.emit(`${machine.id}-stream`, {
-        connection: { online: isOnline, machineId: machine.id, error: error },
+        connection: { online: isOnline, machineId: machine.id, error: error, tagErrors: tagErrors || {} },
         plcData: plcData,
         info: { id: machine.id, ...machine.config },
       })

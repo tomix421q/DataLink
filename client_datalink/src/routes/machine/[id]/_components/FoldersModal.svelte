@@ -21,12 +21,19 @@
 	import LoadingTemplate from '$lib/components/atoms/LoadingTemplate.svelte';
 	import NodataTemplate from '$lib/components/atoms/NodataTemplate.svelte';
 	import { userStore } from '$lib/stores/UserStore.svelte';
+	import { slide } from 'svelte/transition';
 
 	let {
 		tagName,
 		isOtherFolder = false,
-		isText
-	}: { tagName?: string; isOtherFolder: boolean; isText?: boolean } = $props();
+		isText,
+		textDesign = false
+	}: {
+		tagName?: string;
+		isOtherFolder: boolean;
+		isText?: boolean;
+		textDesign?: boolean;
+	} = $props();
 
 	const machineId = $derived(page.params.id!);
 	const createNameMutate = useCreateNewUserFolder();
@@ -80,16 +87,20 @@
 
 <Dialog.Root bind:open>
 	<!-- Trigger btn -->
-	<Dialog.Trigger>
-		<Button
-			size={isText ? 'xs' : 'icon-xs'}
-			variant={isText ? 'outline' : 'ghost'}
-			title="Add/Remove from folder"
-			class="{isText ? '' : 'hover:text-red-500'} "
-		>
-			<FolderPen class="size-4 {isText ? 'hidden' : 'block'}" />
-			<span class={isText ? 'block' : 'hidden'}>My folders</span>
-		</Button>
+	<Dialog.Trigger class={textDesign ? 'w-full' : ''}>
+		{#if textDesign}
+			<div class="flex justify-start">Folders</div>
+		{:else}
+			<Button
+				size={isText ? 'xs' : 'icon-xs'}
+				variant={isText ? 'outline' : 'ghost'}
+				title="Add/Remove from folder"
+				class={isText ? '' : 'hover:text-red-500'}
+			>
+				<FolderPen class="size-4 {isText ? 'hidden' : 'block'}" />
+				<span class={isText ? 'block' : 'hidden'}>My folders</span>
+			</Button>
+		{/if}
 	</Dialog.Trigger>
 
 	<Dialog.Content class="flex flex-col h-[425px] cardNormalize">
@@ -154,6 +165,7 @@
 							{#if allFoldersBm.data.filter((f) => f.userId === userStore.user?.id).length === 0}
 								<NodataTemplate text="No folders..." size="sm" />
 							{/if}
+
 							{#each sortedFolders as folder}
 								{#if folder.userId === userStore.user?.id}
 									<div class="flex justify-between odd:bg-muted-foreground/5 p-1">

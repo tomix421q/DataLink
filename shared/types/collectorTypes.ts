@@ -19,6 +19,7 @@ export interface SseMachineClient {
     online: boolean
     machineId: string
     error: string | null
+    tagErrors: Record<string, string>
   }
   plcData: Record<string, any> | null
   info: { id: string; plc: MachineBucketItemType['config']['plc']; tags: MachineBucketItemType['config']['tags'] }

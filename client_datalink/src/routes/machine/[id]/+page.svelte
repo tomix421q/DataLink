@@ -5,27 +5,38 @@
 	import { SseMachineStream } from '$lib/utils/SseMachineStream.svelte';
 	import { getContext } from 'svelte';
 	import ButtonsLiveTags from './_components/ButtonsLiveTags.svelte';
-	import { X } from '@lucide/svelte';
+	import { EllipsisVertical, Grip, X } from '@lucide/svelte';
 	import Button from '$lib/components/ui/button/button.svelte';
 	import Input from '$lib/components/ui/input/input.svelte';
 	import { userStore } from '$lib/stores/UserStore.svelte';
 	import FoldersModal from './_components/FoldersModal.svelte';
 	import Folders from './_components/Folders.svelte';
 	import TagsValueDisplay from '$lib/components/molecules/TagsValueDisplay.svelte';
+	import * as DropdownMenu from '$lib/components/ui/dropdown-menu/index';
 
 	const stream = getContext<SseMachineStream>('machine-stream');
 	let machineId = $derived(page.params.id!);
 
 	let isOnline = $derived(stream?.data?.connection?.online ?? false);
-	let hasTags = $derived((stream?.totalTrackingTags ?? 0) > 0);
+
 	let toggleRemove = $state(false);
 	let selectedTags = $state<string[]>([]);
 	let searchQuery = $state('');
+	const allTagsList = $derived.by(() => {
+		if (!stream?.data) return [];
+		const validTags = stream.data.plcData ? Object.entries(stream.data.plcData) : [];
+		const errorTags = stream.data.connection?.tagErrors
+			? Object.entries(stream.data.connection.tagErrors)
+			: [];
+		const validKeys = new Set(validTags.map(([k]) => k));
+		const uniqueErrorTags = errorTags.filter(([k]) => !validKeys.has(k));
+		return [...validTags, ...uniqueErrorTags];
+	});
 	let filteredTags = $derived(
-		stream?.tagsList?.filter(([tagName]) =>
-			tagName.toLowerCase().includes(searchQuery.toLowerCase())
-		) ?? []
+		allTagsList.filter(([tagName]) => tagName.toLowerCase().includes(searchQuery.toLowerCase())) ??
+			[]
 	);
+	let hasTags = $derived(allTagsList.length > 0);
 
 	const deleteTagsMutation = useRemoveTagsFromTracking();
 
@@ -49,7 +60,7 @@
 		}
 	}
 
-	// $inspect(toggleDashboardSubscribeMutate.data?.message);
+	$inspect(window.innerWidth);
 </script>
 
 <main>
@@ -107,17 +118,19 @@
 				</article>
 
 				<article
-					class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-2"
+					class="grid grid-cols-[repeat(auto-fill,minmax(300px,1fr))] gap-2"
 				>
-					{#if stream.totalTrackingTags === 0 && !stream.data.connection.error}
+					{#if allTagsList.length === 0 && !stream.data.connection.error}
 						<p class="text-muted-foreground italic text-sm">No tags added yet...</p>
 					{/if}
 					{#if stream.data.connection.error}
-						<p class="text-muted-foreground italic text-sm">
-							Problem with connect to machine check network or machine
+						<p class="text-muted-foreground italic text-sm col-span-full mb-6">
+							Problem with connect to machine check network or machine...
 						</p>
 					{/if}
-					{#each filteredTags as [tagName, tagValue]}
+					{#each filteredTags as [tagName, tagValue] (tagName)}
+						{@const tagError = stream.data?.connection?.tagErrors?.[tagName]}
+						{@const isBadTag = tagError !== undefined}
 						<div
 							class="flex items-center p-2 rounded-lg border transition-all group max-w-full cardNormalize2"
 							tabindex="-1"
@@ -132,16 +145,47 @@
 									/>
 								</div>
 							{/if}
-							<!-- Dipslay tagname-tagvalue -->
-							<TagsValueDisplay {tagName} {tagValue} />
+							{#if isBadTag}
+								<div
+									class="text-sm gap-1 text-destructive flex items-center"
+									title="Bad address or network connection"
+								>
+									<span class="text-muted-foreground">{tagName}:</span>
+									{tagError}
+								</div>
+							{:else}
+								<!-- Dipslay tagname-tagvalue -->
+								<TagsValueDisplay {tagName} {tagValue} />
+							{/if}
 
 							<!-- Add to bookmark -->
-							<div
-								class="ml-auto size-5 items-center justify-center group-focus:flex hidden sm:group-hover:flex"
-							>
-								{#if userStore.user}
-									<FoldersModal {tagName} />
-								{/if}
+							<div class="ml-auto items-center justify-center">
+								<!-- {#if userStore.user} -->
+								<DropdownMenu.Root>
+									<DropdownMenu.Trigger
+										class="cursor-pointer flex items-center text-muted-foreground hover:text-secondary-foreground"
+										><EllipsisVertical /></DropdownMenu.Trigger
+									>
+									<DropdownMenu.Content>
+										<DropdownMenu.Group class='**:cursor-pointer'>
+											<!-- <DropdownMenu.Label>Menu</DropdownMenu.Label> -->
+											<DropdownMenu.Separator />
+											<DropdownMenu.Item onSelect={(e) => e.preventDefault()}>
+												<FoldersModal
+													{tagName}
+													isOtherFolder={false}
+													isText={true}
+													textDesign={true}
+												/></DropdownMenu.Item
+											>
+											<DropdownMenu.Item>Billing</DropdownMenu.Item>
+											<DropdownMenu.Item>Team</DropdownMenu.Item>
+											<DropdownMenu.Item>Subscription</DropdownMenu.Item>
+										</DropdownMenu.Group>
+									</DropdownMenu.Content>
+								</DropdownMenu.Root>
+
+								<!-- {/if} -->
 							</div>
 						</div>
 					{/each}
