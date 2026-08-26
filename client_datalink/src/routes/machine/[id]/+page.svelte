@@ -177,9 +177,6 @@
 													/></DropdownMenu.Item
 												>
 											{/if}
-											<!-- <DropdownMenu.Item>Billing</DropdownMenu.Item>
-											<DropdownMenu.Item>Team</DropdownMenu.Item>
-											<DropdownMenu.Item>Subscription</DropdownMenu.Item> -->
 										</DropdownMenu.Group>
 									</DropdownMenu.Content>
 								</DropdownMenu.Root>
