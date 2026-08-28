@@ -73,6 +73,103 @@ const machines = new Hono()
       )
     }
   })
+  // Get all tags
+  .get('/alltags', async (c) => {
+    try {
+      const allTags = await prisma.tag.findMany({ include: { folders: true, _count: true } })
+      return c.json({ ok: true, allTags }, StatusCodes.OK)
+    } catch (error) {
+      return c.json<ApiErrorResponse>({ ok: false, error: 'Problem with db, try again later.' })
+    }
+  })
+  // Update tag
+  .put(
+    '/edittag/:tagid',
+    requireAuth,
+    requireRole(['admin']),
+    zValidator(
+      'json',
+      z.object({
+        keyName: z.string().min(2).max(22),
+        plcAddress: z.string().min(4).max(32),
+        machineId: z.string().min(2).max(32),
+      }),
+      validationHook,
+    ),
+    async (c) => {
+      try {
+        const tagId = c.req.param('tagId')
+        const { keyName, plcAddress } = c.req.valid('json')
+
+        const existingTag = await prisma.tag.findUnique({
+          where: { id: tagId },
+          include: { machine: true },
+        })
+        if (!existingTag) {
+          return c.json<ApiErrorResponse>({ ok: false, error: 'Tag does not exist in database.' }, StatusCodes.NOT_FOUND)
+        }
+
+        if (existingTag.plcAddress !== plcAddress) {
+          const { ip, rack, slot } = existingTag.machine
+          const tagTest = await verifyPlcTag(ip, rack, slot, plcAddress)
+          if (!tagTest.ok) {
+            return c.json<ApiErrorResponse>(
+              {
+                ok: false,
+                error: tagTest.error || 'Bad plc tag address',
+                details: {
+                  plcAddress: ['This tag address does not exist or has no value in PLC.'],
+                },
+              },
+              StatusCodes.BAD_REQUEST,
+            )
+          }
+        }
+
+        // update db
+        const updatedTag = await prisma.tag.update({
+          where: { id: tagId },
+          data: { keyName, plcAddress },
+        })
+        // hot reload ram memory
+        machineBucket.loadSpecificMachineFromDb(existingTag.machineId)
+
+        return c.json({ ok: true, data: updatedTag }, StatusCodes.OK)
+      } catch (error: any) {
+        if (error.code === 'P2002') {
+          const errorMessage = String(error.message || error)
+          if (errorMessage?.includes('plcAddress')) {
+            return c.json<ApiErrorResponse>(
+              {
+                ok: false,
+                error: 'Validation failed',
+                details: { plcAddress: ['This PLC address is already used on this machine.'] },
+              },
+              StatusCodes.CONFLICT,
+            )
+          }
+          if (errorMessage?.includes('keyName')) {
+            return c.json<ApiErrorResponse>(
+              {
+                ok: false,
+                error: 'Validation failed',
+                details: { keyName: ['A tag with this name already exists on this machine.'] },
+              },
+              StatusCodes.CONFLICT,
+            )
+          }
+        }
+        return c.json<ApiErrorResponse>(
+          {
+            ok: false,
+            error: 'Problem with database, please try again later.',
+            details: { database: [String(error)] },
+          },
+          StatusCodes.INTERNAL_SERVER_ERROR,
+        )
+      }
+    },
+  )
   //Add new tag from plc
   .post(
     '/addtag',
@@ -222,6 +319,5 @@ const machines = new Hono()
       )
     }
   })
-
 
 export default machines

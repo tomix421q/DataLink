@@ -5,7 +5,7 @@
 	import { SseMachineStream } from '$lib/utils/SseMachineStream.svelte';
 	import { getContext } from 'svelte';
 	import ButtonsLiveTags from './_components/ButtonsLiveTags.svelte';
-	import { EllipsisVertical, Grip, X } from '@lucide/svelte';
+	import { EllipsisVertical, X } from '@lucide/svelte';
 	import Button from '$lib/components/ui/button/button.svelte';
 	import Input from '$lib/components/ui/input/input.svelte';
 	import { userStore } from '$lib/stores/UserStore.svelte';
@@ -60,7 +60,7 @@
 		}
 	}
 
-	// $inspect(window.innerWidth);
+	$inspect(stream.data);
 </script>
 
 <main>
@@ -176,6 +176,12 @@
 														textDesign={true}
 													/></DropdownMenu.Item
 												>
+											{/if}
+											<DropdownMenu.Item>Info</DropdownMenu.Item>
+
+											{#if userStore.isAdmin}
+												<DropdownMenu.Item>Modify</DropdownMenu.Item>
+												<DropdownMenu.Item class='text-destructive hover:text-destructive!'>Delete</DropdownMenu.Item>
 											{/if}
 										</DropdownMenu.Group>
 									</DropdownMenu.Content>
