@@ -4,7 +4,7 @@
 
 	let {
 		isConfirmDelete = $bindable(false),
-		selectedItems,
+		selectedItems = $bindable(),
 		handleDelete,
 		isPending,
 		text = 'Are you sure you want to delete?',
@@ -54,6 +54,7 @@
 					disabled={isPending}
 					onclick={() => {
 						isConfirmDelete = false;
+						selectedItems = [];
 					}}
 				>
 					Cancel

@@ -240,7 +240,7 @@
 
 	<ConfirmDelete
 		bind:isConfirmDelete
-		selectedItems={selectedTags}
+		bind:selectedItems={selectedTags}
 		isPending={deleteTagsMutation.isPending}
 		handleDelete={handleDeleteSelected}
 		text="Confirm delete selected tags"
