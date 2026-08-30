@@ -108,7 +108,7 @@ model LogRule {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  // @@unique([machineId, name])
+  @@unique([machineId, name])
 }
 
 model LogEntry {

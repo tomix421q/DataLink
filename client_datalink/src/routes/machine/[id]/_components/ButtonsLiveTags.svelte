@@ -30,8 +30,9 @@
 </script>
 
 <article class="flex gap-1">
-	{#if userStore.isAdmin}
-		<!-- Download tags configs -->
+	<!--  -->
+	<!-- Download tags configs -->
+	<!-- {#if hasTrackingTags} -->
 		<Button
 			href={`/api/export/tags/${machineId}`}
 			variant="outline"
@@ -44,34 +45,37 @@
 			class={isDownloaded ? 'bg-green-500/10! text-green-600' : ''}
 			><DownloadIcon />Tags config</Button
 		>
-	{/if}
-	{#if userStore.isAdmin && isMachineOnline}
-		<!-- Add new tag btn -->
-		<Button
-			variant="outline"
-			size="xs"
-			href="/machine/{machineId}/addnewtags"
-			onclick={(e) => {
-				if (!userStore.isAdmin) {
-					e.preventDefault();
-					toast.error('⚠️ Authorization required');
-					return;
-				}
-				if (!isMachineOnline) {
-					e.preventDefault();
-					toast.error('🔌 This machine is offline. Try later. ');
-					return;
-				}
-			}}
-			disabled={!userStore.isAdmin || !isMachineOnline}
-			class={cn('group hover:bg-chart-3', {
-				'bg-chart-4! *:block': page.url.pathname.endsWith('/addnewtags'),
-				hidden: !userStore.isAdmin || isMachineOnline === undefined
-			})}
-			><span class="">Add plc tags</span>
-		</Button>
+	<!-- {/if} -->
 
-		<!-- Remove Tags btn -->
+	<!--  -->
+	<!-- Add new tag btn -->
+	<Button
+		variant="outline"
+		size="xs"
+		href="/machine/{machineId}/addnewtags"
+		onclick={(e) => {
+			if (!userStore.isAdmin) {
+				e.preventDefault();
+				toast.error('⚠️ Authorization required');
+				return;
+			}
+			if (!isMachineOnline) {
+				e.preventDefault();
+				toast.error('🔌 This machine is offline. Try again later. ');
+				return;
+			}
+		}}
+		disabled={!userStore.isAdmin || !isMachineOnline}
+		class={cn('group hover:bg-chart-3', {
+			'bg-chart-4! *:block': page.url.pathname.endsWith('/addnewtags'),
+			hidden: !userStore.isAdmin || isMachineOnline === undefined
+		})}
+		><span class="">Add plc tags</span>
+	</Button>
+
+	<!--  -->
+	<!-- Remove Tags btn -->
+	{#if userStore.isAdmin}
 		<Button
 			variant="destructive"
 			size="xs"
@@ -92,7 +96,7 @@
 		{#if toggleRemove && selectedTags.length > 0}
 			<Button
 				variant="destructive"
-				size="sm"
+				size="xs"
 				onclick={handleDeleteSelected}
 				disabled={deleteTagsMutation.isPending}
 			>

@@ -1,12 +1,10 @@
 import { createMutation, createQuery, useQueryClient } from '@tanstack/svelte-query';
 import { machineKeys } from './_keys';
 import {
-	addNewTagFromMachine,
 	createNewMachine,
 	fetchMachineById,
 	fetchMachines,
-	removeMachine,
-	removeTagsFromTracking
+	removeMachine
 } from '../apiCalls/machines';
 import { toast } from 'svelte-sonner';
 
@@ -42,39 +40,6 @@ export function useAddNewMachine() {
 			queryClient.invalidateQueries({ queryKey: machineKeys.list() });
 		}
 	}));
-}
-
-export function useAddNewTag(machineIdFn: () => string) {
-	const queryClient = useQueryClient();
-
-	return createMutation(() => {
-		const id = machineIdFn();
-
-		return {
-			mutationFn: addNewTagFromMachine,
-			onSuccess: (data) => {
-				queryClient.invalidateQueries({ queryKey: machineKeys.tags(id) });
-			}
-		};
-	});
-}
-
-export function useRemoveTagsFromTracking() {
-	const queryClient = useQueryClient();
-
-	return createMutation(() => {
-		return {
-			mutationFn: ({ machineId, tagsNames }: { machineId: string; tagsNames: string[] }) =>
-				removeTagsFromTracking(machineId, tagsNames),
-			onSuccess: (_, variables) => {
-				queryClient.invalidateQueries({ queryKey: machineKeys.tags(variables.machineId) });
-				toast.success(`✅ Successfull deleted tags with names: ${variables.tagsNames}`);
-			},
-			onError: (error) => {
-				toast.error(`Problem with deleting active tags error: ${error.message}`);
-			}
-		};
-	});
 }
 
 export function useRemoveMachine() {

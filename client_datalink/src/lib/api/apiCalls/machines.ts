@@ -12,6 +12,16 @@ export async function fetchMachines() {
 	return data;
 }
 
+export async function fetchAllTags(machineId: string) {
+	const response = await apiClient.machine.alltags[':machineId'].$get({param: {machineId}});
+	if (!response.ok) {
+		throw new Error('Server API failed');
+	}
+	const data = await response.json();
+	handleApiError(response, data);
+	return data;
+}
+
 export async function fetchMachineById(id: string) {
 	const response = await apiClient.machine[':id'].$get({
 		param: { id }
@@ -56,6 +66,19 @@ export async function addNewTagFromMachine(json: {
 		}
 		throw new Error('Problem with API, please try again later');
 	}
+	return data;
+}
+
+export async function editTag(
+	tagid: string,
+	json: { keyName: string; plcAddress: string; machineId: string }
+) {
+	const response = await apiClient.machine.edittag[':tagid'].$put({
+		param: { tagid },
+		json: json
+	});
+	const data = await response.json();
+	handleApiError(response, data);
 	return data;
 }
 

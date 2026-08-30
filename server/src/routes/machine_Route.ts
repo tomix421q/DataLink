@@ -10,6 +10,7 @@ import { verifyPlcTag } from '../services/basic/verify_tagConnection'
 import { machineBucket } from '../globals'
 
 const machines = new Hono()
+
   // Get all machines
   .get('/', async (c) => {
     try {
@@ -19,6 +20,24 @@ const machines = new Hono()
       return c.json({ ok: false, machines: [], error: 'Failed to load machines' }, StatusCodes.INTERNAL_SERVER_ERROR)
     }
   })
+
+  // Get all tags
+  .get('/alltags/:machineId', async (c) => {
+    try {
+      const machineId = c.req.param('machineId')
+      const allTags = await prisma.tag.findMany({
+        where: { machineId },
+        include: { folders: true, _count: true },
+      })
+      return c.json({ ok: true, allTags }, StatusCodes.OK)
+    } catch (error) {
+      return c.json<ApiErrorResponse>(
+        { ok: false, error: 'Problem with db, try again later.' },
+        StatusCodes.INTERNAL_SERVER_ERROR,
+      )
+    }
+  })
+
   // Get single machine
   .get('/:id', async (c) => {
     const id = c.req.param('id')
@@ -33,6 +52,7 @@ const machines = new Hono()
       return c.json<ApiErrorResponse>({ ok: false, error: `Failed to load machine ${id}` }, StatusCodes.INTERNAL_SERVER_ERROR)
     }
   })
+
   // Add new machine
   .post('/create', requireAuth, requireRole(['admin']), zValidator('json', createNewMachineSchema, validationHook), async (c) => {
     const body = c.req.valid('json')
@@ -73,15 +93,7 @@ const machines = new Hono()
       )
     }
   })
-  // Get all tags
-  .get('/alltags', async (c) => {
-    try {
-      const allTags = await prisma.tag.findMany({ include: { folders: true, _count: true } })
-      return c.json({ ok: true, allTags }, StatusCodes.OK)
-    } catch (error) {
-      return c.json<ApiErrorResponse>({ ok: false, error: 'Problem with db, try again later.' })
-    }
-  })
+
   // Update tag
   .put(
     '/edittag/:tagid',
@@ -170,6 +182,7 @@ const machines = new Hono()
       }
     },
   )
+
   //Add new tag from plc
   .post(
     '/addtag',
@@ -257,6 +270,7 @@ const machines = new Hono()
       }
     },
   )
+
   // Delete tags
   .delete(
     '/tagsremove/:machineId',
@@ -295,6 +309,7 @@ const machines = new Hono()
       }
     },
   )
+
   // Delete machine
   .delete('/machineremove/:machineId', requireAuth, requireRole(['admin']), async (c) => {
     try {

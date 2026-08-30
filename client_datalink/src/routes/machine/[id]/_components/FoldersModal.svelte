@@ -21,7 +21,6 @@
 	import LoadingTemplate from '$lib/components/atoms/LoadingTemplate.svelte';
 	import NodataTemplate from '$lib/components/atoms/NodataTemplate.svelte';
 	import { userStore } from '$lib/stores/UserStore.svelte';
-	import { slide } from 'svelte/transition';
 
 	let {
 		tagName,
@@ -30,12 +29,13 @@
 		textDesign = false
 	}: {
 		tagName?: string;
-		isOtherFolder: boolean;
+		isOtherFolder?: boolean;
 		isText?: boolean;
 		textDesign?: boolean;
 	} = $props();
 
 	const machineId = $derived(page.params.id!);
+
 	const createNameMutate = useCreateNewUserFolder();
 	const deleteNameMutate = useDeleteFolder();
 	const toggleTagMutate = useToggleTagInFolder();

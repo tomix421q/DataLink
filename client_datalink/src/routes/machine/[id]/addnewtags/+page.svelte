@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
 	import { page } from '$app/state';
-	import { useAddNewTag } from '$lib/api/queries/machines';
+	import { useAddNewTag } from '$lib/api/queries/tags';
 	import ErrorTemplate from '$lib/components/atoms/ErrorTemplate.svelte';
 	import InputGroup from '$lib/components/atoms/InputGroup.svelte';
 	import SuccessTemplate from '$lib/components/atoms/SuccessTemplate.svelte';

@@ -1,6 +1,5 @@
 <script lang="ts">
 	import { page } from '$app/state';
-	import { useRemoveTagsFromTracking } from '$lib/api/queries/machines';
 	import Checkbox from '$lib/components/ui/checkbox/checkbox.svelte';
 	import { SseMachineStream } from '$lib/utils/SseMachineStream.svelte';
 	import { getContext } from 'svelte';
@@ -13,11 +12,14 @@
 	import Folders from './_components/Folders.svelte';
 	import TagsValueDisplay from '$lib/components/molecules/TagsValueDisplay.svelte';
 	import * as DropdownMenu from '$lib/components/ui/dropdown-menu/index';
+	import InfoTagModal from './_components/InfoTagModal.svelte';
+	import ConfirmDelete from '$lib/components/atoms/ConfirmDelete.svelte';
+	import { useEditTag, useGetAllTags, useRemoveTagsFromTracking } from '$lib/api/queries/tags';
 
 	const stream = getContext<SseMachineStream>('machine-stream');
 	let machineId = $derived(page.params.id!);
-
 	let isOnline = $derived(stream?.data?.connection?.online ?? false);
+	let isConfirmDelete = $state(true);
 
 	let toggleRemove = $state(false);
 	let selectedTags = $state<string[]>([]);
@@ -38,7 +40,9 @@
 	);
 	let hasTags = $derived(allTagsList.length > 0);
 
+	const allTagsDb = useGetAllTags(() => machineId);
 	const deleteTagsMutation = useRemoveTagsFromTracking();
+	const editTag = useEditTag(() => machineId);
 
 	function handleDeleteSelected() {
 		if (selectedTags.length === 0) return;
@@ -48,9 +52,32 @@
 				onSuccess: () => {
 					selectedTags = [];
 					toggleRemove = false;
+					isConfirmDelete = false;
 				}
 			}
 		);
+		if (isConfirmDelete) {
+			selectedTags = [];
+			isConfirmDelete = false;
+		}
+	}
+
+	let tagEditInput = $state<{
+		tagId: string | null;
+		keyName: string;
+		plcAddress: string;
+	}>({
+		tagId: null,
+		keyName: '',
+		plcAddress: ''
+	});
+	function handleEditTag(e: Event) {
+		e.preventDefault();
+		if (!tagEditInput.tagId) return;
+		editTag.mutate({
+			tagId: tagEditInput.tagId,
+			data: { keyName: tagEditInput.keyName, plcAddress: tagEditInput.plcAddress, machineId }
+		});
 	}
 	function toggleTagSelection(tagName: string, isChecked: boolean) {
 		if (isChecked) {
@@ -60,7 +87,7 @@
 		}
 	}
 
-	$inspect(stream.data);
+	// $inspect(allTagsDb.data);
 </script>
 
 <main>
@@ -100,7 +127,7 @@
 								<Button
 									size="icon-xs"
 									variant="destructive"
-									class="absolute right-0 top-1/2 -translate-y-1/2 rounded-full"
+									class="absolute right-0 top-1  rounded-full"
 									onclick={() => (searchQuery = '')}
 									title="Remove search"><X /></Button
 								>
@@ -177,11 +204,28 @@
 													/></DropdownMenu.Item
 												>
 											{/if}
-											<DropdownMenu.Item>Info</DropdownMenu.Item>
+
+											{#if allTagsDb.isSuccess && allTagsDb.data?.ok}
+												{@const tag = allTagsDb.data.allTags.find((v) => v.keyName === tagName)}
+
+												{#if tag}
+													<DropdownMenu.Item onSelect={(e) => e.preventDefault()}>
+														<InfoTagModal {tag} />
+													</DropdownMenu.Item>
+												{/if}
+											{/if}
 
 											{#if userStore.isAdmin}
-												<DropdownMenu.Item>Modify</DropdownMenu.Item>
-												<DropdownMenu.Item class='text-destructive hover:text-destructive!'>Delete</DropdownMenu.Item>
+												<!-- <DropdownMenu.Item>Modify</DropdownMenu.Item> -->
+												<DropdownMenu.Item
+													class="text-destructive hover:text-destructive!"
+													onclick={() => {
+														selectedTags.push(tagName);
+														isConfirmDelete = true;
+													}}
+												>
+													Delete
+												</DropdownMenu.Item>
 											{/if}
 										</DropdownMenu.Group>
 									</DropdownMenu.Content>
@@ -193,4 +237,13 @@
 			</section>
 		{/if}
 	</div>
+
+	<ConfirmDelete
+		bind:isConfirmDelete
+		selectedItems={selectedTags}
+		isPending={deleteTagsMutation.isPending}
+		handleDelete={handleDeleteSelected}
+		text="Confirm delete selected tags"
+		showDeleteItems={true}
+	/>
 </main>
