@@ -119,12 +119,16 @@ export class LogEngine {
         }
       } else if (ruleState.rule.triggerType === 'CHANGE') {
         const triggerTag = ruleState.rule.triggerTag
+
         if (triggerTag && plcData[triggerTag] !== undefined) {
           const currentValue = plcData[triggerTag]
-          if (ruleState.lastSeenValue !== undefined && currentValue !== ruleState.lastSeenValue) {
+
+          if (ruleState.lastSeenValue === undefined) {
+            ruleState.lastSeenValue = currentValue
+          } else if (currentValue !== ruleState.lastSeenValue) {
+            ruleState.lastSeenValue = currentValue
             await this.saveSnapshot(machineId, ruleState.rule.id, ruleState.parsedTagsToSave, plcData)
           }
-          ruleState.lastSeenValue = currentValue
         }
       }
     }
