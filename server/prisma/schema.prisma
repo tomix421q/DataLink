@@ -93,8 +93,7 @@ model LogRule {
   id String @id @default(cuid())
   machineId String
   machine Machine @relation(fields: [machineId],references: [id],onDelete: Cascade)
-
-  name String @unique
+  name String
   triggerType String
   triggerTag String?
   triggerValue String?
