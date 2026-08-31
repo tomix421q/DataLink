@@ -20,6 +20,7 @@ export const prisma = globalForPrisma.prisma ?? new PrismaClient({ adapter })
 if (url.startsWith('file:')) {
   await prisma.$queryRawUnsafe('PRAGMA journal_mode = WAL;')
   await prisma.$queryRawUnsafe('PRAGMA busy_timeout = 5000;')
+  await prisma.$queryRawUnsafe('PRAGMA wal_autocheckpoint = 100;')
 }
 if (process.env.NODE_ENV !== 'production') {
   globalForPrisma.prisma = prisma

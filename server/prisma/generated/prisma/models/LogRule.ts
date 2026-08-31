@@ -297,12 +297,12 @@ export type LogRuleOrderByWithRelationInput = {
 
 export type LogRuleWhereUniqueInput = Prisma.AtLeast<{
   id?: string
-  name?: string
   machineId_name?: Prisma.LogRuleMachineIdNameCompoundUniqueInput
   AND?: Prisma.LogRuleWhereInput | Prisma.LogRuleWhereInput[]
   OR?: Prisma.LogRuleWhereInput[]
   NOT?: Prisma.LogRuleWhereInput | Prisma.LogRuleWhereInput[]
   machineId?: Prisma.StringFilter<"LogRule"> | string
+  name?: Prisma.StringFilter<"LogRule"> | string
   triggerType?: Prisma.StringFilter<"LogRule"> | string
   triggerTag?: Prisma.StringNullableFilter<"LogRule"> | string | null
   triggerValue?: Prisma.StringNullableFilter<"LogRule"> | string | null
@@ -315,7 +315,7 @@ export type LogRuleWhereUniqueInput = Prisma.AtLeast<{
   machine?: Prisma.XOR<Prisma.MachineScalarRelationFilter, Prisma.MachineWhereInput>
   entries?: Prisma.LogEntryListRelationFilter
   user?: Prisma.XOR<Prisma.UserNullableScalarRelationFilter, Prisma.UserWhereInput> | null
-}, "id" | "name" | "machineId_name">
+}, "id" | "machineId_name">
 
 export type LogRuleOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
