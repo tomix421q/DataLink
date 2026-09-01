@@ -9,6 +9,7 @@
 	import Button from '../ui/button/button.svelte';
 	import { Search, Trash, Trash2, X } from '@lucide/svelte';
 	import { userStore } from '$lib/stores/UserStore.svelte';
+	import { preventDefault } from 'svelte/legacy';
 
 	const machines = useMachinesList();
 	let isSearch = $state(false);
@@ -80,14 +81,14 @@
 								<Input
 									type="text"
 									bind:value={searchMachineQuery}
-									placeholder="Search"
+									placeholder="Search machine"
 									class="inputNormalize pr-8 mb-2 px-2"
 								/>
 								{#if searchMachineQuery}
 									<Button
 										size="icon-xs"
-										variant="ghost"
-										class="absolute right-0 top-1/2 -translate-y-1/2  rounded-full"
+										variant="destructive"
+										class="absolute right-0 top-1   rounded-full"
 										onclick={() => (searchMachineQuery = '')}
 										title="Remove search"><X /></Button
 									>
@@ -136,3 +137,12 @@
 		</div>
 	</Sidebar.Footer>
 </Sidebar.Root>
+
+<svelte:window
+	onkeydown={(e) => {
+		let isEsc = e.key === 'Escape';
+		if (isEsc && isSearch) {
+			searchMachineQuery = '';
+		}
+	}}
+/>

@@ -4,8 +4,15 @@
 	import InputGroup from '$lib/components/atoms/InputGroup.svelte';
 	import {
 		BookmarkPlusIcon,
+		Dot,
+		Folder,
 		FolderPen,
 		FoldersIcon,
+		Pen,
+		PenBox,
+		PenBoxIcon,
+		PenLine,
+		PenSquare,
 		PinIcon,
 		PinOff,
 		Trash,
@@ -95,9 +102,9 @@
 				size={isText ? 'xs' : 'icon-xs'}
 				variant={isText ? 'outline' : 'ghost'}
 				title="Add/Remove from folder"
-				class={isText ? '' : 'hover:text-red-500'}
+				// class={isText ? '' : 'hover:text-secondary-foreground!'}
 			>
-				<FolderPen class="size-4 {isText ? 'hidden' : 'block'}" />
+				<PenSquare class="size-4 {isText ? 'hidden' : 'block'}" />
 				<span class={isText ? 'block' : 'hidden'}>My folders</span>
 			</Button>
 		{/if}

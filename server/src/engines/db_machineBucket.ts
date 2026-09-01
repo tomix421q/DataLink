@@ -47,7 +47,7 @@ export class MachineBucket {
   async loadFromDb() {
     console.log('⏰ Bucker: nacitavam stroje z DB...')
 
-    const dbMachines = await prisma.machine.findMany({ include: { tags: true } })
+    const dbMachines = await prisma.machine.findMany({ include: { tags: { orderBy: { keyName: 'asc' } } } })
 
     dbMachines.forEach((dbMachine: any) => {
       const mappedTags: Record<string, string> = {}

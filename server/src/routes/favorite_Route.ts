@@ -80,9 +80,9 @@ const favorites = new Hono<Env>()
       }
       const folders = await prisma.favoriteFolder.findMany({
         where,
-        include: { tags: { select: { keyName: true } }, user: { select: { name: true } } },
+        include: { tags: { select: { keyName: true }, orderBy: { keyName: 'asc' } }, user: { select: { name: true } } },
         orderBy: {
-          createdAt: 'desc',
+          name: 'asc',
         },
       })
 

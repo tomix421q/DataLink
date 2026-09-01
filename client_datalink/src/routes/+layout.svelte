@@ -5,10 +5,49 @@
 	import * as Sidebar from '$lib/components/ui/sidebar/index';
 	import SidebarMenu from '$lib/components/organism/SidebarMenu.svelte';
 	import { Toaster } from '$lib/components/ui/sonner';
+	import { onMount } from 'svelte';
 
 	let { children } = $props();
 
 	const queryClient = new QueryClient({});
+
+	onMount(() => {
+		const isMobile = window.matchMedia('(pointer: coarse)').matches;
+		if (!isMobile) return;
+		document.querySelectorAll('[autofocus]').forEach((el) => {
+			el.removeAttribute('autofocus');
+		});
+		let isTouchInteraction = false;
+		window.addEventListener(
+			'touchstart',
+			() => {
+				isTouchInteraction = true;
+			},
+			{ passive: true, capture: true }
+		);
+		window.addEventListener(
+			'touchend',
+			() => {
+				setTimeout(() => {
+					isTouchInteraction = false;
+				}, 500);
+			},
+			{ passive: true, capture: true }
+		);
+		// global
+		window.addEventListener(
+			'focusin',
+			(e) => {
+				const target = e.target as HTMLElement;
+				if (!target) return;
+				const isInput = target.tagName === 'INPUT' || target.tagName === 'TEXTAREA';
+				if (isInput && !isTouchInteraction) {
+					target.blur();
+				}
+			},
+			{ capture: true }
+		);
+	});
 
 	// $inspect(userQuery.data);
 </script>
