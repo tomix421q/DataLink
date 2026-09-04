@@ -8,7 +8,7 @@
 	let machineId = $derived(page.params.id!);
 	const stream = getContext<SseMachineStream>('machine-stream');
 
-	// $inspect(allTagsDb.data);
+	$inspect(stream.data);
 </script>
 
 <main>

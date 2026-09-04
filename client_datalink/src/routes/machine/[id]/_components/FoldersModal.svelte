@@ -4,14 +4,7 @@
 	import InputGroup from '$lib/components/atoms/InputGroup.svelte';
 	import {
 		BookmarkPlusIcon,
-		Dot,
-		Folder,
-		FolderPen,
 		FoldersIcon,
-		Pen,
-		PenBox,
-		PenBoxIcon,
-		PenLine,
 		PenSquare,
 		PinIcon,
 		PinOff,
@@ -112,7 +105,7 @@
 
 	<Dialog.Content class="flex flex-col h-[425px] cardNormalize">
 		<Dialog.Header>
-			<Dialog.Title class="font-heading font-bold text-lg flex gap-1"
+			<Dialog.Title class="font-heading font-bold text-lg flex flex-wrap justify-center gap-1"
 				><h3>Add / Remove</h3>
 				{#if tagName}
 					<span class="text-chart-2 underline underline-offset-3">{tagName}</span>
@@ -120,7 +113,7 @@
 					folder
 				{/if}
 			</Dialog.Title>
-			<Dialog.Description
+			<Dialog.Description class='mx-auto'
 				>Add / Remove tag to existing folder or create new folder</Dialog.Description
 			>
 		</Dialog.Header>

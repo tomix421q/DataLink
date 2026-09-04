@@ -1,5 +1,6 @@
 import type { CreateNewMachine } from '@datalink/shared';
 import { apiClient } from '../RPC_API_CLIENT';
+
 import { ApiValidationError, handleApiError, handleApiResponse } from '$lib/utils/global';
 
 export async function fetchMachines() {
@@ -13,7 +14,7 @@ export async function fetchMachines() {
 }
 
 export async function fetchAllTags(machineId: string) {
-	const response = await apiClient.machine.alltags[':machineId'].$get({param: {machineId}});
+	const response = await apiClient.machine.alltags[':machineId'].$get({ param: { machineId } });
 	if (!response.ok) {
 		throw new Error('Server API failed');
 	}
@@ -73,6 +74,9 @@ export async function editTag(
 	tagid: string,
 	json: { keyName: string; plcAddress: string; machineId: string }
 ) {
+	if (!tagid) {
+		throw new Error('Missing tagId for edit tag');
+	}
 	const response = await apiClient.machine.edittag[':tagid'].$put({
 		param: { tagid },
 		json: json

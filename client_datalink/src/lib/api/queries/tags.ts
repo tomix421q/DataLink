@@ -35,7 +35,9 @@ export function useEditTag(machineIdFn: () => string) {
 			}) => editTag(tagId, data),
 			onSuccess: (data) => {
 				queryClient.invalidateQueries({ queryKey: machineKeys.tags(id) });
-				toast.success(`Tag was edited`);
+				if (data.ok) {
+					toast.success(`Tag ${data.data.keyName} has edited successfuly`);
+				}
 			},
 			onError: (error) => {
 				toast.error(`Problem with editing tag: ${error.message}`);

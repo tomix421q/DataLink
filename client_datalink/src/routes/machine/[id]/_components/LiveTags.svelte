@@ -13,6 +13,8 @@
 	import FoldersModal from './FoldersModal.svelte';
 	import InfoTagModal from './InfoTagModal.svelte';
 	import ConfirmDelete from '$lib/components/atoms/ConfirmDelete.svelte';
+	import { preventDefault } from 'svelte/legacy';
+	import LiveTagsEditModal from './LiveTagsEditModal.svelte';
 
 	let machineId = $derived(page.params.id!);
 	let { stream }: { stream: SseMachineStream } = $props();
@@ -203,20 +205,26 @@
 							<DropdownMenu.Item onSelect={(e) => e.preventDefault()}>
 								<InfoTagModal {tag} />
 							</DropdownMenu.Item>
-						{/if}
-					{/if}
 
-					{#if userStore.isAdmin}
-						<!-- <DropdownMenu.Item>Modify</DropdownMenu.Item> -->
-						<DropdownMenu.Item
-							class="text-destructive hover:text-destructive!"
-							onclick={() => {
-								selectedTags.push(tagName);
-								isConfirmDelete = true;
-							}}
-						>
-							Delete
-						</DropdownMenu.Item>
+							{#if userStore.isAdmin}
+								<DropdownMenu.Item onclick={(e) => e.preventDefault()}
+									><LiveTagsEditModal
+										tagId={tag.id}
+										{tagName}
+										address={tag.plcAddress}
+									/></DropdownMenu.Item
+								>
+								<DropdownMenu.Item
+									class="text-destructive hover:text-destructive!"
+									onclick={() => {
+										selectedTags.push(tagName);
+										isConfirmDelete = true;
+									}}
+								>
+									Delete
+								</DropdownMenu.Item>
+							{/if}
+						{/if}
 					{/if}
 				</DropdownMenu.Group>
 			</DropdownMenu.Content>

@@ -94,7 +94,7 @@ const machines = new Hono()
     }
   })
 
-  // Update tag
+  // Update/edit tag
   .put(
     '/edittag/:tagid',
     requireAuth,
@@ -110,7 +110,7 @@ const machines = new Hono()
     ),
     async (c) => {
       try {
-        const tagId = c.req.param('tagId')
+        const tagId = c.req.param('tagid')
         const { keyName, plcAddress } = c.req.valid('json')
 
         const existingTag = await prisma.tag.findUnique({

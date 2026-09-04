@@ -5,6 +5,7 @@ export class S7Service {
   private conn: any
   private isReady = false
   private isConnecting = false
+  private isReading = false
   private isDestroyed = false
   private timer?: NodeJS.Timeout
   private reconnectTimeout?: NodeJS.Timeout
@@ -66,23 +67,35 @@ export class S7Service {
         onUpdate(null, false, this._lastError || 'NOT_READY', this._tagErrors)
         return
       }
+      if (this.isReading) {
+        return
+      }
       const registeredTags = Object.keys(this.config.tags)
       if (registeredTags.length === 0) {
         onUpdate({}, true, null, {})
         return
       }
+      this.isReading = true
 
       this.conn.readAllItems((err: any, values: any) => {
+        this.isReading = false
         if (this.isDestroyed) return
         if (err && (!values || Object.keys(values).length === 0)) {
           const isNetworkError =
-            err.code === 'EPIPE' || err.code === 'ECONNRESET' || err.code === 'ETIMEDOUT' || err.toString().includes('timeout')
+            err.code === 'EPIPE' ||
+            err.code === 'ECONNRESET' ||
+            err.code === 'ETIMEDOUT' ||
+            err.code === 'ERR_STREAM_WRITE_AFTER_END' ||
+            err.toString().includes('timeout')
 
           if (isNetworkError) {
             this._lastError = err?.code || 'NETWORK_ERROR'
             this.isReady = false
-            this.conn.dropConnection(() => {})
-            this.connect()
+            this.conn.dropConnection(() => {
+              if (!this.isDestroyed) {
+                this.connect()
+              }
+            })
             onUpdate(null, false, this._lastError, this._tagErrors)
             return
           }
@@ -103,20 +116,9 @@ export class S7Service {
         this._latestData = currentData
         this._tagErrors = currentTagErrors
 
-        const hasRegisteredTags = registeredTags.length > 0
-        const hasZeroValidData = Object.keys(currentData).length === 0
-        if (hasRegisteredTags && hasZeroValidData) {
-          this._lastError = 'COMMUNICATION_LOST_OR_OFFLINE'
-          this.isReady = false
-          this.conn.dropConnection(() => {})
-          this.connect()
-          onUpdate(null, false, this._lastError, currentTagErrors)
-          return
-        }
-
         onUpdate(currentData, true, null, currentTagErrors)
       })
-    }, this.config.plc.interval)
+    }, this.config.plc.interval || 3000)
   }
 
   stopPolling() {
