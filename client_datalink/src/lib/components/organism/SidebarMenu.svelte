@@ -132,7 +132,7 @@
 	<!-- Footer -->
 	<Sidebar.Footer>
 		<div class="text-muted-foreground text-xs flex justify-between uppercase">
-			<span>v·0.7 beta</span>
+			<span>v·1.0 beta</span>
 			<span class="tracking-widest">{userStore.user ? userStore.user.role : 'guest'}</span>
 		</div>
 	</Sidebar.Footer>
