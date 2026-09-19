@@ -193,6 +193,7 @@ export type FavoriteFolderWhereInput = {
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
   machine?: Prisma.XOR<Prisma.MachineScalarRelationFilter, Prisma.MachineWhereInput>
   subscriptions?: Prisma.FolderSubscriptionListRelationFilter
+  publicsub?: Prisma.PublicFolderSubscriptionListRelationFilter
   tags?: Prisma.TagListRelationFilter
 }
 
@@ -206,6 +207,7 @@ export type FavoriteFolderOrderByWithRelationInput = {
   user?: Prisma.UserOrderByWithRelationInput
   machine?: Prisma.MachineOrderByWithRelationInput
   subscriptions?: Prisma.FolderSubscriptionOrderByRelationAggregateInput
+  publicsub?: Prisma.PublicFolderSubscriptionOrderByRelationAggregateInput
   tags?: Prisma.TagOrderByRelationAggregateInput
 }
 
@@ -223,6 +225,7 @@ export type FavoriteFolderWhereUniqueInput = Prisma.AtLeast<{
   user?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
   machine?: Prisma.XOR<Prisma.MachineScalarRelationFilter, Prisma.MachineWhereInput>
   subscriptions?: Prisma.FolderSubscriptionListRelationFilter
+  publicsub?: Prisma.PublicFolderSubscriptionListRelationFilter
   tags?: Prisma.TagListRelationFilter
 }, "id" | "name_userId_machineId">
 
@@ -258,6 +261,7 @@ export type FavoriteFolderCreateInput = {
   user: Prisma.UserCreateNestedOneWithoutFoldersInput
   machine: Prisma.MachineCreateNestedOneWithoutFoldersInput
   subscriptions?: Prisma.FolderSubscriptionCreateNestedManyWithoutFolderInput
+  publicsub?: Prisma.PublicFolderSubscriptionCreateNestedManyWithoutFolderInput
   tags?: Prisma.TagCreateNestedManyWithoutFoldersInput
 }
 
@@ -269,6 +273,7 @@ export type FavoriteFolderUncheckedCreateInput = {
   showOnMainDashboard?: boolean
   createdAt?: Date | string
   subscriptions?: Prisma.FolderSubscriptionUncheckedCreateNestedManyWithoutFolderInput
+  publicsub?: Prisma.PublicFolderSubscriptionUncheckedCreateNestedManyWithoutFolderInput
   tags?: Prisma.TagUncheckedCreateNestedManyWithoutFoldersInput
 }
 
@@ -280,6 +285,7 @@ export type FavoriteFolderUpdateInput = {
   user?: Prisma.UserUpdateOneRequiredWithoutFoldersNestedInput
   machine?: Prisma.MachineUpdateOneRequiredWithoutFoldersNestedInput
   subscriptions?: Prisma.FolderSubscriptionUpdateManyWithoutFolderNestedInput
+  publicsub?: Prisma.PublicFolderSubscriptionUpdateManyWithoutFolderNestedInput
   tags?: Prisma.TagUpdateManyWithoutFoldersNestedInput
 }
 
@@ -291,6 +297,7 @@ export type FavoriteFolderUncheckedUpdateInput = {
   showOnMainDashboard?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   subscriptions?: Prisma.FolderSubscriptionUncheckedUpdateManyWithoutFolderNestedInput
+  publicsub?: Prisma.PublicFolderSubscriptionUncheckedUpdateManyWithoutFolderNestedInput
   tags?: Prisma.TagUncheckedUpdateManyWithoutFoldersNestedInput
 }
 
@@ -503,6 +510,20 @@ export type FavoriteFolderUpdateOneRequiredWithoutSubscriptionsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.FavoriteFolderUpdateToOneWithWhereWithoutSubscriptionsInput, Prisma.FavoriteFolderUpdateWithoutSubscriptionsInput>, Prisma.FavoriteFolderUncheckedUpdateWithoutSubscriptionsInput>
 }
 
+export type FavoriteFolderCreateNestedOneWithoutPublicsubInput = {
+  create?: Prisma.XOR<Prisma.FavoriteFolderCreateWithoutPublicsubInput, Prisma.FavoriteFolderUncheckedCreateWithoutPublicsubInput>
+  connectOrCreate?: Prisma.FavoriteFolderCreateOrConnectWithoutPublicsubInput
+  connect?: Prisma.FavoriteFolderWhereUniqueInput
+}
+
+export type FavoriteFolderUpdateOneRequiredWithoutPublicsubNestedInput = {
+  create?: Prisma.XOR<Prisma.FavoriteFolderCreateWithoutPublicsubInput, Prisma.FavoriteFolderUncheckedCreateWithoutPublicsubInput>
+  connectOrCreate?: Prisma.FavoriteFolderCreateOrConnectWithoutPublicsubInput
+  upsert?: Prisma.FavoriteFolderUpsertWithoutPublicsubInput
+  connect?: Prisma.FavoriteFolderWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.FavoriteFolderUpdateToOneWithWhereWithoutPublicsubInput, Prisma.FavoriteFolderUpdateWithoutPublicsubInput>, Prisma.FavoriteFolderUncheckedUpdateWithoutPublicsubInput>
+}
+
 export type FavoriteFolderCreateWithoutUserInput = {
   id?: string
   name: string
@@ -510,6 +531,7 @@ export type FavoriteFolderCreateWithoutUserInput = {
   createdAt?: Date | string
   machine: Prisma.MachineCreateNestedOneWithoutFoldersInput
   subscriptions?: Prisma.FolderSubscriptionCreateNestedManyWithoutFolderInput
+  publicsub?: Prisma.PublicFolderSubscriptionCreateNestedManyWithoutFolderInput
   tags?: Prisma.TagCreateNestedManyWithoutFoldersInput
 }
 
@@ -520,6 +542,7 @@ export type FavoriteFolderUncheckedCreateWithoutUserInput = {
   showOnMainDashboard?: boolean
   createdAt?: Date | string
   subscriptions?: Prisma.FolderSubscriptionUncheckedCreateNestedManyWithoutFolderInput
+  publicsub?: Prisma.PublicFolderSubscriptionUncheckedCreateNestedManyWithoutFolderInput
   tags?: Prisma.TagUncheckedCreateNestedManyWithoutFoldersInput
 }
 
@@ -567,6 +590,7 @@ export type FavoriteFolderCreateWithoutMachineInput = {
   createdAt?: Date | string
   user: Prisma.UserCreateNestedOneWithoutFoldersInput
   subscriptions?: Prisma.FolderSubscriptionCreateNestedManyWithoutFolderInput
+  publicsub?: Prisma.PublicFolderSubscriptionCreateNestedManyWithoutFolderInput
   tags?: Prisma.TagCreateNestedManyWithoutFoldersInput
 }
 
@@ -577,6 +601,7 @@ export type FavoriteFolderUncheckedCreateWithoutMachineInput = {
   showOnMainDashboard?: boolean
   createdAt?: Date | string
   subscriptions?: Prisma.FolderSubscriptionUncheckedCreateNestedManyWithoutFolderInput
+  publicsub?: Prisma.PublicFolderSubscriptionUncheckedCreateNestedManyWithoutFolderInput
   tags?: Prisma.TagUncheckedCreateNestedManyWithoutFoldersInput
 }
 
@@ -613,6 +638,7 @@ export type FavoriteFolderCreateWithoutTagsInput = {
   user: Prisma.UserCreateNestedOneWithoutFoldersInput
   machine: Prisma.MachineCreateNestedOneWithoutFoldersInput
   subscriptions?: Prisma.FolderSubscriptionCreateNestedManyWithoutFolderInput
+  publicsub?: Prisma.PublicFolderSubscriptionCreateNestedManyWithoutFolderInput
 }
 
 export type FavoriteFolderUncheckedCreateWithoutTagsInput = {
@@ -623,6 +649,7 @@ export type FavoriteFolderUncheckedCreateWithoutTagsInput = {
   showOnMainDashboard?: boolean
   createdAt?: Date | string
   subscriptions?: Prisma.FolderSubscriptionUncheckedCreateNestedManyWithoutFolderInput
+  publicsub?: Prisma.PublicFolderSubscriptionUncheckedCreateNestedManyWithoutFolderInput
 }
 
 export type FavoriteFolderCreateOrConnectWithoutTagsInput = {
@@ -653,6 +680,7 @@ export type FavoriteFolderCreateWithoutSubscriptionsInput = {
   createdAt?: Date | string
   user: Prisma.UserCreateNestedOneWithoutFoldersInput
   machine: Prisma.MachineCreateNestedOneWithoutFoldersInput
+  publicsub?: Prisma.PublicFolderSubscriptionCreateNestedManyWithoutFolderInput
   tags?: Prisma.TagCreateNestedManyWithoutFoldersInput
 }
 
@@ -663,6 +691,7 @@ export type FavoriteFolderUncheckedCreateWithoutSubscriptionsInput = {
   machineId: string
   showOnMainDashboard?: boolean
   createdAt?: Date | string
+  publicsub?: Prisma.PublicFolderSubscriptionUncheckedCreateNestedManyWithoutFolderInput
   tags?: Prisma.TagUncheckedCreateNestedManyWithoutFoldersInput
 }
 
@@ -689,6 +718,7 @@ export type FavoriteFolderUpdateWithoutSubscriptionsInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   user?: Prisma.UserUpdateOneRequiredWithoutFoldersNestedInput
   machine?: Prisma.MachineUpdateOneRequiredWithoutFoldersNestedInput
+  publicsub?: Prisma.PublicFolderSubscriptionUpdateManyWithoutFolderNestedInput
   tags?: Prisma.TagUpdateManyWithoutFoldersNestedInput
 }
 
@@ -699,6 +729,67 @@ export type FavoriteFolderUncheckedUpdateWithoutSubscriptionsInput = {
   machineId?: Prisma.StringFieldUpdateOperationsInput | string
   showOnMainDashboard?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  publicsub?: Prisma.PublicFolderSubscriptionUncheckedUpdateManyWithoutFolderNestedInput
+  tags?: Prisma.TagUncheckedUpdateManyWithoutFoldersNestedInput
+}
+
+export type FavoriteFolderCreateWithoutPublicsubInput = {
+  id?: string
+  name: string
+  showOnMainDashboard?: boolean
+  createdAt?: Date | string
+  user: Prisma.UserCreateNestedOneWithoutFoldersInput
+  machine: Prisma.MachineCreateNestedOneWithoutFoldersInput
+  subscriptions?: Prisma.FolderSubscriptionCreateNestedManyWithoutFolderInput
+  tags?: Prisma.TagCreateNestedManyWithoutFoldersInput
+}
+
+export type FavoriteFolderUncheckedCreateWithoutPublicsubInput = {
+  id?: string
+  name: string
+  userId: string
+  machineId: string
+  showOnMainDashboard?: boolean
+  createdAt?: Date | string
+  subscriptions?: Prisma.FolderSubscriptionUncheckedCreateNestedManyWithoutFolderInput
+  tags?: Prisma.TagUncheckedCreateNestedManyWithoutFoldersInput
+}
+
+export type FavoriteFolderCreateOrConnectWithoutPublicsubInput = {
+  where: Prisma.FavoriteFolderWhereUniqueInput
+  create: Prisma.XOR<Prisma.FavoriteFolderCreateWithoutPublicsubInput, Prisma.FavoriteFolderUncheckedCreateWithoutPublicsubInput>
+}
+
+export type FavoriteFolderUpsertWithoutPublicsubInput = {
+  update: Prisma.XOR<Prisma.FavoriteFolderUpdateWithoutPublicsubInput, Prisma.FavoriteFolderUncheckedUpdateWithoutPublicsubInput>
+  create: Prisma.XOR<Prisma.FavoriteFolderCreateWithoutPublicsubInput, Prisma.FavoriteFolderUncheckedCreateWithoutPublicsubInput>
+  where?: Prisma.FavoriteFolderWhereInput
+}
+
+export type FavoriteFolderUpdateToOneWithWhereWithoutPublicsubInput = {
+  where?: Prisma.FavoriteFolderWhereInput
+  data: Prisma.XOR<Prisma.FavoriteFolderUpdateWithoutPublicsubInput, Prisma.FavoriteFolderUncheckedUpdateWithoutPublicsubInput>
+}
+
+export type FavoriteFolderUpdateWithoutPublicsubInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  showOnMainDashboard?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  user?: Prisma.UserUpdateOneRequiredWithoutFoldersNestedInput
+  machine?: Prisma.MachineUpdateOneRequiredWithoutFoldersNestedInput
+  subscriptions?: Prisma.FolderSubscriptionUpdateManyWithoutFolderNestedInput
+  tags?: Prisma.TagUpdateManyWithoutFoldersNestedInput
+}
+
+export type FavoriteFolderUncheckedUpdateWithoutPublicsubInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  userId?: Prisma.StringFieldUpdateOperationsInput | string
+  machineId?: Prisma.StringFieldUpdateOperationsInput | string
+  showOnMainDashboard?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  subscriptions?: Prisma.FolderSubscriptionUncheckedUpdateManyWithoutFolderNestedInput
   tags?: Prisma.TagUncheckedUpdateManyWithoutFoldersNestedInput
 }
 
@@ -717,6 +808,7 @@ export type FavoriteFolderUpdateWithoutUserInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   machine?: Prisma.MachineUpdateOneRequiredWithoutFoldersNestedInput
   subscriptions?: Prisma.FolderSubscriptionUpdateManyWithoutFolderNestedInput
+  publicsub?: Prisma.PublicFolderSubscriptionUpdateManyWithoutFolderNestedInput
   tags?: Prisma.TagUpdateManyWithoutFoldersNestedInput
 }
 
@@ -727,6 +819,7 @@ export type FavoriteFolderUncheckedUpdateWithoutUserInput = {
   showOnMainDashboard?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   subscriptions?: Prisma.FolderSubscriptionUncheckedUpdateManyWithoutFolderNestedInput
+  publicsub?: Prisma.PublicFolderSubscriptionUncheckedUpdateManyWithoutFolderNestedInput
   tags?: Prisma.TagUncheckedUpdateManyWithoutFoldersNestedInput
 }
 
@@ -753,6 +846,7 @@ export type FavoriteFolderUpdateWithoutMachineInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   user?: Prisma.UserUpdateOneRequiredWithoutFoldersNestedInput
   subscriptions?: Prisma.FolderSubscriptionUpdateManyWithoutFolderNestedInput
+  publicsub?: Prisma.PublicFolderSubscriptionUpdateManyWithoutFolderNestedInput
   tags?: Prisma.TagUpdateManyWithoutFoldersNestedInput
 }
 
@@ -763,6 +857,7 @@ export type FavoriteFolderUncheckedUpdateWithoutMachineInput = {
   showOnMainDashboard?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   subscriptions?: Prisma.FolderSubscriptionUncheckedUpdateManyWithoutFolderNestedInput
+  publicsub?: Prisma.PublicFolderSubscriptionUncheckedUpdateManyWithoutFolderNestedInput
   tags?: Prisma.TagUncheckedUpdateManyWithoutFoldersNestedInput
 }
 
@@ -782,6 +877,7 @@ export type FavoriteFolderUpdateWithoutTagsInput = {
   user?: Prisma.UserUpdateOneRequiredWithoutFoldersNestedInput
   machine?: Prisma.MachineUpdateOneRequiredWithoutFoldersNestedInput
   subscriptions?: Prisma.FolderSubscriptionUpdateManyWithoutFolderNestedInput
+  publicsub?: Prisma.PublicFolderSubscriptionUpdateManyWithoutFolderNestedInput
 }
 
 export type FavoriteFolderUncheckedUpdateWithoutTagsInput = {
@@ -792,6 +888,7 @@ export type FavoriteFolderUncheckedUpdateWithoutTagsInput = {
   showOnMainDashboard?: Prisma.BoolFieldUpdateOperationsInput | boolean
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   subscriptions?: Prisma.FolderSubscriptionUncheckedUpdateManyWithoutFolderNestedInput
+  publicsub?: Prisma.PublicFolderSubscriptionUncheckedUpdateManyWithoutFolderNestedInput
 }
 
 export type FavoriteFolderUncheckedUpdateManyWithoutTagsInput = {
@@ -810,11 +907,13 @@ export type FavoriteFolderUncheckedUpdateManyWithoutTagsInput = {
 
 export type FavoriteFolderCountOutputType = {
   subscriptions: number
+  publicsub: number
   tags: number
 }
 
 export type FavoriteFolderCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   subscriptions?: boolean | FavoriteFolderCountOutputTypeCountSubscriptionsArgs
+  publicsub?: boolean | FavoriteFolderCountOutputTypeCountPublicsubArgs
   tags?: boolean | FavoriteFolderCountOutputTypeCountTagsArgs
 }
 
@@ -838,6 +937,13 @@ export type FavoriteFolderCountOutputTypeCountSubscriptionsArgs<ExtArgs extends 
 /**
  * FavoriteFolderCountOutputType without action
  */
+export type FavoriteFolderCountOutputTypeCountPublicsubArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.PublicFolderSubscriptionWhereInput
+}
+
+/**
+ * FavoriteFolderCountOutputType without action
+ */
 export type FavoriteFolderCountOutputTypeCountTagsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   where?: Prisma.TagWhereInput
 }
@@ -853,6 +959,7 @@ export type FavoriteFolderSelect<ExtArgs extends runtime.Types.Extensions.Intern
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   machine?: boolean | Prisma.MachineDefaultArgs<ExtArgs>
   subscriptions?: boolean | Prisma.FavoriteFolder$subscriptionsArgs<ExtArgs>
+  publicsub?: boolean | Prisma.FavoriteFolder$publicsubArgs<ExtArgs>
   tags?: boolean | Prisma.FavoriteFolder$tagsArgs<ExtArgs>
   _count?: boolean | Prisma.FavoriteFolderCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["favoriteFolder"]>
@@ -893,6 +1000,7 @@ export type FavoriteFolderInclude<ExtArgs extends runtime.Types.Extensions.Inter
   user?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   machine?: boolean | Prisma.MachineDefaultArgs<ExtArgs>
   subscriptions?: boolean | Prisma.FavoriteFolder$subscriptionsArgs<ExtArgs>
+  publicsub?: boolean | Prisma.FavoriteFolder$publicsubArgs<ExtArgs>
   tags?: boolean | Prisma.FavoriteFolder$tagsArgs<ExtArgs>
   _count?: boolean | Prisma.FavoriteFolderCountOutputTypeDefaultArgs<ExtArgs>
 }
@@ -911,6 +1019,7 @@ export type $FavoriteFolderPayload<ExtArgs extends runtime.Types.Extensions.Inte
     user: Prisma.$UserPayload<ExtArgs>
     machine: Prisma.$MachinePayload<ExtArgs>
     subscriptions: Prisma.$FolderSubscriptionPayload<ExtArgs>[]
+    publicsub: Prisma.$PublicFolderSubscriptionPayload<ExtArgs>[]
     tags: Prisma.$TagPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
@@ -1317,6 +1426,7 @@ export interface Prisma__FavoriteFolderClient<T, Null = never, ExtArgs extends r
   user<T extends Prisma.UserDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UserDefaultArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   machine<T extends Prisma.MachineDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.MachineDefaultArgs<ExtArgs>>): Prisma.Prisma__MachineClient<runtime.Types.Result.GetResult<Prisma.$MachinePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
   subscriptions<T extends Prisma.FavoriteFolder$subscriptionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.FavoriteFolder$subscriptionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$FolderSubscriptionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  publicsub<T extends Prisma.FavoriteFolder$publicsubArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.FavoriteFolder$publicsubArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$PublicFolderSubscriptionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   tags<T extends Prisma.FavoriteFolder$tagsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.FavoriteFolder$tagsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$TagPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -1773,6 +1883,30 @@ export type FavoriteFolder$subscriptionsArgs<ExtArgs extends runtime.Types.Exten
   take?: number
   skip?: number
   distinct?: Prisma.FolderSubscriptionScalarFieldEnum | Prisma.FolderSubscriptionScalarFieldEnum[]
+}
+
+/**
+ * FavoriteFolder.publicsub
+ */
+export type FavoriteFolder$publicsubArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the PublicFolderSubscription
+   */
+  select?: Prisma.PublicFolderSubscriptionSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the PublicFolderSubscription
+   */
+  omit?: Prisma.PublicFolderSubscriptionOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.PublicFolderSubscriptionInclude<ExtArgs> | null
+  where?: Prisma.PublicFolderSubscriptionWhereInput
+  orderBy?: Prisma.PublicFolderSubscriptionOrderByWithRelationInput | Prisma.PublicFolderSubscriptionOrderByWithRelationInput[]
+  cursor?: Prisma.PublicFolderSubscriptionWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.PublicFolderSubscriptionScalarFieldEnum | Prisma.PublicFolderSubscriptionScalarFieldEnum[]
 }
 
 /**

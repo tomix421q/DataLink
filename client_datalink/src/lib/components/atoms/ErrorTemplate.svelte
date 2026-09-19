@@ -11,7 +11,7 @@
 
 {#if error}
 	<section
-		class="bg-destructive/10 lg:w-2xl rounded mb-6 font-heading mx-auto shadow-xl relative border-destructive/50 border-1 hover:border-destructive/20! transition-all"
+		class="bg-destructive/10 w-full lg:w-2xl rounded mb-6 font-heading mx-auto shadow-xl relative border-destructive/50 border-1 hover:border-destructive/20! transition-all"
 	>
 		<div
 			class="p-3 text-sm md:text-lg text-destructive font-medium bg-destructive/10 tracking-widest flex items-center gap-2"

@@ -10,9 +10,7 @@
 	import { userStore } from '$lib/stores/UserStore.svelte';
 	import {
 		ArrowDownFromLine,
-		ArrowUpFromDot,
 		ArrowUpFromLine,
-		Eye,
 		LayoutDashboard,
 		LogIn,
 		Minimize2,
@@ -24,6 +22,7 @@
 	import type { SseMachineStream } from '$lib/utils/SseMachineStream.svelte';
 	import TagsValueDisplay from '$lib/components/molecules/TagsValueDisplay.svelte';
 	import TvTagsValueDisplay from '$lib/components/molecules/TvTagsValueDisplay.svelte';
+	import FoldersModalPublicDash from './FoldersModalPublicDash.svelte';
 
 	let { stream }: { stream: SseMachineStream } = $props();
 	let machineId = $derived(page.params.id!);
@@ -43,7 +42,7 @@
 	const isMyFoldersOverLimit = $derived(myFoldersContentHeight > 1000);
 	let publicFoldersContentHeight = $state(0);
 	let isPublicFoldersExpanded = $state(false);
-	const isPublicFoldersOverLimit = $derived(myFoldersContentHeight > 1000);
+	const isPublicFoldersOverLimit = $derived(publicFoldersContentHeight > 1000);
 
 	// func
 	function handleToggleMainDashboard(folderId: string, currentState: boolean) {
@@ -56,6 +55,7 @@
 	function handleToggleSubscribeFolder(folderId: string) {
 		toggleDashboardSubscribeMutate.mutate({ folderId, machineId });
 	}
+	function handleToggleSubcsribeToPublicDashboard() {}
 	function toggleTvMode(folderId: string | null) {
 		tvModeFolderId = folderId;
 		if (folderId && document.documentElement.requestFullscreen) {
@@ -125,6 +125,13 @@
 											<span class="text-xs text-muted-foreground">[{folder.tags.length}]</span>
 										</h3>
 										<div class="flex items-center gap-1">
+											<!-- public dashboard  -->
+											{#if userStore.isAdminOrEngineer}
+												<div class="size-6">
+													<FoldersModalPublicDash folderId={folder.id} folderName={folder.name} />
+												</div>
+											{/if}
+
 											<Button
 												variant="ghost"
 												size="icon-xs"
@@ -254,24 +261,34 @@
 											<span class="text-xs text-muted-foreground">[{folder.tags.length}] </span>
 										</h3>
 										<div class="flex items-center gap-1">
-											<Button
-												variant="ghost"
-												size="icon-xs"
-												title={folder.subscriptions.find((v) => v.folderId === folder.id)
-													? 'Remove from Main Dashboard'
-													: 'Add to Main Dashboard'}
-												class="{folder.subscriptions.find((v) => v.folderId === folder.id)
-													? 'text-green-500 hover:text-green-600'
-													: 'text-muted-foreground'} mt-0.5"
-												onclick={() => {
-													if (userStore.user) {
-														handleToggleSubscribeFolder(folder.id);
-													}
-												}}
-												disabled={toggleDashboardMutate.isPending}
-											>
-												<LayoutDashboard class="size-5" />
-											</Button>
+											{#if userStore.user}
+												<!-- public dashboard  -->
+												{#if userStore.isAdminOrEngineer}
+													<div class="size-6">
+														<FoldersModalPublicDash folderId={folder.id} folderName={folder.name} />
+													</div>
+												{/if}
+
+												<Button
+													variant="ghost"
+													size="icon-xs"
+													title={folder.subscriptions.find((v) => v.folderId === folder.id)
+														? 'Remove from Main Dashboard'
+														: 'Add to Main Dashboard'}
+													class="{folder.subscriptions.find((v) => v.folderId === folder.id)
+														? 'text-green-500 hover:text-green-600'
+														: 'text-muted-foreground'} mt-0.5"
+													onclick={() => {
+														if (userStore.user) {
+															handleToggleSubscribeFolder(folder.id);
+														}
+													}}
+													disabled={toggleDashboardMutate.isPending}
+												>
+													<LayoutDashboard class="size-5" />
+												</Button>
+											{/if}
+
 											<Button
 												variant="ghost"
 												size="icon-xs"

@@ -406,7 +406,9 @@ export const ModelName = {
   LogEntry: 'LogEntry',
   DowntimeLog: 'DowntimeLog',
   FavoriteFolder: 'FavoriteFolder',
-  FolderSubscription: 'FolderSubscription'
+  FolderSubscription: 'FolderSubscription',
+  PublicDashboard: 'PublicDashboard',
+  PublicFolderSubscription: 'PublicFolderSubscription'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -422,7 +424,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "user" | "machineAccess" | "session" | "machine" | "tag" | "logRule" | "logEntry" | "downtimeLog" | "favoriteFolder" | "folderSubscription"
+    modelProps: "user" | "machineAccess" | "session" | "machine" | "tag" | "logRule" | "logEntry" | "downtimeLog" | "favoriteFolder" | "folderSubscription" | "publicDashboard" | "publicFolderSubscription"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -1166,6 +1168,154 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    PublicDashboard: {
+      payload: Prisma.$PublicDashboardPayload<ExtArgs>
+      fields: Prisma.PublicDashboardFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.PublicDashboardFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PublicDashboardPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.PublicDashboardFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PublicDashboardPayload>
+        }
+        findFirst: {
+          args: Prisma.PublicDashboardFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PublicDashboardPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.PublicDashboardFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PublicDashboardPayload>
+        }
+        findMany: {
+          args: Prisma.PublicDashboardFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PublicDashboardPayload>[]
+        }
+        create: {
+          args: Prisma.PublicDashboardCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PublicDashboardPayload>
+        }
+        createMany: {
+          args: Prisma.PublicDashboardCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.PublicDashboardCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PublicDashboardPayload>[]
+        }
+        delete: {
+          args: Prisma.PublicDashboardDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PublicDashboardPayload>
+        }
+        update: {
+          args: Prisma.PublicDashboardUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PublicDashboardPayload>
+        }
+        deleteMany: {
+          args: Prisma.PublicDashboardDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.PublicDashboardUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.PublicDashboardUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PublicDashboardPayload>[]
+        }
+        upsert: {
+          args: Prisma.PublicDashboardUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PublicDashboardPayload>
+        }
+        aggregate: {
+          args: Prisma.PublicDashboardAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregatePublicDashboard>
+        }
+        groupBy: {
+          args: Prisma.PublicDashboardGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.PublicDashboardGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.PublicDashboardCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.PublicDashboardCountAggregateOutputType> | number
+        }
+      }
+    }
+    PublicFolderSubscription: {
+      payload: Prisma.$PublicFolderSubscriptionPayload<ExtArgs>
+      fields: Prisma.PublicFolderSubscriptionFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.PublicFolderSubscriptionFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PublicFolderSubscriptionPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.PublicFolderSubscriptionFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PublicFolderSubscriptionPayload>
+        }
+        findFirst: {
+          args: Prisma.PublicFolderSubscriptionFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PublicFolderSubscriptionPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.PublicFolderSubscriptionFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PublicFolderSubscriptionPayload>
+        }
+        findMany: {
+          args: Prisma.PublicFolderSubscriptionFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PublicFolderSubscriptionPayload>[]
+        }
+        create: {
+          args: Prisma.PublicFolderSubscriptionCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PublicFolderSubscriptionPayload>
+        }
+        createMany: {
+          args: Prisma.PublicFolderSubscriptionCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.PublicFolderSubscriptionCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PublicFolderSubscriptionPayload>[]
+        }
+        delete: {
+          args: Prisma.PublicFolderSubscriptionDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PublicFolderSubscriptionPayload>
+        }
+        update: {
+          args: Prisma.PublicFolderSubscriptionUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PublicFolderSubscriptionPayload>
+        }
+        deleteMany: {
+          args: Prisma.PublicFolderSubscriptionDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.PublicFolderSubscriptionUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.PublicFolderSubscriptionUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PublicFolderSubscriptionPayload>[]
+        }
+        upsert: {
+          args: Prisma.PublicFolderSubscriptionUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PublicFolderSubscriptionPayload>
+        }
+        aggregate: {
+          args: Prisma.PublicFolderSubscriptionAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregatePublicFolderSubscription>
+        }
+        groupBy: {
+          args: Prisma.PublicFolderSubscriptionGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.PublicFolderSubscriptionGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.PublicFolderSubscriptionCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.PublicFolderSubscriptionCountAggregateOutputType> | number
+        }
+      }
+    }
   }
 } & {
   other: {
@@ -1328,6 +1478,28 @@ export const FolderSubscriptionScalarFieldEnum = {
 } as const
 
 export type FolderSubscriptionScalarFieldEnum = (typeof FolderSubscriptionScalarFieldEnum)[keyof typeof FolderSubscriptionScalarFieldEnum]
+
+
+export const PublicDashboardScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  description: 'description',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type PublicDashboardScalarFieldEnum = (typeof PublicDashboardScalarFieldEnum)[keyof typeof PublicDashboardScalarFieldEnum]
+
+
+export const PublicFolderSubscriptionScalarFieldEnum = {
+  id: 'id',
+  dashboardId: 'dashboardId',
+  folderId: 'folderId',
+  order: 'order',
+  createdAt: 'createdAt'
+} as const
+
+export type PublicFolderSubscriptionScalarFieldEnum = (typeof PublicFolderSubscriptionScalarFieldEnum)[keyof typeof PublicFolderSubscriptionScalarFieldEnum]
 
 
 export const SortOrder = {
@@ -1547,6 +1719,8 @@ export type GlobalOmitConfig = {
   downtimeLog?: Prisma.DowntimeLogOmit
   favoriteFolder?: Prisma.FavoriteFolderOmit
   folderSubscription?: Prisma.FolderSubscriptionOmit
+  publicDashboard?: Prisma.PublicDashboardOmit
+  publicFolderSubscription?: Prisma.PublicFolderSubscriptionOmit
 }
 
 /* Types for Logging */

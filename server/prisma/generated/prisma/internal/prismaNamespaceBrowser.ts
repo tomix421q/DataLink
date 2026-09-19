@@ -60,7 +60,9 @@ export const ModelName = {
   LogEntry: 'LogEntry',
   DowntimeLog: 'DowntimeLog',
   FavoriteFolder: 'FavoriteFolder',
-  FolderSubscription: 'FolderSubscription'
+  FolderSubscription: 'FolderSubscription',
+  PublicDashboard: 'PublicDashboard',
+  PublicFolderSubscription: 'PublicFolderSubscription'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -202,6 +204,28 @@ export const FolderSubscriptionScalarFieldEnum = {
 } as const
 
 export type FolderSubscriptionScalarFieldEnum = (typeof FolderSubscriptionScalarFieldEnum)[keyof typeof FolderSubscriptionScalarFieldEnum]
+
+
+export const PublicDashboardScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  description: 'description',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type PublicDashboardScalarFieldEnum = (typeof PublicDashboardScalarFieldEnum)[keyof typeof PublicDashboardScalarFieldEnum]
+
+
+export const PublicFolderSubscriptionScalarFieldEnum = {
+  id: 'id',
+  dashboardId: 'dashboardId',
+  folderId: 'folderId',
+  order: 'order',
+  createdAt: 'createdAt'
+} as const
+
+export type PublicFolderSubscriptionScalarFieldEnum = (typeof PublicFolderSubscriptionScalarFieldEnum)[keyof typeof PublicFolderSubscriptionScalarFieldEnum]
 
 
 export const SortOrder = {

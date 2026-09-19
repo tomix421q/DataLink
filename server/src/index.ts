@@ -11,6 +11,7 @@ import favorites from './routes/favorite_Route'
 import path from 'node:path'
 import odsRoute from './_OdsApp-backend/ods_Route'
 import { odsApp } from './_OdsApp-backend/index'
+import publicFavorites from './routes/favorite_public_Route'
 
 export const app = new Hono()
 const port = process.env.PORT ? Number(process.env.PORT) : 3333
@@ -40,6 +41,7 @@ const apiRoutes = new Hono()
   .route('/machine', machines)
   .route('/auth', authRoute)
   .route('/favorite', favorites)
+  .route('/public', publicFavorites)
   .route('/ods', odsRoute)
   .all('*', (c) => c.json({ ok: false, error: 'API route not found' }, 404))
 

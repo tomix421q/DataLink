@@ -5,6 +5,7 @@
 	let {
 		isConfirmDelete = $bindable(false),
 		selectedItems = $bindable(),
+		selectedNames = $bindable(),
 		handleDelete,
 		isPending,
 		text = 'Are you sure you want to delete?',
@@ -12,6 +13,7 @@
 	}: {
 		isConfirmDelete: boolean;
 		selectedItems: string[];
+		selectedNames?: string[];
 		isPending?: boolean;
 		text?: string;
 		showDeleteItems?: boolean;
@@ -36,10 +38,14 @@
 			<!-- List -->
 			{#if showDeleteItems}
 				<article class="my-3 max-h-32 overflow-y-auto w-full flex flex-wrap justify-center gap-1.5">
-					{#each selectedItems as item}
+					{#each selectedItems as item, index}
 						<span
 							class="text-xs font-mono font-semibold px-2 py-0.5 rounded bg-background border text-chart-3"
 						>
+							{#if selectedNames && selectedNames[index]}
+								<span class="text-muted-foreground">{selectedNames[index]}:</span>
+							{/if}
+
 							{item}
 						</span>
 					{/each}
@@ -55,6 +61,7 @@
 					onclick={() => {
 						isConfirmDelete = false;
 						selectedItems = [];
+						selectedNames = [];
 					}}
 				>
 					Cancel

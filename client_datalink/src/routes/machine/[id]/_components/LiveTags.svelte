@@ -13,7 +13,6 @@
 	import FoldersModal from './FoldersModal.svelte';
 	import InfoTagModal from './InfoTagModal.svelte';
 	import ConfirmDelete from '$lib/components/atoms/ConfirmDelete.svelte';
-	import { preventDefault } from 'svelte/legacy';
 	import LiveTagsEditModal from './LiveTagsEditModal.svelte';
 
 	let machineId = $derived(page.params.id!);

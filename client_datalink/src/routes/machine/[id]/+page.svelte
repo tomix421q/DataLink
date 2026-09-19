@@ -3,12 +3,10 @@
 	import { getContext } from 'svelte';
 	import Folders from './_components/Folders.svelte';
 	import LiveTags from './_components/LiveTags.svelte';
-	import { page } from '$app/state';
 
-	let machineId = $derived(page.params.id!);
 	const stream = getContext<SseMachineStream>('machine-stream');
 
-	$inspect(stream.data);
+	// $inspect(stream.data);
 </script>
 
 <main>

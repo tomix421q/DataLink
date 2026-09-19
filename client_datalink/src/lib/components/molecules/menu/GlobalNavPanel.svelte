@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { CirclePlusIcon, FileText, HouseIcon } from '@lucide/svelte';
+	import { CirclePlusIcon, FilePlus, FileText, FolderPlus, HouseIcon, Rss } from '@lucide/svelte';
 	import * as Sidebar from '../../ui/sidebar/index';
 	import { ROLES } from '@datalink/shared';
 	import { userStore } from '$lib/stores/UserStore.svelte';
@@ -8,6 +8,13 @@
 	const allItems = $derived([
 		{ title: 'Home', url: '/', icon: HouseIcon },
 		{ title: 'Ods app', url: '/ods/', icon: FileText, external: true },
+		{ title: 'Public dashboards', url: '/publicdashboards', icon: Rss },
+		{
+			title: 'Add public dashboard',
+			url: '/addpublicdashboard',
+			icon: FolderPlus,
+			role: ROLES.ENGINEER
+		},
 		{ title: 'Add new machine', url: '/addmachine', icon: CirclePlusIcon, role: ROLES.ENGINEER }
 	]);
 

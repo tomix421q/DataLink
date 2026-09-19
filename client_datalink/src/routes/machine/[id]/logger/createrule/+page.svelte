@@ -21,11 +21,13 @@
 	const stream = getContext<SseMachineStream>('machine-stream');
 	const machineId = $derived(page.params.id);
 	let searchQuery = $state('');
-	let filteredTags = $derived(
-		stream?.tagsList?.filter(([tagName]) =>
-			tagName.toLowerCase().includes(searchQuery.toLowerCase())
-		) ?? []
-	);
+	let filteredTags = $derived.by(() => {
+		return (
+			stream?.tagsList?.filter(([tagName]) =>
+				tagName.toLowerCase().includes(searchQuery.toLowerCase())
+			) ?? []
+		);
+	});
 
 	const triggerLabels: Record<CreateRuleInput['triggerType'], string> = {
 		CHANGE: 'When value change',
@@ -73,7 +75,7 @@
 </script>
 
 <main
-	class="min-h-[70vh] flex flex-col items-center justify-center animate-in fade-in slide-in-from-left-12 duration-800"
+	class="min-h-[70vh] flex flex-col items-center justify-center animate-in fade-in slide-in-from-left-12 duration-800 mb-44"
 >
 	<!-- Error/Success state -->
 	{#if createRuleMutate.error && createRuleMutate.isError}
@@ -225,10 +227,20 @@
 {/snippet}
 
 {#snippet selectTriggerTag()}
-	<Select.Root type="single" required bind:value={form.triggerTag}>
+	<Select.Root
+		type="single"
+		required
+		bind:value={form.triggerTag}
+		onOpenChange={() => (searchQuery = '')}
+	>
 		<Select.Trigger class="lg:w-2xs inputNormalize">{form.triggerTag}</Select.Trigger>
 
-		<Select.Content class="max-h-[700px] overflow-auto lg:w-2xs" align="start">
+		<Select.Content class="max-h-[500px] sm:max-h-[700px] overflow-auto lg:w-2xs" align="start">
+			<Input
+				bind:value={searchQuery}
+				placeholder="Search..."
+				class="inputNormalize placeholder:text-center text-center"
+			/>
 			<Select.Group>
 				<Select.GroupHeading>
 					<div class="flex justify-between">
@@ -236,7 +248,7 @@
 						<span>Live value now</span>
 					</div>
 				</Select.GroupHeading>
-				{#each stream.tagsList as liveTag}
+				{#each filteredTags as liveTag}
 					<Select.Item value={liveTag[0]}
 						><p class="flex gap-2 justify-between! w-full scroll-auto">
 							<span>{liveTag[0]}</span><span class="text-emerald-500">{liveTag[1]}</span>
@@ -249,12 +261,18 @@
 {/snippet}
 
 {#snippet selectWhichTagsWrite()}
-	<Select.Root type="multiple" required bind:value={form.tags} disabled={!stream.data}>
+	<Select.Root
+		type="multiple"
+		required
+		bind:value={form.tags}
+		disabled={!stream.data}
+		onOpenChange={() => (searchQuery = '')}
+	>
 		<Select.Trigger class="w-full inputNormalize" placeholder={'Select'}
 			>Selected [{form.tags.length}]</Select.Trigger
 		>
 
-		<Select.Content class="max-h-[700px] overflow-auto" align="start">
+		<Select.Content class="max-h-[400px] sm:max-h-[700px] overflow-auto" align="start">
 			<Input
 				bind:value={searchQuery}
 				placeholder="Search..."

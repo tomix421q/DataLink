@@ -234,7 +234,7 @@ const machines = new Hono()
 
         return c.json({ ok: true, data: newTag }, StatusCodes.CREATED)
       } catch (error: any) {
-        console.log(error.code)
+        // console.log(error.code)
         if (error.code === 'P2002') {
           const errorMessage = String(error.message || error)
           if (errorMessage?.includes('plcAddress')) {
@@ -325,6 +325,7 @@ const machines = new Hono()
           StatusCodes.NOT_FOUND,
         )
       }
+      machineBucket.removeMachine(machineId)
       machineBucket.loadFromDb()
       return c.json({ ok: true, data: `Machine with id ${machineId} was deleted` }, StatusCodes.OK)
     } catch (error) {

@@ -67,3 +67,13 @@ export type FavoriteFolder = Prisma.FavoriteFolderModel
  * 
  */
 export type FolderSubscription = Prisma.FolderSubscriptionModel
+/**
+ * Model PublicDashboard
+ * 
+ */
+export type PublicDashboard = Prisma.PublicDashboardModel
+/**
+ * Model PublicFolderSubscription
+ * 
+ */
+export type PublicFolderSubscription = Prisma.PublicFolderSubscriptionModel

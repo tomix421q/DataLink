@@ -26,3 +26,10 @@ export const favoriteKeys = {
 	userFolders: (machineId: string) => [...favoriteKeys.all, 'user', machineId] as const,
 	publicFolders: (machineId: string) => [...favoriteKeys.all, 'public', machineId] as const
 };
+
+export const publicDashboardsKeys = {
+	all: ['public-dashboard'] as const,
+	lists: () => [...publicDashboardsKeys.all, 'list'] as const,
+	detail: (id: string) => [...publicDashboardsKeys.all, 'detail', id] as const,
+	live: (id: string) => [...publicDashboardsKeys.all, 'live', id] as const
+};

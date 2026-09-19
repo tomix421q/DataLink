@@ -8,8 +8,10 @@
 		PenSquare,
 		PinIcon,
 		PinOff,
+		Search,
 		Trash,
-		UserStar
+		UserStar,
+		X
 	} from '@lucide/svelte';
 	import {
 		useCreateNewUserFolder,
@@ -21,6 +23,10 @@
 	import LoadingTemplate from '$lib/components/atoms/LoadingTemplate.svelte';
 	import NodataTemplate from '$lib/components/atoms/NodataTemplate.svelte';
 	import { userStore } from '$lib/stores/UserStore.svelte';
+	import Separator from '$lib/components/ui/separator/separator.svelte';
+	import Input from '$lib/components/ui/input/input.svelte';
+	import { flip } from 'svelte/animate';
+	import { cubicOut } from 'svelte/easing';
 
 	let {
 		tagName,
@@ -36,28 +42,35 @@
 
 	const machineId = $derived(page.params.id!);
 
+	// apis
 	const createNameMutate = useCreateNewUserFolder();
 	const deleteNameMutate = useDeleteFolder();
 	const toggleTagMutate = useToggleTagInFolder();
 	const allFoldersBm = useGetAllUserFolders(() => machineId);
 
+	// vars
 	let open = $state(false);
 	let tab = $derived<'existbm' | 'createnewbm' | 'otherfolders'>(
 		!isOtherFolder ? 'existbm' : 'otherfolders'
 	);
 	let newFolderName = $state('');
+	let searchQuery = $state('');
 
-	let sortedFolders = $derived(
-		allFoldersBm.data
-			? [...allFoldersBm.data].sort((a, b) => {
-					const aPinned = a.tags.some((t) => t.keyName === tagName);
-					const bPinned = b.tags.some((t) => t.keyName === tagName);
-					if (aPinned && !bPinned) return -1;
-					if (!aPinned && bPinned) return 1;
-					return 0;
-				})
-			: []
-	);
+	// func
+	let sortedFolders = $derived.by(() => {
+		const list = allFoldersBm.data ?? [];
+		const query = searchQuery.trim().toLowerCase();
+		const filtered = query ? list.filter((f) => f.name.toLowerCase().includes(query)) : list;
+		return [
+			...filtered.sort((a, b) => {
+				const aPinned = a.tags.some((t) => t.keyName === tagName);
+				const bPinned = b.tags.some((t) => t.keyName === tagName);
+				if (aPinned && !bPinned) return -1;
+				if (!aPinned && bPinned) return 1;
+				return 0;
+			})
+		];
+	});
 
 	function handleCreateMb(e: SubmitEvent) {
 		e.preventDefault();
@@ -103,18 +116,17 @@
 		{/if}
 	</Dialog.Trigger>
 
-	<Dialog.Content class="flex flex-col h-[425px] cardNormalize">
+	<Dialog.Content class="flex flex-col h-[525px] cardNormalize overflow-hidden">
 		<Dialog.Header>
 			<Dialog.Title class="font-heading font-bold text-lg flex flex-wrap justify-center gap-1"
-				><h3>Add / Remove</h3>
-				{#if tagName}
+				><h3>Folders managment</h3>
+			</Dialog.Title>
+			<Dialog.Description class="mx-auto"
+				>Add / Remove {#if tagName}
 					<span class="text-chart-2 underline underline-offset-3">{tagName}</span>
 				{:else}
 					folder
-				{/if}
-			</Dialog.Title>
-			<Dialog.Description class='mx-auto'
-				>Add / Remove tag to existing folder or create new folder</Dialog.Description
+				{/if} tag from existing folder or create new</Dialog.Description
 			>
 		</Dialog.Header>
 
@@ -151,8 +163,34 @@
 					<BookmarkPlusIcon /><span>Create new</span>
 				</Button>
 			</section>
+			<!-- search -->
+			<Separator />
+			<div
+				class="relative mx-auto w-[175px] focus-within:w-[300px] transition-all duration-500 pb-1"
+			>
+				<Search
+					class="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 size-4 text-muted-foreground"
+				/>
+				<Input
+					type="text"
+					bind:value={searchQuery}
+					placeholder="Search folder..."
+					class="inputNormalize pl-9 pr-8 h-9 text-xs w-full"
+				/>
+				{#if searchQuery}
+					<Button
+						size="icon-xs"
+						variant="ghost"
+						class="absolute right-1.5 top-1/2 inset-y-2 size-6 rounded-full text-muted-foreground hover:text-foreground"
+						onclick={() => (searchQuery = '')}
+						title="Clear search"
+					>
+						<X class="size-3.5" />
+					</Button>
+				{/if}
+			</div>
 
-			<section class="p-1 h-full">
+			<section class="p-1 h-[320px] scroll-auto overflow-y-auto">
 				{#if tab === 'existbm'}
 					<!--  -->
 					<!-- Existing folders -->
@@ -166,37 +204,39 @@
 								<NodataTemplate text="No folders..." size="sm" />
 							{/if}
 
-							{#each sortedFolders as folder}
-								{#if folder.userId === userStore.user?.id}
-									<div class="flex justify-between odd:bg-muted-foreground/5 p-1">
-										<div class="flex items-center gap-0.5 text-sm">
-											<Button
-												size="icon-xs"
-												variant="ghost"
-												class="text-destructive"
-												title="Remove"
-												disabled={deleteNameMutate.isPending}
-												onclick={(e) => {
-													e.stopPropagation();
-													handleDeleteMb(folder.id);
-												}}><Trash /></Button
-											>
-											<p class="font-bold">{folder.name}</p>
-											<p class="text-muted-foreground mb-0.5">({folder.tags.length})</p>
+							{#each sortedFolders as folder (folder.id)}
+								<div animate:flip={{ duration: 350, easing: cubicOut }}>
+									{#if folder.userId === userStore.user?.id}
+										<div class="flex justify-between odd:bg-muted-foreground/5 p-1">
+											<div class="flex items-center gap-0.5 text-sm">
+												<Button
+													size="icon-xs"
+													variant="ghost"
+													class="text-destructive"
+													title="Remove"
+													disabled={deleteNameMutate.isPending}
+													onclick={(e) => {
+														e.stopPropagation();
+														handleDeleteMb(folder.id);
+													}}><Trash /></Button
+												>
+												<p class="font-bold">{folder.name}</p>
+												<p class="text-muted-foreground mb-0.5">({folder.tags.length})</p>
+											</div>
+											{#if tagName}
+												<Button size="xs" variant="ghost" onclick={() => handleToggle(folder.id)}>
+													{#if folder.tags.some((t) => t.keyName === tagName)}
+														<span class="font-light">Remove</span>
+														<PinOff class="text-chart-2 size-5" />
+													{:else}
+														<span class="font-light">Add-On</span>
+														<PinIcon class="text-green-400 size-5" />
+													{/if}
+												</Button>
+											{/if}
 										</div>
-										{#if tagName}
-											<Button size="xs" variant="ghost" onclick={() => handleToggle(folder.id)}>
-												{#if folder.tags.some((t) => t.keyName === tagName)}
-													<span class="font-light">Remove</span>
-													<PinOff class="text-chart-2 size-5" />
-												{:else}
-													<span class="font-light">Add-On</span>
-													<PinIcon class="text-green-400 size-5" />
-												{/if}
-											</Button>
-										{/if}
-									</div>
-								{/if}
+									{/if}
+								</div>
 							{/each}
 						{/if}
 					</div>
@@ -228,40 +268,42 @@
 						{#if allFoldersBm.data.filter((f) => f.userId !== userStore.user?.id).length === 0}
 							<NodataTemplate text="No folders..." size="sm" />
 						{/if}
-						{#each sortedFolders as folder}
-							{#if folder.userId !== userStore.user?.id}
-								<div class="flex justify-between odd:bg-muted-foreground/5 p-1">
-									<div class="flex items-center gap-0.5 text-sm">
-										<Button
-											size="icon-xs"
-											variant="ghost"
-											class="text-destructive"
-											title="Remove"
-											disabled={deleteNameMutate.isPending}
-											onclick={(e) => {
-												e.stopPropagation();
-												handleDeleteMb(folder.id);
-											}}><Trash /></Button
-										>
-										<p class="font-bold">{folder.name}</p>
-										<p class="text-muted-foreground mb-0.5">({folder.tags.length})</p>
-										<p class="text-muted-foreground mb-0.5">
-											[{String(folder.user.name).split(' (')[0]}]
-										</p>
+						{#each sortedFolders as folder (folder.id)}
+							<div animate:flip={{ duration: 350, easing: cubicOut }}>
+								{#if folder.userId !== userStore.user?.id}
+									<div class="flex justify-between odd:bg-muted-foreground/5 p-1">
+										<div class="flex items-center gap-0.5 text-sm">
+											<Button
+												size="icon-xs"
+												variant="ghost"
+												class="text-destructive"
+												title="Remove"
+												disabled={deleteNameMutate.isPending}
+												onclick={(e) => {
+													e.stopPropagation();
+													handleDeleteMb(folder.id);
+												}}><Trash /></Button
+											>
+											<p class="font-bold">{folder.name}</p>
+											<p class="text-muted-foreground mb-0.5">({folder.tags.length})</p>
+											<p class="text-muted-foreground mb-0.5">
+												[{String(folder.user.name).split(' (')[0]}]
+											</p>
+										</div>
+										{#if tagName}
+											<Button size="xs" variant="ghost" onclick={() => handleToggle(folder.id)}>
+												{#if folder.tags.some((t) => t.keyName === tagName)}
+													<span class="font-light">Remove</span>
+													<PinOff class="text-chart-2 size-5" />
+												{:else}
+													<span class="font-light">Add-On</span>
+													<PinIcon class="text-green-400 size-5" />
+												{/if}
+											</Button>
+										{/if}
 									</div>
-									{#if tagName}
-										<Button size="xs" variant="ghost" onclick={() => handleToggle(folder.id)}>
-											{#if folder.tags.some((t) => t.keyName === tagName)}
-												<span class="font-light">Remove</span>
-												<PinOff class="text-chart-2 size-5" />
-											{:else}
-												<span class="font-light">Add-On</span>
-												<PinIcon class="text-green-400 size-5" />
-											{/if}
-										</Button>
-									{/if}
-								</div>
-							{/if}
+								{/if}
+							</div>
 						{/each}
 					{/if}
 				{/if}

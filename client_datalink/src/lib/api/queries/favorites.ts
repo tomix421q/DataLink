@@ -144,7 +144,7 @@ export function useMainDashboardLive() {
 	return createQuery(() => ({
 		queryKey: ['main-dashboard-live'],
 		queryFn: getMainDashboardLivePooling,
-		refetchInterval: 3000,
+		refetchInterval: 2500,
 		refetchIntervalInBackground: false
 	}));
 }

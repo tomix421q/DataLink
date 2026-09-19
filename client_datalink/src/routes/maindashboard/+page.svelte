@@ -3,6 +3,7 @@
 	import { useMainDashboardLive } from '$lib/api/queries/favorites';
 	import ErrorTemplate from '$lib/components/atoms/ErrorTemplate.svelte';
 	import LoadingTemplate from '$lib/components/atoms/LoadingTemplate.svelte';
+	import NodataTemplate from '$lib/components/atoms/NodataTemplate.svelte';
 	import TagsValueDisplay from '$lib/components/molecules/TagsValueDisplay.svelte';
 	import TvTagsValueDisplay from '$lib/components/molecules/TvTagsValueDisplay.svelte';
 	import Button from '$lib/components/ui/button/button.svelte';
@@ -124,12 +125,7 @@
 					: subsFolders.length}
 
 		{#if totalVisible === 0}
-			<div
-				class="py-12 flex flex-col items-center justify-center text-muted-foreground border-2 border-dashed rounded-xl mt-4 bg-card/50"
-			>
-				<p class="text-xl font-heading font-bold mb-2">No folders found...</p>
-				<p class="text-sm">No folders match the selected filter or none were pinned yet.</p>
-			</div>
+			<NodataTemplate text="No folders..." />
 		{:else}
 			<div
 				class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 md:gap-6 justify-start"
