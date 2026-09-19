@@ -122,7 +122,10 @@
 					<p>{allPublicDashboardsQuery.error}</p>
 				{:else if allPublicDashboardsQuery.isSuccess && allPublicDashboardsQuery.data?.data}
 					{#if allPublicDashboardsQuery.data.data.length === 0}
-						<NodataTemplate text="No public folders created yet" />
+						<NodataTemplate text="0 public dashboards created yet" size={'sm'} />
+						<Button href='/addpublicdashboard' variant="outline" size="xs" class="mt-2 flex w-max mx-auto"
+							>Create public dashboard</Button
+						>
 					{/if}
 
 					{#each filteredDashboards as dashboard (dashboard.id)}

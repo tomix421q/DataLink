@@ -3,15 +3,17 @@
 	import Button from '../../ui/button/button.svelte';
 	import { theme } from '$lib/utils/theme.svelte';
 
-	let isTvMode = $state(false);
+	let isFullscreen = $state(false);
 
-	function tvModeChange() {
-		isTvMode = !isTvMode;
-		if (isTvMode) {
+	function toggleFullscreen() {
+		if (!document.fullscreenElement) {
 			document.documentElement.requestFullscreen().catch(() => {});
 		} else {
 			document.exitFullscreen().catch(() => {});
 		}
+	}
+	function handleFullscreenChange() {
+		isFullscreen = !!document.fullscreenElement;
 	}
 
 	// $inspect(isTvMode);
@@ -57,12 +59,12 @@
 				onclick={() => window.location.reload()}><LoaderCircle class="hover:rotate-90" /></Button
 			>
 			<Button
-				title="Tv Mode"
+				title={isFullscreen ? 'Exit Fullscreen' : 'Fullscreen'}
 				size="icon-lg"
 				variant="secondary"
 				class="animate-in fade-in slide-in-from-right-8 duration-700"
-				onclick={() => tvModeChange()}
-				>{#if !isTvMode}
+				onclick={toggleFullscreen}
+				>{#if !isFullscreen}
 					<Tv />
 				{:else}
 					<Tv class="stroke-green-500" />
@@ -72,3 +74,5 @@
 	</section>
 	<!-- <Separator class="my-5" /> -->
 </header>
+
+<svelte:window onfullscreenchange={handleFullscreenChange} />

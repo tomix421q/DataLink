@@ -55,7 +55,7 @@
 	function handleToggleSubscribeFolder(folderId: string) {
 		toggleDashboardSubscribeMutate.mutate({ folderId, machineId });
 	}
-	function handleToggleSubcsribeToPublicDashboard() {}
+
 	function toggleTvMode(folderId: string | null) {
 		tvModeFolderId = folderId;
 		if (folderId && document.documentElement.requestFullscreen) {

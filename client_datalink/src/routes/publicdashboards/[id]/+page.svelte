@@ -33,13 +33,14 @@
 		isTvModeDashboard = !isTvModeDashboard;
 		if (isTvModeDashboard) {
 			document.documentElement.requestFullscreen().catch(() => {});
-		} else if (!isTvModeDashboard) {
+		} else if (document.fullscreenElement) {
 			document.exitFullscreen().catch(() => {});
 		}
 	}
-
 	function handleFullscreenChange() {
-		isTvModeDashboard = !!document.fullscreenElement;
+		if (!document.fullscreenElement && isTvModeDashboard) {
+			isTvModeDashboard = false;
+		}
 	}
 
 	onMount(() => {
@@ -61,7 +62,7 @@
 
 <!--  -->
 
-<main class=" max-w-screen-2xl mx-auto">
+<main class="max-w-screen-3xl mx-auto">
 	<header class=" p-4 border-b flex flex-col gap-3">
 		<div class="flex items-center gap-3">
 			<Activity class="size-8 text-primary" />

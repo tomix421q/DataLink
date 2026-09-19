@@ -56,7 +56,7 @@ export function useGetPublicDashboardLive(dashboardIdFn: () => string) {
 		return {
 			queryKey: publicDashboardsKeys.detail(dashboardId),
 			queryFn: () => getPublicDashboard(dashboardId),
-			refetchInterval: 5000,
+			refetchInterval: 3000,
 			refetchIntervalInBackground: false
 		};
 	});

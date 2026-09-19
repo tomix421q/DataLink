@@ -1,4 +1,7 @@
 <script lang="ts">
+	import { cubicOut } from 'svelte/easing';
+	import { scale, slide } from 'svelte/transition';
+
 	let { tagName, tagValue }: { tagName: string; tagValue: any } = $props();
 
 	const tagValueSliceText = $derived(
@@ -15,20 +18,24 @@
 		{tagName}
 	</p>
 
-	{#if typeof tagValue === 'boolean'}
-		<span
-			class="text-4xl md:text-5xl font-black {tagValue
-				? 'text-green-500'
-				: 'text-destructive'} uppercase"
-		>
-			{tagValue ? 'true' : 'false'}
-		</span>
-	{:else}
-		<span
-			class="text-5xl md:text-6xl font-black text-primary truncate max-w-full"
-			title={String(tagValue)}
-		>
-			{tagValue ?? '--'}
-		</span>
-	{/if}
+	{#key tagValue}
+		<div in:scale={{ duration: 220, start: 0.88, easing: cubicOut }}>
+			{#if typeof tagValue === 'boolean'}
+				<span
+					class="text-4xl md:text-5xl font-black {tagValue
+						? 'text-green-500'
+						: 'text-destructive'} uppercase"
+				>
+					{tagValue ? 'true' : 'false'}
+				</span>
+			{:else}
+				<span
+					class="text-5xl md:text-6xl font-black text-primary truncate max-w-full"
+					title={String(tagValue)}
+				>
+					{tagValue ?? '--'}
+				</span>
+			{/if}
+		</div>
+	{/key}
 </div>

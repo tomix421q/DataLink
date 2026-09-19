@@ -53,6 +53,9 @@
 	{:else if getAllPublicDashboards.isSuccess}
 		{#if getAllPublicDashboards.data?.data.length === 0}
 			<NodataTemplate text="0 Public dashboards" />
+			<Button href="/addpublicdashboard" variant="outline" size="sm" class="mt-2 flex w-max mx-auto"
+				>Create public dashboard</Button
+			>
 		{/if}
 		<div class="grid grid-cols-[repeat(auto-fill,minmax(270px,1fr))] gap-5">
 			{#each getAllPublicDashboards.data?.data as dashboard (dashboard.id)}
